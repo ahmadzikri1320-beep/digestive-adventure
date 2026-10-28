@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digestive Adventure - Game Sistem Pencernaan SD/MI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-coral: #FF6B57;
+      --coral-dark: #E24A35;
+      --card-bg-mystery: #EFE7FA;
+      --card-border-mystery: #7B4FB7;
+      --card-bg-organ: #FFF3EB;
+      --card-border-organ: #FF8566;
+      --card-bg-trap: #E1F3FD;
+      --card-border-trap: #2196F3;
+      --board-bg: #F7FAFC;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, #FFF9EB 0%, #E8F5E9 100%);
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px;
+    }
+
+    /* HEADER & LOGO */
+    .header-logo {
+      background: var(--primary-coral);
+      color: white;
+      padding: 10px 24px;
+      border-radius: 40px;
+      border: 4px dashed white;
+      box-shadow: 0 8px 16px rgba(255, 107, 87, 0.35);
+      text-align: center;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .header-logo h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(24px, 4vw, 36px);
+      letter-spacing: 1.5px;
+      text-shadow: 2px 2px 0px #C73B28;
+    }
+    .header-logo p {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    /* LAYOUT UTAMA */
+    .game-container {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 16px;
+      max-width: 1400px;
+      width: 100%;
+    }
+
+    @media (max-width: 992px) {
+      .game-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* PAPAN PERMAINAN */
+    .board-wrapper {
+      background: white;
+      border-radius: 24px;
+      padding: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+      border: 3px solid #E2E8F0;
+      overflow-x: auto;
+    }
+
+    .board-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(110px, 1fr));
+      gap: 10px;
+      min-width: 580px;
+    }
+
+    .tile {
+      background: #FFFFFF;
+      border-radius: 16px;
+      border: 3px solid #E2E8F0;
+      padding: 8px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 110px;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .tile.active-tile {
+      transform: scale(1.03);
+      box-shadow: 0 6px 14px rgba(255, 107, 87, 0.35);
+      border-color: var(--primary-coral) !important;
+    }
+    .tile-num {
+      position: absolute;
+      top: 4px;
+      left: 6px;
+      font-family: 'Fredoka One', cursive;
+      font-size: 13px;
+      color: #718096;
+    }
+    .tile-icon {
+      font-size: 28px;
+      margin-top: 10px;
+    }
+    .tile-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 11px;
+      text-align: center;
+      line-height: 1.2;
+      margin-top: 4px;
+    }
+
+    /* WARNA-WARNA KHUSUS KOTAK */
+    .tile-start { background: #E8F5E9; border-color: #81C784; }
+    .tile-organ { background: #FFF3EB; border-color: #FFAB91; }
+    .tile-mystery { background: #F3E5F5; border-color: #BA68C8; }
+    .tile-bonus { background: #FFFDE7; border-color: #FFF176; }
+    .tile-jebakan { background: #E3F2FD; border-color: #64B5F6; }
+    .tile-hambatan { background: #FFEBEE; border-color: #E57373; }
+    .tile-qr { background: #ECEFF1; border-color: #90A4AE; }
+    .tile-secret { background: #EDE7F6; border-color: #9575CD; }
+    .tile-finish { background: #FFF8E1; border-color: #FFD54F; }
+
+    /* TOKEN / PION PEMAIN */
+    .pawns-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 3px;
+      min-height: 20px;
+      width: 100%;
+    }
+    .pawn {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 800;
+      color: white;
+    }
+
+    /* PANEL KONTROL & STATUS */
+    .control-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card-box {
+      background: white;
+      border-radius: 20px;
+      padding: 14px;
+      border: 2px solid #E2E8F0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+    }
+
+    .turn-box {
+      background: #FFF0EB;
+      border: 2px solid var(--primary-coral);
+      text-align: center;
+    }
+    .current-player-name {
+      font-family: 'Fredoka One', cursive;
+      font-size: 20px;
+      color: var(--primary-coral);
+      margin-bottom: 4px;
+    }
+
+    /* DADU ANIMASI */
+    .dice-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0;
+    }
+    .dice {
+      width: 60px;
+      height: 60px;
+      background: white;
+      border-radius: 14px;
+      border: 3px solid #2D3748;
+      box-shadow: 0 6px 0px #CBD5E0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Fredoka One', cursive;
+      font-size: 32px;
+      color: #2D3748;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .dice.rolling {
+      animation: shakeDice 0.4s infinite;
+    }
+    @keyframes shakeDice {
+      0% { transform: rotate(0deg) scale(1.1); }
+      25% { transform: rotate(15deg); }
+      7% { transform: rotate(-15deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    .btn {
+      font-family: 'Fredoka One', cursive;
+      background: var(--primary-coral);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      padding: 10px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 4px 0px var(--coral-dark);
+      transition: all 0.1s;
+      width: 100%;
+    }
+    .btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0px var(--coral-dark);
+    }
+    .btn:disabled {
+      background: #CBD5E0;
+      box-shadow: 0 4px 0px #A0AEC0;
+      cursor: not-allowed;
+    }
+    .btn-green {
+      background: #48BB78;
+      box-shadow: 0 4px 0px #2F855A;
+    }
+    .btn-blue {
+      background: #4299E1;
+      box-shadow: 0 4px 0px #2B6CB0;
+    }
+
+    /* DAFTAR PEMAIN */
+    .player-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+    .player-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: #F7FAFC;
+      border: 2px solid transparent;
+    }
+    .player-row.active {
+      border-color: var(--primary-coral);
+      background: #FFF5F2;
+    }
+    .player-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .player-score {
+      font-family: 'Fredoka One', cursive;
+      font-size: 15px;
+      color: #2D3748;
+    }
+
+    /* MODAL POPUP (KARTU MYSTERY, JEBAKAN, ORGAN, TANTANGAN) */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.65);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 16px;
+    }
+    .modal-card {
+      background: white;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 24px;
+      padding: 24px;
+      text-align: center;
+      position: relative;
+      border: 5px solid #2D3748;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.7); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .modal-header-badge {
+      display: inline-block;
+      font-family: 'Fredoka One', cursive;
+      font-size: 16px;
+      padding: 6px 18px;
+      border-radius: 20px;
+      color: white;
+      margin-bottom: 12px;
+    }
+    .modal-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .modal-desc {
+      font-size: 15px;
+      font-weight: 700;
+      color: #4A5568;
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+    .modal-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* SETUP SCREEN */
+    #setup-modal {
+      display: flex;
+    }
+    .setup-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+      margin: 14px 0;
+    }
+    .setup-options label {
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .setup-options select, .setup-options input {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 2px solid #CBD5E0;
+      font-family: inherit;
+      font-weight: 700;
+    }
+
+    .log-box {
+      font-size: 12px;
+      height: 90px;
+      overflow-y: auto;
+      background: #F8FAFC;
+      border-radius: 10px;
+      padding: 6px 8px;
+      border: 1px solid #E2E8F0;
+    }
+    .log-entry {
+      margin-bottom: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header-logo">
+    <h1>DIGESTIVE ADVENTURE</h1>
+    <p>Petualangan Sistem Pencernaan Manusia SD/MI</p>
+  </div>
+
+  <!-- CONTAINER UTAMA -->
+  <div class="game-container">
+    
+    <!-- PAPAN PERMAINAN 28 KOTAK -->
+    <div class="board-wrapper">
+      <div class="board-grid" id="board-grid">
+        <!-- Kotak 1 - 28 akan di-generate via JavaScript -->
+      </div>
+    </div>
+
+    <!-- PANEL KANAN: KONTROL, PEMAIN, STATUS -->
+    <div class="control-panel">
+      
+      <!-- STATUS GILIRAN & DADU -->
+      <div class="card-box turn-box">
+        <p style="font-size: 11px; font-weight: 800; color: #718096; text-transform: uppercase;">Giliran Pemain</p>
+        <div class="current-player-name" id="current-player-display">Pemain 1</div>
+        
+        <div class="dice-area">
+          <div class="dice" id="dice-element" onclick="handleRollDice()">🎲</div>
+          <button class="btn" id="btn-roll-dice" onclick="handleRollDice()">LEMPAR DADU</button>
+        </div>
+      </div>
+
+      <!-- INVENTORI & KARTU PENYELAMAT -->
+      <div class="card-box">
+        <h4 style="font-family:'Fredoka One'; font-size:14px; margin-bottom:8px;">🎒 Inventori Pemain Aktif</h4>
+        <div style="font-size: 12px; font-weight: 700; display:flex; justify-content:space-between; margin-bottom:4px;">
+          <span>🛡️ Kartu Penyelamat:</span>
+          <span id="player-shield-count" style="color: #48BB78; font-weight: 800;">0</span>
+        </div>
+        <div style="font-size: 12px; font-weight: 700; display:flex; justify-content:space-between;">
+          <span>🫁 Koleksi Kartu Organ:</span>
+          <span id="player-organ-count" style="color: var(--primary-coral); font-weight: 800;">0</span>
+        </div>
+      </div>
+
+      <!-- STATUS & SKOR SEMUA PEMAIN -->
+      <div class="card-box">
+        <h4 style="font-family:'Fredoka One'; font-size:14px; margin-bottom:8px;">🏆 Papan Skor (Mulai: 30 Poin)</h4>
+        <div class="player-list" id="player-list-container">
+          <!-- Render daftar pemain -->
+        </div>
+      </div>
+
+      <!-- LOG AKTIVITAS -->
+      <div class="card-box">
+        <h4 style="font-family:'Fredoka One'; font-size:13px; margin-bottom:4px;">📜 Catatan Petualangan</h4>
+        <div class="log-box" id="game-log"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL: SETUP PEMAIN (1-6 PEMAIN) -->
+  <div class="modal-overlay" id="setup-modal">
+    <div class="modal-card">
+      <div class="modal-header-badge" style="background: var(--primary-coral);">SETUP PERMAINAN</div>
+      <h2 class="modal-title">Pilih Pemain</h2>
+      <p class="modal-desc">Sistem Pencernaan SD/MI: 1 hingga 6 Pemain siap menjelajah!</p>
+      
+      <div class="setup-options">
+        <div>
+          <label>Jumlah Pemain:</label>
+          <select id="player-count-select" onchange="generatePlayerInputs()">
+            <option value="2">2 Pemain</option>
+            <option value="3">3 Pemain</option>
+            <option value="4" selected>4 Pemain</option>
+            <option value="5">5 Pemain</option>
+            <option value="6">6 Pemain</option>
+            <option value="1">1 Pemain (Mode Latihan)</option>
+          </select>
+        </div>
+        <div id="player-names-inputs"></div>
+      </div>
+
+      <button class="btn btn-green" onclick="startGame()">MULAI PETUALANGAN!</button>
+    </div>
+  </div>
+
+  <!-- MODAL: EVENT KARTU & TANTANGAN INTERAKTIF -->
+  <div class="modal-overlay" id="event-modal">
+    <div class="modal-card" id="event-card-style">
+      <div class="modal-header-badge" id="event-badge">KARTU</div>
+      <div id="event-icon" style="font-size: 40px; margin-bottom: 6px;">✨</div>
+      <h3 class="modal-title" id="event-title">Judul Kotak</h3>
+      <div class="modal-desc" id="event-desc">Deskripsi kotak dan perintah ada di sini.</div>
+      
+      <div class="modal-actions" id="event-actions">
+        <!-- Tombol dinamis (Tutup, Selesai, Jual Kartu, dsb) -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* =====================================================================
+       AUDIO SYNTHESIZER (Tanpa file eksternal, 100% aman offline & web)
+    ===================================================================== */
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playBeep(freq = 440, type = 'sine', duration = 0.15) {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    }
+    function soundDice() { playBeep(320, 'triangle', 0.08); }
+    function soundSuccess() {
+      playBeep(523, 'sine', 0.1);
+      setTimeout(() => playBeep(659, 'sine', 0.1), 100);
+      setTimeout(() => playBeep(784, 'sine', 0.2), 200);
+    }
+    function soundTrap() {
+      playBeep(260, 'sawtooth', 0.15);
+      setTimeout(() => playBeep(180, 'sawtooth', 0.25), 150);
+    }
+
+    /* =====================================================================
+       DATA 28 KOTAK PAPAN SESUAI PDF DOKUMEN
+    ===================================================================== */
+    const BOARD_TILES = [
+      { id: 1, type: 'start', title: 'START', icon: '🚩', desc: 'Mulai petualangan pencernaan!' },
+      { id: 2, type: 'organ', title: 'MULUT', icon: '👄', organName: 'Mulut', organDesc: 'Tempat makanan masuk dan bercampur dengan air liur.' },
+      { id: 3, type: 'organ', title: 'GIGI', icon: '🦷', organName: 'Gigi', organDesc: 'Mengunyah dan menghancurkan makanan menjadi lebih kecil.' },
+      { id: 4, type: 'mystery', title: 'MYSTERY', icon: '❓', desc: 'Ambil 1 Kartu Mystery dan ikuti instruksinya!' },
+      { id: 5, type: 'organ', title: 'LIDAH', icon: '👅', organName: 'Lidah', organDesc: 'Mengecap rasa, mengaduk makanan, dan membantu menelan.' },
+      { id: 6, type: 'pilihan', title: 'PILIH KARTU', icon: '🃏', desc: 'Pilihan: Ambil +5 poin atau bersiap untuk lemparan berikutnya!' },
+      { id: 7, type: 'qr', title: 'QR CHALLENGE', icon: '📱', desc: 'Tantangan Organ! Jawab kuis untuk dapat bintang (1 Bintang = 10 Poin).' },
+      { id: 8, type: 'bonus', title: 'BONUS +10', icon: '⭐', points: 10, desc: 'Hebat! Kamu mendapat bonus energi +10 poin.' },
+      { id: 9, type: 'organ', title: 'KERONGKONGAN', icon: '🥢', organName: 'Kerongkongan', organDesc: 'Mendorong makanan menuju lambung dengan gerak peristaltik.' },
+      { id: 10, type: 'hambatan', title: 'HAMBATAN -5', icon: '⚠️', points: -5, desc: 'Tersedak makanan! Kamu kehilangan 5 poin.' },
+      { id: 11, type: 'organ', title: 'LAMBUNG', icon: '🥣', organName: 'Lambung', organDesc: 'Mengaduk makanan dan mencerna dengan asam serta enzim.' },
+      { id: 12, type: 'mystery', title: 'MYSTERY', icon: '❓', desc: 'Ambil 1 Kartu Mystery!' },
+      { id: 13, type: 'jebakan', title: 'JEBAKAN', icon: '🪤', desc: 'Waspada! Ambil 1 Kartu Jebakan.' },
+      { id: 14, type: 'bonus', title: 'BONUS +10', icon: '🌟', points: 10, desc: 'Tubuh segar! Bonus +10 poin.' },
+      { id: 15, type: 'organ', title: 'USUS HALUS', icon: '🧬', organName: 'Usus Halus', organDesc: 'Menyerap sari-sari makanan ke dalam peredaran darah.' },
+      { id: 16, type: 'qr', title: 'QR MISSION', icon: '📱', desc: 'Selesaikan Misi Pengetahuan Sistem Pencernaan! (Bintang bernilai poin).' },
+      { id: 17, type: 'hambatan', title: 'BAKTERI -5', icon: '🦠', points: -5, desc: 'Ada bakteri jahat! Kehilangan 5 poin.' },
+      { id: 18, type: 'jebakan', title: 'JEBAKAN', icon: '🪤', desc: 'Awas perangkap pencernaan! Ambil Kartu Jebakan.' },
+      { id: 19, type: 'organ', title: 'USUS BESAR', icon: '🥨', organName: 'Usus Besar', organDesc: 'Menyerap air dan membentuk sisa makanan menjadi feses.' },
+      { id: 20, type: 'mystery', title: 'MYSTERY', icon: '❓', desc: 'Ambil 1 Kartu Mystery!' },
+      { id: 21, type: 'info', title: 'AIR & SISA', icon: '💧', desc: 'Penyerapan air berlangsung optimal. Siap menuju akhir saluran.' },
+      { id: 22, type: 'qr', title: 'QR MISSION', icon: '📱', desc: 'Misi Cepat! Uji ingatanmu seputar pencernaan.' },
+      { id: 23, type: 'bonus', title: 'BONUS +15', icon: '🏆', points: 15, desc: 'Luar biasa! Nutrisi terserap maksimal! +15 poin.' },
+      { id: 24, type: 'secret', title: 'SECRET CODE', icon: '🔐', desc: 'Pecahkan kode rahasia organ pencernaan untuk meraih +10 poin!' },
+      { id: 25, type: 'secret', title: 'SECRET CODE', icon: '🔒', desc: 'Tebak kata organ pencernaan (+10 Poin)!' },
+      { id: 26, type: 'organ', title: 'ANUS', icon: '🚪', organName: 'Anus', organDesc: 'Mengeluarkan sisa makanan dari tubuh dalam bentuk feses.' },
+      { id: 27, type: 'final_mission', title: 'FINAL MISSION', icon: '🎖️', desc: 'LAKUKAN GERAKAN KHAS ORGAN PENCERNAAN untuk membuka pintu finish!' },
+      { id: 28, type: 'finish', title: 'FINISH', icon: '🏁', desc: 'Garis Akhir! Pemain dengan misi tuntas dan skor tertinggi menang!' }
+    ];
+
+    /* =====================================================================
+       KUMPULAN DECK KARTU (PERSIS TEKS DI PDF)
+    ===================================================================== */
+    const MYSTERY_CARDS = [
+      { type: 'move', title: 'KEJUTAN!', desc: 'Maju dua langkah ke depan!', move: 2 },
+      { type: 'choice', title: 'PILIHAN!', desc: 'Ambil +5 poin atau lempar dadu lagi sekarang!', points: 5 },
+      { type: 'quiz', title: 'TEBAK!', desc: 'Organ apa yang menghasilkan asam untuk pencernaan?', ans: 'LAMBUNG', points: 10 },
+      { type: 'quiz', title: 'HEBAT!', desc: 'Sebutkan fungsi gigi dengan benar untuk dapat poin!', points: 10 },
+      { type: 'action', title: 'AKSI!', desc: 'Peragakan perjalanan makanan dari mulut sampai lambung!', points: 10 },
+      { type: 'shield', title: 'SELAMAT!', desc: 'KARTU PENYELAMAT! Simpan kartu ini untuk perlindungan dari pengurangan poin/hukuman!' },
+      { type: 'move', title: 'SALAH JALUR!', desc: 'Mundur dua langkah ke belakang!', move: -2 }
+    ];
+
+    const TRAP_CARDS = [
+      { type: 'reset', title: 'HARI SIAL', desc: 'Mulai lagi dari START!', icon: '⚡' },
+      { type: 'peer', title: 'ORGAN HILANG', desc: 'Pemain lain menyebutkan satu organ pencernaan. Kamu wajib menjelaskan fungsinya!', icon: '🗣️' },
+      { type: 'hazard', title: 'BAHAYA BESAR!', desc: 'Kamu kehilangan 20 poin! Tetapi jika bisa menyebutkan fungsi usus halus, hukuman dibatalkan!', penalty: 20 },
+      { type: 'dice_move', title: 'PORTAL USUS!', desc: 'Lempar dadu. Angka GANJIL mundur 3 langkah. Angka GENAP maju 3 langkah!', icon: '🌀' },
+      { type: 'move', title: 'ADA BAKTERI!', desc: 'Mundur 3 langkah ke belakang!', move: -3 },
+      { type: 'penalty_target', title: 'TUKAR NASIB', desc: 'Lempar dadu: Angka 1-3 Pemain pilihanmu -10 poin. Angka 4-6 Kamu yang kehilangan 10 poin.', icon: '🎲' },
+      { type: 'skip', title: 'SAKIT PERUT!', desc: 'Kehilangan 1 giliran berikutnya!', icon: '🤢' },
+      { type: 'swap', title: 'PINDAH POSISI!', desc: 'Tukar posisi pionmu dengan pemain yang berada tepat di depanmu!', icon: '🔀' },
+      { type: 'virus', title: 'ADA VIRUS', desc: 'Pilih 1 pemain untuk menjawab pertanyaan guru/teman. Jika salah dia -5 poin. Jika benar, kamu -5 poin!', icon: '🦠' }
+    ];
+
+    const SECRET_CODES = [
+      { hint: 'Tempat makanan pertama kali masuk & dikunyah', masked: 'M _ L _ T', answer: 'MULUT' },
+      { hint: 'Saluran yang mendorong makanan menuju lambung', masked: 'K _ R _ N G K _ N G A N', answer: 'KERONGKONGAN' },
+      { hint: 'Menghasilkan asam klorida dan mengaduk makanan', masked: 'L _ M B _ N G', answer: 'LAMBUNG' },
+      { hint: 'Tempat utama penyerapan sari makanan ke darah', masked: 'U S _ S   H _ L _ S', answer: 'USUS HALUS' },
+      { hint: 'Menyerap kelebihan air dari sisa makanan', masked: 'U S _ S   B _ S _ R', answer: 'USUS BESAR' }
+    ];
+
+    const QR_QUIZZES = [
+      { q: "Enzim apakah di air liur yang mengubah karbohidrat jadi gula?", opts: ["Ptialin (Amilase)", "Pepsin", "Lipase", "Renin"], correct: 0 },
+      { q: "Gerakan meremas dan mendorong pada kerongkongan disebut gerak...", opts: ["Peristaltik", "Otomatis", "Refleks", "Kimiawi"], correct: 0 },
+      { q: "Organ pencernaan yang menyerap sebagian besar sari-sari makanan adalah...", opts: ["Usus Halus", "Lambung", "Mulut", "Usus Besar"], correct: 0 },
+      { q: "Feses dikeluarkan dari tubuh melalui saluran akhir bernama...", opts: ["Anus", "Ginjal", "Lambung", "Pankreas"], correct: 0 }
+    ];
+
+    /* =====================================================================
+       VARIABEL STATUS PERMAINAN
+    ===================================================================== */
+    const PAWN_COLORS = ['#E53E3E', '#3182CE', '#38A169', '#D69E2E', '#805AD5', '#DD6B20'];
+    let players = [];
+    let currentPlayerIndex = 0;
+    let isRolling = false;
+    let finishRankCounter = 0;
+
+    /* =====================================================================
+       INISIALISASI & SETUP
+    ===================================================================== */
+    function generatePlayerInputs() {
+      const count = parseInt(document.getElementById('player-count-select').value);
+      const container = document.getElementById('player-names-inputs');
+      container.innerHTML = '';
+      for (let i = 1; i <= count; i++) {
+        const div = document.createElement('div');
+        div.style.marginBottom = '6px';
+        div.innerHTML = `
+          <label style="font-size:12px;">Nama Pemain ${i}:</label>
+          <input type="text" id="pname-${i}" value="Pemain ${i}" maxlength="12">
+        `;
+        container.appendChild(div);
+      }
+    }
+    generatePlayerInputs();
+
+    function startGame() {
+      const count = parseInt(document.getElementById('player-count-select').value);
+      players = [];
+      for (let i = 1; i <= count; i++) {
+        const nameInput = document.getElementById(`pname-${i}`);
+        players.push({
+          id: i,
+          name: nameInput ? nameInput.value.trim() || `Pemain ${i}` : `Pemain ${i}`,
+          color: PAWN_COLORS[(i - 1) % PAWN_COLORS.length],
+          position: 1,
+          points: 30, // Mulai dengan 30 poin sesuai aturan
+          shields: 0,
+          organs: [],
+          skipTurn: false,
+          hasDoneFinalMission: false,
+          isFinished: false
+        });
+      }
+
+      document.getElementById('setup-modal').style.display = 'none';
+      renderBoard();
+      updatePlayerUI();
+      logMessage(`🎮 Permainan dimulai! Semua pemain mendapat 30 poin di kotak START.`);
+      soundSuccess();
+    }
+
+    function renderBoard() {
+      const grid = document.getElementById('board-grid');
+      grid.innerHTML = '';
+      BOARD_TILES.forEach(tile => {
+        const div = document.createElement('div');
+        div.className = `tile tile-${tile.type}`;
+        div.id = `tile-${tile.id}`;
+        div.innerHTML = `
+          <span class="tile-num">${tile.id < 10 ? '0' + tile.id : tile.id}</span>
+          <div class="tile-icon">${tile.icon}</div>
+          <div class="tile-title">${tile.title}</div>
+          <div class="pawns-container" id="pawns-${tile.id}"></div>
+        `;
+        grid.appendChild(div);
+      });
+      renderPawns();
+    }
+
+    function renderPawns() {
+      // Bersihkan semua pawn container
+      document.querySelectorAll('.pawns-container').forEach(c => c.innerHTML = '');
+      
+      players.forEach(p => {
+        const container = document.getElementById(`pawns-${p.position}`);
+        if (container) {
+          const pawnEl = document.createElement('div');
+          pawnEl.className = 'pawn';
+          pawnEl.style.backgroundColor = p.color;
+          pawnEl.innerText = p.id;
+          pawnEl.title = `${p.name} (${p.points} Poin)`;
+          container.appendChild(pawnEl);
+        }
+      });
+    }
+
+    function updatePlayerUI() {
+      const cur = players[currentPlayerIndex];
+      document.getElementById('current-player-display').innerText = `${cur.name}`;
+      document.getElementById('current-player-display').style.color = cur.color;
+      document.getElementById('player-shield-count').innerText = cur.shields;
+      document.getElementById('player-organ-count').innerText = cur.organs.length;
+
+      // Update daftar skor
+      const list = document.getElementById('player-list-container');
+      list.innerHTML = '';
+      players.forEach((p, idx) => {
+        const row = document.createElement('div');
+        row.className = `player-row ${idx === currentPlayerIndex ? 'active' : ''}`;
+        row.innerHTML = `
+          <div class="player-badge">
+            <span class="pawn" style="background:${p.color}; width:16px; height:16px;">${p.id}</span>
+            <span>${p.name} ${p.isFinished ? '🏁' : ''}</span>
+          </div>
+          <div class="player-score">${p.points} Poin</div>
+        `;
+        list.appendChild(row);
+      });
+
+      // Highlight active tile
+      document.querySelectorAll('.tile').forEach(t => t.classList.remove('active-tile'));
+      const activeTileEl = document.getElementById(`tile-${cur.position}`);
+      if (activeTileEl) activeTileEl.classList.add('active-tile');
+    }
+
+    function logMessage(msg) {
+      const log = document.getElementById('game-log');
+      const item = document.createElement('div');
+      item.className = 'log-entry';
+      item.innerHTML = msg;
+      log.prepend(item);
+    }
+
+    /* =====================================================================
+       MEKANISME LEMPAR DADU & GERAK LANGKAH
+    ===================================================================== */
+    function handleRollDice() {
+      if (isRolling) return;
+      const cur = players[currentPlayerIndex];
+
+      if (cur.isFinished) {
+        nextTurn();
+        return;
+      }
+
+      if (cur.skipTurn) {
+        cur.skipTurn = false;
+        logMessage(`⚠️ ${cur.name} kehilangan giliran karena Sakit Perut!`);
+        nextTurn();
+        return;
+      }
+
+      isRolling = true;
+      const diceEl = document.getElementById('dice-element');
+      const btnEl = document.getElementById('btn-roll-dice');
+      btnEl.disabled = true;
+      diceEl.classList.add('rolling');
+
+      let rolls = 0;
+      const rollInterval = setInterval(() => {
+        soundDice();
+        const rand = Math.floor(Math.random() * 6) + 1;
+        diceEl.innerText = rand;
+        rolls++;
+        if (rolls > 8) {
+          clearInterval(rollInterval);
+          diceEl.classList.remove('rolling');
+          const finalDice = Math.floor(Math.random() * 6) + 1;
+          diceEl.innerText = finalDice;
+          logMessage(`🎲 <b>${cur.name}</b> melempar dadu dan mendapat angka <b>${finalDice}</b>.`);
+          movePlayerSteps(cur, finalDice);
+        }
+      }, 70);
+    }
+
+    function movePlayerSteps(player, steps) {
+      let remaining = steps;
+      const interval = setInterval(() => {
+        if (remaining > 0) {
+          player.position++;
+          if (player.position > 28) {
+            // Jika sudah lewat 28 dan belum selesai misi, kembali looping atau stop di 28
+            player.position = 1; // Mengikuti pola: 1 -> ... -> 28 -> kembali ke 1
+          }
+          renderPawns();
+          soundDice();
+          remaining--;
+        } else {
+          clearInterval(interval);
+          isRolling = false;
+          document.getElementById('btn-roll-dice').disabled = false;
+          handleTileLanding(player, player.position);
+        }
+      }, 200);
+    }
+
+    /* =====================================================================
+       KONTROL KOTAK & HUKUMAN / KARTU PENYELAMAT
+    ===================================================================== */
+    function applyPoints(player, amount, reason = "") {
+      if (amount < 0 && player.shields > 0) {
+        // Tawarkan Kartu Penyelamat!
+        showShieldPrompt(player, amount, reason);
+        return;
+      }
+      player.points = Math.max(0, player.points + amount);
+      updatePlayerUI();
+    }
+
+    function showShieldPrompt(player, amount, reason) {
+      showModal({
+        badge: '🛡️ PERLINDUNGAN!',
+        badgeColor: '#48BB78',
+        icon: '🛡️',
+        title: 'Gunakan Kartu Penyelamat?',
+        desc: `Kamu terkena ${amount} poin (${reason}). Kamu memiliki ${player.shields} Kartu Penyelamat. Ingin menggunakannya untuk membatalkan hukuman?`,
+        actions: [
+          {
+            text: 'Gunakan Kartu Penyelamat! (Hukuman Batal)',
+            class: 'btn-green',
+            onClick: () => {
+              player.shields--;
+              soundSuccess();
+              logMessage(`🛡️ <b>${player.name}</b> menggunakan Kartu Penyelamat! Hukuman dibatalkan.`);
+              closeModal();
+              nextTurn();
+            }
+          },
+          {
+            text: 'Simpan Kartu (Terima Hukuman)',
+            class: 'btn',
+            onClick: () => {
+              player.points = Math.max(0, player.points + amount);
+              closeModal();
+              nextTurn();
+            }
+          }
+        ]
+      });
+    }
+
+    function handleTileLanding(player, tileId) {
+      const tile = BOARD_TILES.find(t => t.id === tileId);
+      updatePlayerUI();
+
+      // KOTAK ORGAN PENCERNAAN
+      if (tile.type === 'organ') {
+        soundSuccess();
+        showModal({
+          badge: '🫁 KARTU ORGAN PENCERNAAN',
+          badgeColor: 'var(--primary-coral)',
+          icon: tile.icon,
+          title: tile.organName,
+          desc: `<b>Fungsi:</b> ${tile.organDesc}<br><br><i>Simpan kartu untuk koleksi atau jual langsung senilai +5 Poin!</i>`,
+          actions: [
+            {
+              text: 'Simpan Kartu Organ',
+              class: 'btn-blue',
+              onClick: () => {
+                player.organs.push(tile.organName);
+                logMessage(`🫁 ${player.name} menyimpan kartu organ ${tile.organName}.`);
+                closeModal();
+                nextTurn();
+              }
+            },
+            {
+              text: 'Jual Kartu (+5 Poin)',
+              class: 'btn-green',
+              onClick: () => {
+                player.points += 5;
+                logMessage(`💰 ${player.name} menjual kartu organ ${tile.organName} seharga +5 Poin.`);
+                soundSuccess();
+                closeModal();
+                nextTurn();
+              }
+            }
+          ]
+        });
+      }
+      // KOTAK MYSTERY (4, 12, 20)
+      else if (tile.type === 'mystery') {
+        const randomCard = MYSTERY_CARDS[Math.floor(Math.random() * MYSTERY_CARDS.length)];
+        soundSuccess();
+        
+        let actions = [];
+        if (randomCard.type === 'shield') {
+          actions.push({
+            text: 'Simpan ke Inventori',
+            class: 'btn-green',
+            onClick: () => {
+              player.shields++;
+              logMessage(`🛡️ ${player.name} mendapatkan KARTU PENYELAMAT!`);
+              closeModal();
+              nextTurn();
+            }
+          });
+        } else if (randomCard.type === 'move') {
+          actions.push({
+            text: 'Jalankan Perintah',
+            class: 'btn',
+            onClick: () => {
+              closeModal();
+              logMessage(`⏩ ${player.name} terkena ${randomCard.title}: ${randomCard.desc}`);
+              player.position = Math.max(1, Math.min(28, player.position + randomCard.move));
+              renderPawns();
+              nextTurn();
+            }
+          });
+        } else if (randomCard.type === 'choice') {
+          actions.push(
+            {
+              text: 'Ambil +5 Poin',
+              class: 'btn-green',
+              onClick: () => {
+                player.points += 5;
+                closeModal();
+                nextTurn();
+              }
+            },
+            {
+              text: 'Lempar Dadu Lagi',
+              class: 'btn-blue',
+              onClick: () => {
+                closeModal();
+                handleRollDice();
+              }
+            }
+          );
+        } else {
+          actions.push({
+            text: 'Berhasil / Selesai (+10 Poin)',
+            class: 'btn-green',
+            onClick: () => {
+              player.points += (randomCard.points || 10);
+              closeModal();
+              nextTurn();
+            }
+          }, {
+            text: 'Gagal / Lewati',
+            class: 'btn',
+            onClick: () => {
+              closeModal();
+              nextTurn();
+            }
+          });
+        }
+
+        showModal({
+          badge: '🔮 KARTU MYSTERY',
+          badgeColor: '#805AD5',
+          icon: '❓',
+          title: randomCard.title,
+          desc: randomCard.desc,
+          actions: actions
+        });
+      }
+      // KOTAK JEBAKAN (13, 18)
+      else if (tile.type === 'jebakan') {
+        soundTrap();
+        const trap = TRAP_CARDS[Math.floor(Math.random() * TRAP_CARDS.length)];
+        
+        let actions = [];
+        if (trap.type === 'reset') {
+          actions.push({
+            text: 'Kembali ke START',
+            class: 'btn',
+            onClick: () => {
+              player.position = 1;
+              renderPawns();
+              closeModal();
+              nextTurn();
+            }
+          });
+        } else if (trap.type === 'hazard') {
+          actions.push({
+            text: 'Saya Bisa Sebutkan Fungsi Usus Halus (Batal Dihukum)',
+            class: 'btn-green',
+            onClick: () => {
+              soundSuccess();
+              logMessage(`👏 ${player.name} berhasil menyebutkan fungsi usus halus! Hukuman batal.`);
+              closeModal();
+              nextTurn();
+            }
+          }, {
+            text: 'Gagal Menjawab (-20 Poin)',
+            class: 'btn',
+            onClick: () => {
+              closeModal();
+              applyPoints(player, -20, 'Bahaya Besar');
+            }
+          });
+        } else if (trap.type === 'skip') {
+          actions.push({
+            text: 'Terima Hukuman',
+            class: 'btn',
+            onClick: () => {
+              player.skipTurn = true;
+              closeModal();
+              nextTurn();
+            }
+          });
+        } else {
+          actions.push({
+            text: 'Selesaikan Jebakan',
+            class: 'btn',
+            onClick: () => {
+              if (trap.move) {
+                player.position = Math.max(1, player.position + trap.move);
+                renderPawns();
+              }
+              closeModal();
+              nextTurn();
+            }
+          });
+        }
+
+        showModal({
+          badge: '⚠️ KARTU JEBAKAN',
+          badgeColor: '#E53E3E',
+          icon: trap.icon || '🪤',
+          title: trap.title,
+          desc: trap.desc,
+          actions: actions
+        });
+      }
+      // KOTAK BONUS & HAMBATAN BIASA
+      else if (tile.type === 'bonus') {
+        soundSuccess();
+        player.points += tile.points;
+        showModal({
+          badge: 'BONUS!',
+          badgeColor: '#D69E2E',
+          icon: '⭐',
+          title: tile.title,
+          desc: tile.desc,
+          actions: [{ text: 'Ambil Hadiah', class: 'btn-green', onClick: () => { closeModal(); nextTurn(); } }]
+        });
+      }
+      else if (tile.type === 'hambatan') {
+        soundTrap();
+        showModal({
+          badge: 'HAMBATAN!',
+          badgeColor: '#E53E3E',
+          icon: '⚠️',
+          title: tile.title,
+          desc: tile.desc,
+          actions: [{ text: 'Lanjutkan', class: 'btn', onClick: () => { closeModal(); applyPoints(player, tile.points, tile.title); } }]
+        });
+      }
+      // KOTAK SECRET CODE (24 & 25)
+      else if (tile.type === 'secret') {
+        const riddle = SECRET_CODES[Math.floor(Math.random() * SECRET_CODES.length)];
+        showModal({
+          badge: '🔐 SECRET CODE (+10 Poin)',
+          badgeColor: '#6B46C1',
+          icon: '🔑',
+          title: 'Pecahkan Kode Organ!',
+          desc: `Petunjuk: <b>"${riddle.hint}"</b><br><br><span style="font-size:24px; font-weight:800; letter-spacing:4px; color:var(--primary-coral);">${riddle.masked}</span>`,
+          actions: [
+            {
+              text: `Jawab: ${riddle.answer} (Benar +10 Poin)`,
+              class: 'btn-green',
+              onClick: () => {
+                soundSuccess();
+                player.points += 10;
+                logMessage(`🔓 ${player.name} berhasil memecahkan kode rahasia: <b>${riddle.answer}</b> (+10 Poin).`);
+                closeModal();
+                nextTurn();
+              }
+            },
+            {
+              text: 'Tidak Tahu / Lewati',
+              class: 'btn',
+              onClick: () => { closeModal(); nextTurn(); }
+            }
+          ]
+        });
+      }
+      // KOTAK QR CHALLENGE / QR MISSION (7, 16, 22)
+      else if (tile.type === 'qr') {
+        const quiz = QR_QUIZZES[Math.floor(Math.random() * QR_QUIZZES.length)];
+        let quizButtons = quiz.opts.map((opt, i) => ({
+          text: opt,
+          class: 'btn-blue',
+          onClick: () => {
+            if (i === quiz.correct) {
+              soundSuccess();
+              player.points += 20; // 2 bintang = 20 poin
+              logMessage(`🌟 ${player.name} menjawab kuis QR dengan benar! Mendapat 2 Bintang (+20 Poin).`);
+              alert("HEBAT! Jawabanmu Benar (+20 Poin / 2 Bintang)!");
+            } else {
+              soundTrap();
+              alert(`Kurang tepat! Jawaban yang benar adalah: ${quiz.opts[quiz.correct]}`);
+            }
+            closeModal();
+            nextTurn();
+          }
+        }));
+
+        showModal({
+          badge: '📱 QR MISSION & CHALLENGE',
+          badgeColor: '#2B6CB0',
+          icon: '⭐',
+          title: 'Tantangan QR Siswa',
+          desc: `<b>Pertanyaan:</b><br>${quiz.q}<br><small style="color:#718096;">(1 Bintang bernilai 10 Poin)</small>`,
+          actions: quizButtons
+        });
+      }
+      // KOTAK FINAL MISSION (27)
+      else if (tile.type === 'final_mission') {
+        soundSuccess();
+        showModal({
+          badge: '🎖️ MISI TERAKHIR!',
+          badgeColor: '#D69E2E',
+          icon: '🕺',
+          title: 'GERAKAN KHAS ORGAN',
+          desc: `<b>PEMAIN HARUS MELAKUKAN GERAKAN KHAS!</b><br><br>
+                 Pilih salah satu gerakan:<br>
+                 • Mulut: Gerakan mengunyah makanan<br>
+                 • Kerongkongan: Gerakan menelan & peristaltik<br>
+                 • Lambung: Gerakan meremas/mengaduk<br>
+                 • Usus Halus: Gerakan menyerap nutrisi<br>
+                 • Usus Besar: Gerakan memeras air<br>
+                 • Anus: Gerakan membuang sisa makanan`,
+          actions: [
+            {
+              text: 'Guru/Teman: Misi Berhasil Dijalankan!',
+              class: 'btn-green',
+              onClick: () => {
+                player.hasDoneFinalMission = true;
+                soundSuccess();
+                logMessage(`🎖️ <b>${player.name}</b> berhasil menuntaskan Final Mission gerakan organ!`);
+                closeModal();
+                nextTurn();
+              }
+            },
+            {
+              text: 'Belum Selesai (Coba Putaran Berikutnya)',
+              class: 'btn',
+              onClick: () => { closeModal(); nextTurn(); }
+            }
+          ]
+        });
+      }
+      // KOTAK FINISH (28)
+      else if (tile.type === 'finish') {
+        if (!player.hasDoneFinalMission) {
+          showModal({
+            badge: 'BELUM BISA FINISH!',
+            badgeColor: '#E53E3E',
+            icon: '🛑',
+            title: 'Selesaikan Final Mission Terlebih Dahulu!',
+            desc: 'Kamu belum menyelesaikan gerakan khas di Kotak 27 (Final Mission)! Kamu harus berputar kembali sampai misi tuntas.',
+            actions: [{ text: 'Mengerti', class: 'btn', onClick: () => { closeModal(); nextTurn(); } }]
+          });
+        } else {
+          finishRankCounter++;
+          let finishBonus = 0;
+          if (finishRankCounter === 1) finishBonus = 50;
+          else if (finishRankCounter === 2) finishBonus = 30;
+          else if (finishRankCounter === 3) finishBonus = 10;
+
+          player.points += finishBonus;
+          player.isFinished = true;
+          soundSuccess();
+
+          logMessage(`🏁 <b>${player.name}</b> BERHASIL FINISH di urutan ke-${finishRankCounter}! Mendapat bonus +${finishBonus} Poin.`);
+
+          showModal({
+            badge: '🏆 SELAMAT!',
+            badgeColor: '#38A169',
+            icon: '🎉',
+            title: `${player.name} FINISH!`,
+            desc: `Hebat! Kamu menyelesaikan petualangan di urutan ke-${finishRankCounter} dan memperoleh bonus <b>+${finishBonus} Poin</b>!<br><br>Pemenang akhir dihitung berdasarkan <b>Poin Tertinggi</b> setelah misi tuntas!`,
+            actions: [
+              {
+                text: 'Lanjutkan Permainan',
+                class: 'btn-green',
+                onClick: () => {
+                  closeModal();
+                  checkGameOver();
+                }
+              }
+            ]
+          });
+        }
+      } else {
+        // Kotak biasa (START, AIR & SISA, PILIHAN)
+        nextTurn();
+      }
+    }
+
+    /* =====================================================================
+       GILIRAN & CEK KEMENANGAN
+    ===================================================================== */
+    function nextTurn() {
+      updatePlayerUI();
+      let activePlayers = players.filter(p => !p.isFinished);
+      if (activePlayers.length === 0) {
+        checkGameOver();
+        return;
+      }
+      
+      do {
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+      } while (players[currentPlayerIndex].isFinished && activePlayers.length > 0);
+
+      updatePlayerUI();
+      logMessage(`➡️ Giliran sekarang: <b>${players[currentPlayerIndex].name}</b>`);
+    }
+
+    function checkGameOver() {
+      const unfinished = players.filter(p => !p.isFinished);
+      if (unfinished.length === 0) {
+        // Urutkan berdasarkan poin tertinggi
+        const ranking = [...players].sort((a, b) => b.points - a.points);
+        const winner = ranking[0];
+
+        let scoreboardHTML = `<ol style="text-align:left; margin:10px 20px;">`;
+        ranking.forEach(r => {
+          scoreboardHTML += `<li style="margin-bottom:6px;"><b>${r.name}</b>: ${r.points} Poin ${r.isFinished ? '(Selesai)' : ''}</li>`;
+        });
+        scoreboardHTML += `</ol>`;
+
+        showModal({
+          badge: '👑 PERMAINAN SELESAI',
+          badgeColor: '#D69E2E',
+          icon: '🏆',
+          title: `PEMENANG: ${winner.name}!`,
+          desc: `Selamat! Sesuai aturan Digestive Adventure, pemenang adalah pemain yang telah menyelesaikan Final Mission dengan poin tertinggi!<br>${scoreboardHTML}`,
+          actions: [
+            {
+              text: 'Mainkan Lagi (Reset)',
+              class: 'btn-green',
+              onClick: () => { location.reload(); }
+            }
+          ]
+        });
+      }
+    }
+
+    /* =====================================================================
+       HELPER MODAL POPUP
+    ===================================================================== */
+    function showModal({ badge, badgeColor, icon, title, desc, actions }) {
+      const modal = document.getElementById('event-modal');
+      const badgeEl = document.getElementById('event-badge');
+      badgeEl.innerText = badge;
+      badgeEl.style.backgroundColor = badgeColor || 'var(--primary-coral)';
+      document.getElementById('event-icon').innerText = icon;
+      document.getElementById('event-title').innerText = title;
+      document.getElementById('event-desc').innerHTML = desc;
+
+      const actContainer = document.getElementById('event-actions');
+      actContainer.innerHTML = '';
+      actions.forEach(act => {
+        const btn = document.createElement('button');
+        btn.className = `btn ${act.class || ''}`;
+        btn.innerText = act.text;
+        btn.onclick = act.onClick;
+        actContainer.appendChild(btn);
+      });
+
+      modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('event-modal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
