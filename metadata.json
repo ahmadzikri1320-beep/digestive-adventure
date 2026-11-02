@@ -1,0 +1,10 @@
+{
+  "name": "DIGESTIVE ADVENTURE - Game Papan Sistem Pencernaan SD/MI",
+  "description": "Game edukasi papan interaktif sistem pencernaan manusia untuk siswa SD/MI dengan 28 kotak jalur, dadu digital/fisik, kartu organ, mystery, jebakan, secret code, dan final mission.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

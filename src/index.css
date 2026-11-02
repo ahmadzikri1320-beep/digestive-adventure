@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    color: #1e293b;
+    background-color: #faf8f5;
+  }
+
+  h1, h2, h3, .font-heading {
+    font-family: 'Fredoka', 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+/* Custom smooth scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Keyframes for dice and pawn bounce */
+@keyframes dice-roll {
+  0% { transform: rotate(0deg) scale(0.9); }
+  25% { transform: rotate(90deg) scale(1.1); }
+  50% { transform: rotate(180deg) scale(0.95); }
+  75% { transform: rotate(270deg) scale(1.05); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+.animate-dice {
+  animation: dice-roll 0.45s ease-in-out infinite;
+}
+
+@keyframes pawn-hop {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-hop {
+  animation: pawn-hop 0.4s ease-in-out infinite;
+}
+
+/* ========================================================
+   CSS 3D TRANSFORMATIONS FOR IMMERSIVE DICE
+   ======================================================== */
+.perspective-dice {
+  perspective: 700px;
+  perspective-origin: 50% 50%;
+}
+
+.dice-scene {
+  width: 80px;
+  height: 80px;
+  position: relative;
+}
+
+.dice-cube {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dice-face {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #ffffff 0%, #fffdfa 50%, #fef3c7 100%);
+  border: 2.5px solid #f59e0b;
+  box-shadow: inset 0 3px 5px rgba(255, 255, 255, 0.95),
+              inset 0 -3px 5px rgba(180, 83, 9, 0.25),
+              0 6px 12px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+/* 80px cube half-depth is 40px */
+.dice-face-1 { transform: rotateY(0deg) translateZ(40px); }
+.dice-face-2 { transform: rotateX(90deg) translateZ(40px); }
+.dice-face-3 { transform: rotateY(90deg) translateZ(40px); }
+.dice-face-4 { transform: rotateY(-90deg) translateZ(40px); }
+.dice-face-5 { transform: rotateX(-90deg) translateZ(40px); }
+.dice-face-6 { transform: rotateY(180deg) translateZ(40px); }
+
+/* Realistic 3D Tumbling Animation */
+@keyframes dice-3d-tumble {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateY(0);
+  }
+  20% {
+    transform: rotateX(160deg) rotateY(120deg) rotateZ(45deg) translateY(-22px) scale(1.1);
+  }
+  40% {
+    transform: rotateX(340deg) rotateY(260deg) rotateZ(135deg) translateY(-28px) scale(1.12);
+  }
+  60% {
+    transform: rotateX(520deg) rotateY(420deg) rotateZ(225deg) translateY(-20px) scale(1.08);
+  }
+  80% {
+    transform: rotateX(680deg) rotateY(580deg) rotateZ(315deg) translateY(-8px) scale(1.04);
+  }
+  100% {
+    transform: rotateX(720deg) rotateY(720deg) rotateZ(360deg) translateY(0) scale(1);
+  }
+}
+
+.dice-cube-rolling {
+  animation: dice-3d-tumble 0.42s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes dice-shadow-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(0.6);
+    opacity: 0.15;
+  }
+}
+
+.dice-shadow-rolling {
+  animation: dice-shadow-pulse 0.42s ease-in-out infinite;
+}
+
