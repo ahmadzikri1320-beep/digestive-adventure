@@ -95,24 +95,32 @@ export default function App() {
     };
   }, []);
 
+  // Fullscreen Toggle Handler (Seamless for both Native and CSS Fullscreen)
   const toggleFullscreen = async () => {
-    try {
-      const doc = document as unknown as {
-        fullscreenElement?: Element;
-        webkitFullscreenElement?: Element;
-        exitFullscreen?: () => Promise<void>;
-        webkitExitFullscreen?: () => Promise<void>;
-      };
+    sounds.playCardFlip();
+    const doc = document as unknown as {
+      fullscreenElement?: Element;
+      webkitFullscreenElement?: Element;
+      exitFullscreen?: () => Promise<void>;
+      webkitExitFullscreen?: () => Promise<void>;
+    };
 
-      if (isFullscreen || Boolean(doc.fullscreenElement || doc.webkitFullscreenElement)) {
-        // EXIT FULLSCREEN
-        if (doc.fullscreenElement || doc.webkitFullscreenElement) {
-          if (doc.exitFullscreen) await doc.exitFullscreen();
-          else if (doc.webkitExitFullscreen) await doc.webkitExitFullscreen();
+    if (isFullscreen || Boolean(doc.fullscreenElement || doc.webkitFullscreenElement)) {
+      // EXIT FULLSCREEN
+      setIsFullscreen(false);
+      try {
+        if (doc.fullscreenElement && doc.exitFullscreen) {
+          await doc.exitFullscreen();
+        } else if (doc.webkitFullscreenElement && doc.webkitExitFullscreen) {
+          await doc.webkitExitFullscreen();
         }
-        setIsFullscreen(false);
-      } else {
-        // ENTER FULLSCREEN
+      } catch (err) {
+        // Safe to ignore fallback
+      }
+    } else {
+      // ENTER FULLSCREEN
+      setIsFullscreen(true);
+      try {
         const boardEl = document.getElementById('game-board-container') || document.documentElement;
         const targetEl = boardEl as unknown as {
           requestFullscreen?: () => Promise<void>;
@@ -123,13 +131,29 @@ export default function App() {
         } else if (targetEl.webkitRequestFullscreen) {
           await targetEl.webkitRequestFullscreen();
         }
-        setIsFullscreen(true);
+      } catch (err) {
+        // In iframe or sandbox where native fullscreen is blocked, CSS fullscreen is active!
       }
-    } catch (err) {
-      console.warn('Toggle fullscreen warning:', err);
-      setIsFullscreen((prev) => !prev);
     }
   };
+
+  // Keyboard Escape listener to exit fullscreen
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isFullscreen) {
+        setIsFullscreen(false);
+        const doc = document as unknown as {
+          fullscreenElement?: Element;
+          exitFullscreen?: () => Promise<void>;
+        };
+        if (doc.fullscreenElement && doc.exitFullscreen) {
+          doc.exitFullscreen().catch(() => {});
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isFullscreen]);
 
   // Activity Log
   const [logs, setLogs] = useState<ActivityLogItem[]>([]);
@@ -1257,6 +1281,8 @@ export default function App() {
         currentTurnPlayerName={activePlayer?.name}
         isFullscreen={isFullscreen}
         onToggleFullscreen={toggleFullscreen}
+        onOpenOrganTracker={() => setShowOrganTracker(true)}
+        onOpenFlashQuiz={() => setShowFlashQuiz(true)}
       />
 
       {/* Mobile Tab Switcher (Visible on screens < lg) */}

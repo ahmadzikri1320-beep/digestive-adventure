@@ -95,78 +95,7 @@ export const Board: React.FC<BoardProps> = ({
 }) => {
   const activePlayer = players[activePlayerIndex];
   const boardRef = useRef<HTMLDivElement>(null);
-  const [isNativeFs, setIsNativeFs] = useState(false);
-
-  useEffect(() => {
-    const handleFsChange = () => {
-      const isFs = Boolean(
-        document.fullscreenElement === boardRef.current ||
-        (document as unknown as { webkitFullscreenElement?: Element }).webkitFullscreenElement === boardRef.current
-      );
-      setIsNativeFs(isFs);
-    };
-
-    document.addEventListener('fullscreenchange', handleFsChange);
-    document.addEventListener('webkitfullscreenchange', handleFsChange);
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFsChange);
-      document.removeEventListener('webkitfullscreenchange', handleFsChange);
-    };
-  }, []);
-
-  const isBoardFullscreen = isFullscreen || isNativeFs;
-
-  // Toggle or Exit Fullscreen (Reliable both for Native and CSS Fullscreen)
-  const toggleBoardFullscreen = async () => {
-    const doc = document as unknown as {
-      fullscreenElement?: Element;
-      webkitFullscreenElement?: Element;
-      exitFullscreen?: () => Promise<void>;
-      webkitExitFullscreen?: () => Promise<void>;
-    };
-
-    if (isBoardFullscreen) {
-      // User is in Fullscreen and clicked PERKECIL (Minimize / Exit)
-      try {
-        if (doc.fullscreenElement || doc.webkitFullscreenElement) {
-          if (doc.exitFullscreen) await doc.exitFullscreen();
-          else if (doc.webkitExitFullscreen) await doc.webkitExitFullscreen();
-        }
-      } catch (err) {
-        console.warn('Exit fullscreen fallback:', err);
-      }
-      setIsNativeFs(false);
-      if (onToggleFullscreen) onToggleFullscreen();
-    } else {
-      // User is entering Fullscreen
-      try {
-        const container = boardRef.current;
-        const cAny = container as unknown as {
-          requestFullscreen?: () => Promise<void>;
-          webkitRequestFullscreen?: () => Promise<void>;
-        };
-        if (cAny && cAny.requestFullscreen) {
-          await cAny.requestFullscreen();
-        } else if (cAny && cAny.webkitRequestFullscreen) {
-          await cAny.webkitRequestFullscreen();
-        }
-      } catch (err) {
-        console.warn('Native board fullscreen warning, falling back to CSS fullscreen:', err);
-      }
-      if (onToggleFullscreen) onToggleFullscreen();
-    }
-  };
-
-  // Keyboard Escape listener to exit fullscreen
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isBoardFullscreen) {
-        toggleBoardFullscreen();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isBoardFullscreen]);
+  const isBoardFullscreen = Boolean(isFullscreen);
 
   // Helper to get players on a specific tile
   const getPlayersOnTile = (tileId: number) => {
@@ -181,7 +110,7 @@ export const Board: React.FC<BoardProps> = ({
         id="game-board-container"
         className={`relative ${
           isBoardFullscreen
-            ? 'fixed inset-0 z-40 w-screen h-screen max-w-none rounded-none p-2 sm:p-4 md:p-6 bg-[#FAF7F0] flex flex-col items-center justify-center overflow-auto'
+            ? 'fixed inset-0 z-50 w-full h-full min-h-screen max-w-none rounded-none p-1.5 sm:p-3 md:p-5 bg-[#FAF7F0] flex flex-col items-center justify-center overflow-auto'
             : 'w-full max-w-[1080px] bg-[#FAF7F0] rounded-2xl sm:rounded-3xl p-1.5 sm:p-3 md:p-4 shadow-xl border-3 sm:border-4 border-amber-300'
         } select-none transition-all duration-300`}
       >
@@ -445,9 +374,9 @@ export const Board: React.FC<BoardProps> = ({
             {/* ========================================================
                 4. POJOK KANAN ATAS (TOP-RIGHT CORNER): FULLSCREEN & CORRECTION
                 ======================================================== */}
-            <div className="absolute top-0.5 right-0.5 sm:top-2 sm:right-2 z-20 flex items-center gap-0.5 sm:gap-1 pointer-events-auto">
+            <div className="absolute top-0.5 right-0.5 sm:top-2 sm:right-2 z-30 flex items-center gap-1 sm:gap-1.5 pointer-events-auto">
               {onStepAdjust && activePlayer && !isMoving && !activePlayer.hasFinished && (
-                <div className="flex items-center gap-0.5 bg-white/90 p-0.5 rounded-md sm:rounded-lg border border-amber-200 shadow-2xs">
+                <div className="flex items-center gap-0.5 bg-white/95 p-0.5 sm:p-1 rounded-md sm:rounded-lg border border-amber-300 shadow-2xs">
                   <button
                     onClick={() => {
                       sounds.playStep();
@@ -455,7 +384,7 @@ export const Board: React.FC<BoardProps> = ({
                     }}
                     disabled={activePlayer.position <= 1}
                     title="Koreksi mundur 1 kotak jika salah langkah fisik"
-                    className="px-1 sm:px-1.5 py-0.2 sm:py-0.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-30 text-slate-700 rounded text-[7px] sm:text-[8.5px] font-bold cursor-pointer"
+                    className="px-1.5 sm:px-2 py-0.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-30 text-slate-700 rounded text-[7.5px] sm:text-[9px] font-bold cursor-pointer"
                   >
                     -1
                   </button>
@@ -466,106 +395,120 @@ export const Board: React.FC<BoardProps> = ({
                     }}
                     disabled={activePlayer.position >= 28}
                     title="Koreksi maju 1 kotak"
-                    className="px-1 sm:px-1.5 py-0.2 sm:py-0.5 bg-amber-500 hover:bg-amber-600 disabled:opacity-30 text-white rounded text-[7px] sm:text-[8.5px] font-bold cursor-pointer"
+                    className="px-1.5 sm:px-2 py-0.5 bg-amber-500 hover:bg-amber-600 disabled:opacity-30 text-white rounded text-[7.5px] sm:text-[9px] font-bold cursor-pointer"
                   >
                     +1
                   </button>
                 </div>
               )}
 
-
-              {/* Useful Feature 1: Organ Tracker */}
-              {onOpenOrganTracker && (
-                <button
-                  onClick={onOpenOrganTracker}
-                  title="Peta & Pelacak Organ Tubuh"
-                  className="p-1 sm:p-1.5 rounded-lg sm:rounded-xl bg-white/95 hover:bg-amber-100 text-slate-700 hover:text-amber-900 border border-amber-300 transition-all cursor-pointer shadow-xs flex items-center gap-0.5 sm:gap-1"
-                >
-                  <span className="text-xs">🫀</span>
-                  <span className="hidden md:inline text-[9px] font-bold text-slate-700">Organ</span>
-                </button>
-              )}
-
-              {/* Useful Feature 2: Flash Quiz Challenge */}
-              {onOpenFlashQuiz && (
-                <button
-                  onClick={onOpenFlashQuiz}
-                  title="Kuis Kilat IPA (+10 Poin)"
-                  className="p-1 sm:p-1.5 rounded-lg sm:rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 transition-all cursor-pointer shadow-xs flex items-center gap-0.5 sm:gap-1"
-                >
-                  <span className="text-xs">⚡</span>
-                  <span className="hidden md:inline text-[9px] font-bold text-amber-900">Kuis</span>
-                </button>
-              )}
-
               {/* Dedicated Board Fullscreen / Perkecil Toggle Button */}
-              <button
-                onClick={toggleBoardFullscreen}
-                title={isBoardFullscreen ? 'Keluar Layar Penuh Papan (Esc)' : 'Layar Penuh Papan Permainan'}
-                className={`p-1 sm:p-1.5 rounded-lg sm:rounded-xl transition-all cursor-pointer shadow-xs flex items-center gap-1 ${
-                  isBoardFullscreen
-                    ? 'bg-indigo-600 hover:bg-indigo-700 text-white border border-indigo-700 shadow-md ring-2 ring-indigo-300'
-                    : 'bg-white/95 hover:bg-amber-100 text-slate-700 hover:text-amber-900 border border-amber-300'
-                }`}
-              >
-                {isBoardFullscreen ? (
-                  <>
-                    <Minimize className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
-                    <span className="text-[7.5px] sm:text-[9px] font-extrabold text-white">Perkecil</span>
-                  </>
-                ) : (
-                  <>
-                    <Maximize className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-700" />
-                    <span className="hidden md:inline text-[9px] font-bold text-slate-800">Layar Penuh</span>
-                  </>
-                )}
-              </button>
+              {onToggleFullscreen && (
+                <button
+                  onClick={() => {
+                    sounds.playCardFlip();
+                    onToggleFullscreen();
+                  }}
+                  title={isBoardFullscreen ? 'Keluar Layar Penuh (Perkecil) - Esc' : 'Layar Penuh Papan Permainan'}
+                  className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl transition-all cursor-pointer shadow-sm flex items-center gap-1 sm:gap-1.5 font-heading active:scale-95 ${
+                    isBoardFullscreen
+                      ? 'bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-[8px] sm:text-[10px] border-2 border-rose-700 shadow-md ring-2 ring-rose-300'
+                      : 'bg-white/95 hover:bg-amber-100 text-slate-800 hover:text-amber-950 font-bold text-[8px] sm:text-[9.5px] border border-amber-300'
+                  }`}
+                >
+                  {isBoardFullscreen ? (
+                    <>
+                      <Minimize className="w-3.5 h-3.5 text-white shrink-0" />
+                      <span>Perkecil</span>
+                    </>
+                  ) : (
+                    <>
+                      <Maximize className="w-3.5 h-3.5 text-indigo-700 shrink-0" />
+                      <span className="hidden sm:inline">Layar Penuh</span>
+                    </>
+                  )}
+                </button>
+              )}
             </div>
 
             {/* ========================================================
-                5. POJOK KIRI BAWAH (BOTTOM-LEFT CORNER): GUIDANCE & ALERTS
+                5. POJOK KIRI BAWAH (BOTTOM-LEFT CORNER): TOOLS & GUIDANCE
                 ======================================================== */}
-            {activePlayer && (
-              <div className="absolute bottom-0.5 left-0.5 sm:bottom-2 sm:left-2 z-20 max-w-[85px] xs:max-w-[105px] sm:max-w-[190px] md:max-w-[220px] flex flex-col gap-0.5 pointer-events-auto">
-                {isMoving ? (
-                  <div className="bg-amber-100/95 border border-amber-300 px-1 sm:px-2 py-0.2 sm:py-1 rounded-md sm:rounded-lg text-amber-900 text-[6.5px] xs:text-[7.5px] sm:text-[10px] font-bold shadow-2xs animate-pulse truncate">
-                    🏃 Melompat #{activePlayer.position}
-                  </div>
-                ) : activePlayer.skipNextTurn ? (
-                  <div className="bg-rose-50 border border-rose-300 px-1 sm:px-2 py-0.2 sm:py-1 rounded-md sm:rounded-lg text-rose-900 text-[6.5px] xs:text-[7.5px] sm:text-[10px] font-bold shadow-2xs flex items-center justify-between gap-0.5">
-                    <span className="truncate">🤢 Sakit</span>
-                    {onRollDice && (
-                      <button
-                        onClick={() => onRollDice(0)}
-                        className="px-1 py-0.2 bg-rose-600 text-white rounded text-[7px] font-bold cursor-pointer shrink-0 animate-bounce"
-                      >
-                        Lewati
-                      </button>
-                    )}
-                  </div>
-                ) : activePlayer.position === 27 && !activePlayer.hasCompletedFinalMission ? (
-                  <div className="bg-emerald-50 border border-emerald-300 px-1 sm:px-2 py-0.2 sm:py-1 rounded-md sm:rounded-lg text-emerald-900 text-[6.5px] xs:text-[7.5px] sm:text-[10px] font-bold shadow-2xs flex items-center justify-between gap-0.5 animate-pulse">
-                    <span className="truncate">🏆 Final</span>
-                    {onOpenFinalMission && (
-                      <button
-                        onClick={onOpenFinalMission}
-                        className="px-1 py-0.2 bg-emerald-600 text-white rounded text-[7px] font-bold cursor-pointer shrink-0 animate-bounce"
-                      >
-                        Misi 🎯
-                      </button>
-                    )}
-                  </div>
-                ) : activePlayer.position >= 24 && !activePlayer.hasCompletedFinalMission ? (
-                  <div className="bg-amber-100/95 border border-amber-300 px-1 sm:px-2 py-0.2 sm:py-1 rounded-md sm:rounded-lg text-amber-950 text-[6.5px] xs:text-[7.5px] sm:text-[10px] font-bold shadow-2xs leading-tight">
-                    🎯 Sisa <span className="text-rose-600 font-extrabold">{27 - activePlayer.position}</span> kotak
-                  </div>
-                ) : (
-                  <div className="hidden sm:block text-[8px] sm:text-[9px] text-slate-500 bg-white/80 px-1.5 py-0.5 rounded-md border border-slate-200/60 truncate">
-                    💡 Ketuk kotak untuk info organ
-                  </div>
+            <div className="absolute bottom-0.5 left-0.5 sm:bottom-2 sm:left-2 z-20 flex flex-col gap-1 pointer-events-auto max-w-[120px] xs:max-w-[150px] sm:max-w-[220px]">
+              {/* Quick Useful Features: Organ Tracker & Flash Quiz */}
+              <div className="flex items-center gap-1">
+                {onOpenOrganTracker && (
+                  <button
+                    onClick={() => {
+                      sounds.playCardFlip();
+                      onOpenOrganTracker();
+                    }}
+                    title="Peta & Pelacak 8 Organ Tubuh"
+                    className="px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md sm:rounded-lg bg-white/95 hover:bg-rose-50 text-slate-800 hover:text-rose-700 border border-amber-300 shadow-2xs flex items-center gap-1 text-[7.5px] sm:text-[9px] font-bold cursor-pointer transition-all"
+                  >
+                    <span>🫀</span>
+                    <span className="hidden xs:inline">Organ</span>
+                  </button>
+                )}
+
+                {onOpenFlashQuiz && (
+                  <button
+                    onClick={() => {
+                      sounds.playCardFlip();
+                      onOpenFlashQuiz();
+                    }}
+                    title="Kuis Kilat IPA (+10 Poin)"
+                    className="px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md sm:rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-950 border border-amber-300 shadow-2xs flex items-center gap-1 text-[7.5px] sm:text-[9px] font-extrabold cursor-pointer transition-all"
+                  >
+                    <span>⚡</span>
+                    <span className="hidden xs:inline">Kuis +10P</span>
+                  </button>
                 )}
               </div>
-            )}
+
+              {/* Guidance & Alerts for Active Player */}
+              {activePlayer && (
+                <div className="flex flex-col gap-0.5">
+                  {isMoving ? (
+                    <div className="bg-amber-100/95 border border-amber-300 px-1 sm:px-2 py-0.2 sm:py-1 rounded-md sm:rounded-lg text-amber-900 text-[6.5px] xs:text-[7.5px] sm:text-[10px] font-bold shadow-2xs animate-pulse truncate">
+                      🏃 Melompat #{activePlayer.position}
+                    </div>
+                  ) : activePlayer.skipNextTurn ? (
+                    <div className="bg-rose-50 border border-rose-300 px-1 sm:px-2 py-0.2 sm:py-1 rounded-md sm:rounded-lg text-rose-900 text-[6.5px] xs:text-[7.5px] sm:text-[10px] font-bold shadow-2xs flex items-center justify-between gap-0.5">
+                      <span className="truncate">🤢 Sakit</span>
+                      {onRollDice && (
+                        <button
+                          onClick={() => onRollDice(0)}
+                          className="px-1 py-0.2 bg-rose-600 text-white rounded text-[7px] font-bold cursor-pointer shrink-0 animate-bounce"
+                        >
+                          Lewati
+                        </button>
+                      )}
+                    </div>
+                  ) : activePlayer.position === 27 && !activePlayer.hasCompletedFinalMission ? (
+                    <div className="bg-emerald-50 border border-emerald-300 px-1 sm:px-2 py-0.2 sm:py-1 rounded-md sm:rounded-lg text-emerald-900 text-[6.5px] xs:text-[7.5px] sm:text-[10px] font-bold shadow-2xs flex items-center justify-between gap-0.5 animate-pulse">
+                      <span className="truncate">🏆 Final</span>
+                      {onOpenFinalMission && (
+                        <button
+                          onClick={onOpenFinalMission}
+                          className="px-1 py-0.2 bg-emerald-600 text-white rounded text-[7px] font-bold cursor-pointer shrink-0 animate-bounce"
+                        >
+                          Misi 🎯
+                        </button>
+                      )}
+                    </div>
+                  ) : activePlayer.position >= 24 && !activePlayer.hasCompletedFinalMission ? (
+                    <div className="bg-amber-100/95 border border-amber-300 px-1 sm:px-2 py-0.2 sm:py-1 rounded-md sm:rounded-lg text-amber-950 text-[6.5px] xs:text-[7.5px] sm:text-[10px] font-bold shadow-2xs leading-tight">
+                      🎯 Sisa <span className="text-rose-600 font-extrabold">{27 - activePlayer.position}</span> kotak
+                    </div>
+                  ) : (
+                    <div className="hidden sm:block text-[8px] sm:text-[9px] text-slate-500 bg-white/80 px-1.5 py-0.5 rounded-md border border-slate-200/60 truncate">
+                      💡 Ketuk kotak untuk info organ
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </LayoutGroup>
