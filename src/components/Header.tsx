@@ -18,8 +18,6 @@ interface HeaderProps {
   currentTurnPlayerName?: string;
   isFullscreen?: boolean;
   onToggleFullscreen?: () => void;
-  onOpenOrganTracker?: () => void;
-  onOpenFlashQuiz?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -33,8 +31,6 @@ export const Header: React.FC<HeaderProps> = ({
   currentTurnPlayerName,
   isFullscreen,
   onToggleFullscreen,
-  onOpenOrganTracker,
-  onOpenFlashQuiz,
 }) => {
   return (
     <header className="w-full bg-white/95 backdrop-blur-sm border-b border-slate-200/80 sticky top-0 z-30 shadow-xs">
@@ -78,31 +74,7 @@ export const Header: React.FC<HeaderProps> = ({
             <span>Mengenal Organ</span>
           </button>
 
-          {onOpenOrganTracker && (
-            <button
-              onClick={() => {
-                sounds.playCardFlip();
-                onOpenOrganTracker();
-              }}
-              className="flex items-center gap-1.5 hover:text-rose-600 transition-colors cursor-pointer whitespace-nowrap shrink-0 text-slate-700 font-semibold"
-            >
-              <span>🫀</span>
-              <span>Peta Organ</span>
-            </button>
-          )}
 
-          {onOpenFlashQuiz && (
-            <button
-              onClick={() => {
-                sounds.playCardFlip();
-                onOpenFlashQuiz();
-              }}
-              className="flex items-center gap-1.5 hover:text-amber-700 transition-colors cursor-pointer whitespace-nowrap shrink-0 text-amber-800 font-bold bg-amber-50 hover:bg-amber-100 px-2.5 py-1 rounded-lg border border-amber-200"
-            >
-              <span>⚡</span>
-              <span>Kuis Kilat (+10P)</span>
-            </button>
-          )}
 
           {currentTurnPlayerName && (
             <div className="flex items-center gap-2 text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">

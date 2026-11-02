@@ -28,8 +28,6 @@ import { RulebookModal } from './components/modals/RulebookModal';
 import { OrganGuideModal } from './components/modals/OrganGuideModal';
 import { GameSummaryModal } from './components/modals/GameSummaryModal';
 import { ResetConfirmModal } from './components/modals/ResetConfirmModal';
-import { OrganTrackerModal } from './components/modals/OrganTrackerModal';
-import { FlashQuizModal } from './components/modals/FlashQuizModal';
 import { ShieldAlert, LayoutGrid, Users, ScrollText } from 'lucide-react';
 import { PawnAvatar } from './components/PawnAvatar';
 
@@ -188,8 +186,6 @@ export default function App() {
     reason: string;
   } | null>(null);
   const [showResetConfirmModal, setShowResetConfirmModal] = useState(false);
-  const [showOrganTracker, setShowOrganTracker] = useState(false);
-  const [showFlashQuiz, setShowFlashQuiz] = useState(false);
 
   // Deck Management without replacement (once drawn/used, not drawn again until full deck is exhausted)
   const [usedMysteryCardIds, setUsedMysteryCardIds] = useState<string[]>([]);
@@ -1229,30 +1225,6 @@ export default function App() {
         />
       )}
 
-      {/* 16. Organ Discovery Tracker */}
-      {showOrganTracker && (
-        <OrganTrackerModal
-          players={players}
-          activePlayer={activePlayer}
-          onClose={() => setShowOrganTracker(false)}
-        />
-      )}
-
-      {/* 17. Flash Quiz Challenge */}
-      {showFlashQuiz && activePlayer && (
-        <FlashQuizModal
-          player={activePlayer}
-          onAwardBonus={(pts, msg) => {
-            const currentPlayers = playersRef.current;
-            const updated = currentPlayers.map((p, idx) =>
-              idx === activePlayerIndex ? { ...p, points: p.points + pts } : p
-            );
-            updatePlayersState(updated);
-            addLog(activePlayer.name, activePlayer.pawnColor, msg, pts);
-          }}
-          onClose={() => setShowFlashQuiz(false)}
-        />
-      )}
     </>
   );
 
@@ -1281,8 +1253,6 @@ export default function App() {
         currentTurnPlayerName={activePlayer?.name}
         isFullscreen={isFullscreen}
         onToggleFullscreen={toggleFullscreen}
-        onOpenOrganTracker={() => setShowOrganTracker(true)}
-        onOpenFlashQuiz={() => setShowFlashQuiz(true)}
       />
 
       {/* Mobile Tab Switcher (Visible on screens < lg) */}
@@ -1343,8 +1313,6 @@ export default function App() {
             onOpenFinalMission={() => setShowFinalMission(true)}
             isFullscreen={isFullscreen}
             onToggleFullscreen={toggleFullscreen}
-            onOpenOrganTracker={() => setShowOrganTracker(true)}
-            onOpenFlashQuiz={() => setShowFlashQuiz(true)}
           >
             {renderGameModals()}
           </Board>

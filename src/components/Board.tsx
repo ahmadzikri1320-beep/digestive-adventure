@@ -26,8 +26,6 @@ interface BoardProps {
   onOpenFinalMission?: () => void;
   isFullscreen?: boolean;
   onToggleFullscreen?: () => void;
-  onOpenOrganTracker?: () => void;
-  onOpenFlashQuiz?: () => void;
   children?: React.ReactNode;
 }
 
@@ -89,8 +87,6 @@ export const Board: React.FC<BoardProps> = ({
   onOpenFinalMission,
   isFullscreen = false,
   onToggleFullscreen,
-  onOpenOrganTracker,
-  onOpenFlashQuiz,
   children,
 }) => {
   const activePlayer = players[activePlayerIndex];
@@ -432,40 +428,9 @@ export const Board: React.FC<BoardProps> = ({
             </div>
 
             {/* ========================================================
-                5. POJOK KIRI BAWAH (BOTTOM-LEFT CORNER): TOOLS & GUIDANCE
+                5. POJOK KIRI BAWAH (BOTTOM-LEFT CORNER): GUIDANCE & ALERTS
                 ======================================================== */}
             <div className="absolute bottom-0.5 left-0.5 sm:bottom-2 sm:left-2 z-20 flex flex-col gap-1 pointer-events-auto max-w-[120px] xs:max-w-[150px] sm:max-w-[220px]">
-              {/* Quick Useful Features: Organ Tracker & Flash Quiz */}
-              <div className="flex items-center gap-1">
-                {onOpenOrganTracker && (
-                  <button
-                    onClick={() => {
-                      sounds.playCardFlip();
-                      onOpenOrganTracker();
-                    }}
-                    title="Peta & Pelacak 8 Organ Tubuh"
-                    className="px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md sm:rounded-lg bg-white/95 hover:bg-rose-50 text-slate-800 hover:text-rose-700 border border-amber-300 shadow-2xs flex items-center gap-1 text-[7.5px] sm:text-[9px] font-bold cursor-pointer transition-all"
-                  >
-                    <span>🫀</span>
-                    <span className="hidden xs:inline">Organ</span>
-                  </button>
-                )}
-
-                {onOpenFlashQuiz && (
-                  <button
-                    onClick={() => {
-                      sounds.playCardFlip();
-                      onOpenFlashQuiz();
-                    }}
-                    title="Kuis Kilat IPA (+10 Poin)"
-                    className="px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md sm:rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-950 border border-amber-300 shadow-2xs flex items-center gap-1 text-[7.5px] sm:text-[9px] font-extrabold cursor-pointer transition-all"
-                  >
-                    <span>⚡</span>
-                    <span className="hidden xs:inline">Kuis +10P</span>
-                  </button>
-                )}
-              </div>
-
               {/* Guidance & Alerts for Active Player */}
               {activePlayer && (
                 <div className="flex flex-col gap-0.5">
