@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Player, GameView, BoardTile, GameCard, ActivityLogItem, FloatingPointItem } from './types/game';
+import { Player, GameView, BoardTile, GameCard, ActivityLogItem, FloatingPointItem, PawnColor } from './types/game';
 import { BOARD_TILES } from './data/tilesData';
 import { ORGAN_CARDS, MYSTERY_CARDS, TRAP_CARDS } from './data/cardsData';
 import { sounds } from './utils/soundEffects';
@@ -228,6 +228,13 @@ export default function App() {
   // Floating Points Animation State (+10, -5, etc)
   const [floatingPoints, setFloatingPoints] = useState<FloatingPointItem[]>([]);
 
+  // Character Voice-Over Speech Bubble when moving
+  const [characterSpeech, setCharacterSpeech] = useState<{
+    playerId: string;
+    text: string;
+    color: PawnColor;
+  } | null>(null);
+
   // Trigger floating point badge directly over player avatar and active stats
   const triggerFloatingPoint = (playerId: string, tileId: number, delta: number) => {
     if (!delta || delta === 0) return;
@@ -310,6 +317,7 @@ export default function App() {
     setShowChooseCardModal(false);
     setPenaltyDialog(null);
     setFloatingPoints([]);
+    setCharacterSpeech(null);
     setView('WELCOME');
     updatePlayersState([]);
     setActivePlayerIndex(0);
@@ -440,7 +448,15 @@ export default function App() {
 
     setIsMoving(true);
     setLastRoll(diceValue);
-    addLog(player.name, player.pawnColor, `Melempar dadu dan mendapatkan angka ${diceValue}.`);
+
+    // Play unique character sound effect & voice-over!
+    const voicePhrase = sounds.playCharacterStart(player.pawnColor, player.name);
+    setCharacterSpeech({
+      playerId: player.id,
+      text: voicePhrase,
+      color: player.pawnColor,
+    });
+    addLog(player.name, player.pawnColor, `Melempar dadu ${diceValue}: "${voicePhrase}"`);
 
     let currentPos = player.position;
     let remainingSteps = diceValue;
@@ -448,6 +464,7 @@ export default function App() {
     // Safety timeout to prevent isMoving from ever freezing
     const safetyTimer = setTimeout(() => {
       setIsMoving(false);
+      setCharacterSpeech(null);
     }, (diceValue + 2) * 600);
 
     const stepInterval = setInterval(() => {
@@ -466,7 +483,8 @@ export default function App() {
         shouldStop = true;
       }
 
-      sounds.playStep();
+      // Play unique character hop SFX with step progression
+      sounds.playCharacterStep(player.pawnColor, diceValue - remainingSteps);
 
       // Update player position on this hop
       updatePlayersState((prev) =>
@@ -488,6 +506,7 @@ export default function App() {
 
         setTimeout(() => {
           setIsMoving(false);
+          setCharacterSpeech(null);
           handleTileLanding(currentPos);
         }, 280);
       }
@@ -1332,6 +1351,7 @@ export default function App() {
             onOpenFinalMission={() => setShowFinalMission(true)}
             isFullscreen={isFullscreen}
             onToggleFullscreen={toggleFullscreen}
+            characterSpeech={characterSpeech}
           >
             {renderGameModals()}
           </Board>

@@ -6,8 +6,8 @@
 import React, { useState } from 'react';
 import { Player, PawnColor } from '../types/game';
 import { PawnAvatar, PAWN_COLORS } from './PawnAvatar';
-import { sounds } from '../utils/soundEffects';
-import { Users, Award, Play, Music } from 'lucide-react';
+import { sounds, CHARACTER_PROFILES } from '../utils/soundEffects';
+import { Users, Award, Play, Music, Volume2 } from 'lucide-react';
 
 interface PlayerSetupModalProps {
   onStartGame: (players: Player[]) => void;
@@ -195,18 +195,34 @@ export const PlayerSetupModal: React.FC<PlayerSetupModalProps> = ({
               className="p-4 rounded-2xl bg-slate-50/80 border border-slate-200/90 flex flex-col sm:flex-row items-center gap-4 transition-colors"
             >
               {/* Player Index Badge & Avatar Preview */}
-              <div className="flex items-center gap-3 shrink-0">
-                <span className="w-6 h-6 rounded-full bg-slate-800 text-white font-bold text-xs flex items-center justify-center">
-                  {idx + 1}
-                </span>
-                <PawnAvatar color={draft.pawnColor} size="lg" isCurrent={false} />
+              <div className="flex flex-col items-center gap-1.5 shrink-0">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-full bg-slate-800 text-white font-bold text-xs flex items-center justify-center">
+                    {idx + 1}
+                  </span>
+                  <PawnAvatar color={draft.pawnColor} size="lg" isCurrent={false} />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => sounds.playCharacterStart(draft.pawnColor, draft.name)}
+                  title="Dengar suara khas karakter petualang ini"
+                  className="px-2 py-0.5 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 rounded-full text-[10px] font-bold flex items-center gap-1 transition-colors cursor-pointer shadow-2xs"
+                >
+                  <Volume2 className="w-3 h-3 text-amber-700" />
+                  <span>Tes Suara</span>
+                </button>
               </div>
 
               {/* Name Input */}
               <div className="flex-1 w-full">
-                <label className="block text-xs font-medium text-slate-500 mb-1">
-                  Nama Petualang {idx + 1}
-                </label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs font-medium text-slate-500">
+                    Nama Petualang {idx + 1}
+                  </label>
+                  <span className="text-[10px] font-bold text-amber-800 bg-amber-100/80 px-2 py-0.2 rounded-md">
+                    {CHARACTER_PROFILES[draft.pawnColor]?.title || 'Petualang'}
+                  </span>
+                </div>
                 <input
                   type="text"
                   maxLength={18}

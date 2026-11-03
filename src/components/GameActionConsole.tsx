@@ -8,8 +8,8 @@ import { BoardTile, Player, FloatingPointItem } from '../types/game';
 import { PawnAvatar } from './PawnAvatar';
 import { DiceRoller } from './DiceRoller';
 import { FloatingPointsOverlay } from './FloatingPointsOverlay';
-import { Sparkles, ShieldCheck, Info, ChevronLeft, ChevronRight, Sliders } from 'lucide-react';
-import { sounds } from '../utils/soundEffects';
+import { Sparkles, ShieldCheck, Info, ChevronLeft, ChevronRight, Sliders, Volume2 } from 'lucide-react';
+import { sounds, CHARACTER_PROFILES } from '../utils/soundEffects';
 
 interface GameActionConsoleProps {
   activePlayer: Player;
@@ -52,6 +52,9 @@ export const GameActionConsole: React.FC<GameActionConsoleProps> = ({
               <span className="text-[10px] font-extrabold text-amber-800 bg-amber-100 px-2 py-0.2 rounded-full border border-amber-300">
                 PETUALANG AKTIF
               </span>
+              <span className="text-[10px] font-bold text-slate-700 bg-slate-100 px-2 py-0.2 rounded-full border border-slate-200">
+                {CHARACTER_PROFILES[activePlayer.pawnColor]?.title || 'Petualang'}
+              </span>
               {activePlayer.hasCompletedFinalMission && (
                 <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.2 rounded-full flex items-center gap-1 border border-emerald-300">
                   <Sparkles className="w-3 h-3" /> Final Lulus
@@ -68,9 +71,20 @@ export const GameActionConsole: React.FC<GameActionConsoleProps> = ({
                 </span>
               )}
             </div>
-            <h3 className="text-sm sm:text-base font-heading font-extrabold text-slate-800 mt-0.5 truncate">
-              {activePlayer.name} &bull; <span className="text-amber-600 font-bold">{activePlayer.points} Poin</span> &bull; Posisi Kotak #{activePlayer.position}
-            </h3>
+            <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
+              <h3 className="text-sm sm:text-base font-heading font-extrabold text-slate-800 truncate">
+                {activePlayer.name} &bull; <span className="text-amber-600 font-bold">{activePlayer.points} Poin</span> &bull; Posisi Kotak #{activePlayer.position}
+              </h3>
+              <button
+                type="button"
+                onClick={() => sounds.playCharacterStart(activePlayer.pawnColor, activePlayer.name)}
+                title="Dengar suara khas petualang ini"
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 hover:bg-amber-200 text-amber-800 border border-amber-300 transition-colors cursor-pointer shadow-2xs"
+              >
+                <Volume2 className="w-3 h-3 text-amber-600" />
+                <span>Suara Karakter</span>
+              </button>
+            </div>
           </div>
         </div>
 
