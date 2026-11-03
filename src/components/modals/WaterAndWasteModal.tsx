@@ -41,7 +41,7 @@ export const WaterAndWasteModal: React.FC<WaterAndWasteModalProps> = ({
         <div className="flex justify-center my-3">
           <div className="w-24 h-24 rounded-2xl overflow-hidden shadow-md border-2 border-sky-300 bg-white">
             <img
-              src="/assets/tiles/tile_21.png"
+              src="./assets/tiles/tile_21.png"
               alt="Air dan Sisa"
               className="w-full h-full object-contain p-1"
               referrerPolicy="no-referrer"

@@ -26,6 +26,8 @@ interface BoardProps {
   onOpenFinalMission?: () => void;
   isFullscreen?: boolean;
   onToggleFullscreen?: () => void;
+  isDiceDisabled?: boolean;
+  hasRolledThisTurn?: boolean;
   children?: React.ReactNode;
 }
 
@@ -87,6 +89,8 @@ export const Board: React.FC<BoardProps> = ({
   onOpenFinalMission,
   isFullscreen = false,
   onToggleFullscreen,
+  isDiceDisabled,
+  hasRolledThisTurn = false,
   children,
 }) => {
   const activePlayer = players[activePlayerIndex];
@@ -305,7 +309,7 @@ export const Board: React.FC<BoardProps> = ({
                 ======================================================== */}
             <div className="flex flex-col items-center justify-center text-center px-1 sm:px-2 py-1 select-none pointer-events-none z-10 max-w-[65%] sm:max-w-[70%] md:max-w-[75%]">
               <img
-                src="/assets/logo_clean.png"
+                src="./assets/logo_clean.png"
                 alt="Digestive Adventure"
                 className="max-h-16 xs:max-h-24 sm:max-h-36 md:max-h-48 lg:max-h-56 xl:max-h-64 w-auto object-contain drop-shadow-lg transition-all duration-300"
                 draggable={false}
@@ -332,7 +336,7 @@ export const Board: React.FC<BoardProps> = ({
                 {onRollDice && activePlayer ? (
                   <DiceRoller
                     onRoll={onRollDice}
-                    disabled={isMoving || activePlayer.hasFinished}
+                    disabled={isDiceDisabled !== undefined ? isDiceDisabled : (isMoving || activePlayer.hasFinished || Boolean(hasRolledThisTurn))}
                     lastRoll={lastRoll}
                     variant="embedded"
                   />

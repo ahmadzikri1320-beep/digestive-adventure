@@ -163,9 +163,11 @@ export default function App() {
     card: GameCard;
     canSell: boolean;
     isInspectOnly?: boolean;
+    isFromLanding?: boolean;
     ownerName?: string;
     isAlreadyClaimedByOther?: boolean;
   } | null>(null);
+  const [hasRolledThisTurn, setHasRolledThisTurn] = useState<boolean>(false);
   const [activeMysteryCard, setActiveMysteryCard] = useState<GameCard | null>(null);
   const [activeTrapCard, setActiveTrapCard] = useState<GameCard | null>(null);
   const [activeQrTile, setActiveQrTile] = useState<{ number: number; title: string } | null>(null);
@@ -292,6 +294,7 @@ export default function App() {
     sounds.pauseBgm();
     setShowResetConfirmModal(false);
     setIsMoving(false);
+    setHasRolledThisTurn(false);
     setSelectedTileId(1);
     setLastRoll(null);
     setActiveOrganCard(null);
@@ -318,6 +321,7 @@ export default function App() {
 
   // Next Turn Handler (Always operates on current players list)
   const advanceToNextTurn = (customPlayers?: Player[]) => {
+    setHasRolledThisTurn(false);
     const currentList = customPlayers || playersRef.current;
     if (currentList.length === 0) return;
 
@@ -365,9 +369,24 @@ export default function App() {
     handleTileLanding(nextPos);
   };
 
+  // Check if any interactive card/challenge modal is currently open
+  const isAnyModalActive = Boolean(
+    activeOrganCard ||
+    activeMysteryCard ||
+    activeTrapCard ||
+    activeQrTile ||
+    showSecretCode ||
+    showFinalMission ||
+    showWaterModal ||
+    showChooseCardModal ||
+    penaltyDialog ||
+    showFinishModal
+  );
+
   // Step-by-step pawn movement with Final Mission (Kotak 27) strict stop
   const handleRollDice = (diceValue: number) => {
-    if (isMoving) return;
+    if (isMoving || hasRolledThisTurn || isAnyModalActive) return;
+    setHasRolledThisTurn(true);
     const player = playersRef.current[activePlayerIndex];
     if (!player) return;
 
@@ -649,6 +668,7 @@ export default function App() {
               card: organCard,
               canSell: true,
               isInspectOnly: true,
+              isFromLanding: true,
               ownerName: player.name,
               isAlreadyClaimedByOther: false,
             });
@@ -660,6 +680,7 @@ export default function App() {
               card: organCard,
               canSell: false,
               isInspectOnly: true,
+              isFromLanding: true,
               ownerName: existingOwner.name,
               isAlreadyClaimedByOther: true,
             });
@@ -685,6 +706,7 @@ export default function App() {
             card: organCard,
             canSell: true,
             isInspectOnly: false,
+            isFromLanding: true,
             ownerName: player.name,
             isAlreadyClaimedByOther: false,
           });
@@ -735,7 +757,7 @@ export default function App() {
     if (!player || !player.organCards.includes(organKey)) return;
 
     const organ = ORGAN_CARDS[organKey];
-    const isInspect = activeOrganCard?.isInspectOnly;
+    const isFromLanding = Boolean(activeOrganCard?.isFromLanding);
     const updated = currentPlayers.map((p, idx) =>
       idx === activePlayerIndex
         ? {
@@ -748,7 +770,7 @@ export default function App() {
     updatePlayersState(updated);
     addLog(player.name, player.pawnColor, `Menjual kartu organ ${organ?.title || organKey} (+5 poin)!`, 5);
     setActiveOrganCard(null);
-    if (!isInspect) {
+    if (isFromLanding) {
       advanceToNextTurn(updated);
     }
   };
@@ -808,9 +830,6 @@ export default function App() {
       setSelectedTileId(updatedActive.position);
     }
 
-    if (res.rollAgain) {
-      return;
-    }
 
     // Cascading tile effect: if pawn moved forward/backward/swapped, trigger the landing tile effect!
     if (updatedActive && updatedActive.position !== oldPosition) {
@@ -968,9 +987,9 @@ export default function App() {
             }
           }}
           onClose={() => {
-            const isInspect = activeOrganCard.isInspectOnly;
+            const isFromLanding = Boolean(activeOrganCard.isFromLanding);
             setActiveOrganCard(null);
-            if (!isInspect) {
+            if (isFromLanding) {
               advanceToNextTurn();
             }
           }}

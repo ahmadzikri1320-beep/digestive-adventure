@@ -1,11 +1,13 @@
 # 🎲 Petualangan Sistem Pencernaan (Digestive Adventure)
 
+[![Mainkan Sekarang](https://img.shields.io/badge/🎮%20Mainkan%20Game-KLIK%20DISINI-emerald?style=for-the-badge)](https://ahmadzikri1320-beep.github.io/digestive-adventure/)
 [![React](https://img.shields.io/badge/React-19-blue.svg)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue.svg)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8-purple.svg)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8.svg)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 
+> 🎮 **Link Langsung Game**: [https://ahmadzikri1320-beep.github.io/digestive-adventure/](https://ahmadzikri1320-beep.github.io/digestive-adventure/)  
 > **Media Pembelajaran Interaktif IPA SD/MI Fase B & C (Kurikulum Merdeka)**  
 > Permainan papan edukasi digital 28 petak keliling untuk memahami anatomi, enzim, proses mekanik & kimiawi, serta kesehatan sistem pencernaan manusia secara seru dan interaktif.
 

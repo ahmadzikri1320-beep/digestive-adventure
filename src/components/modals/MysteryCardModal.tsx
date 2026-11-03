@@ -192,10 +192,10 @@ export const MysteryCardModal: React.FC<MysteryCardModalProps> = ({
   };
 
   const handleChooseRollAgain = () => {
-    sounds.playStep();
+    sounds.playBonus();
     onApplyEffect({
-      rollAgain: true,
-      description: 'Memilih lempar dadu lagi dari kartu Pilihan!',
+      pointsDelta: 10,
+      description: 'Memilih opsi Bonus Energi +10 poin dari kartu Pilihan!',
     });
   };
 
@@ -269,7 +269,7 @@ export const MysteryCardModal: React.FC<MysteryCardModalProps> = ({
               onClick={handleChooseRollAgain}
               className="py-3 px-3 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-heading font-bold text-xs sm:text-sm shadow-md transition-transform active:scale-95 cursor-pointer text-center"
             >
-              🎲 Lempar Dadu Lagi
+              ⭐ Bonus Energi +10 Poin
             </button>
           </div>
         )}

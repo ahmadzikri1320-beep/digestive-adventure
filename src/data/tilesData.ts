@@ -11,7 +11,7 @@ export const BOARD_TILES: BoardTile[] = [
     name: 'START',
     subtitle: 'Titik Awal',
     category: 'start',
-    image: '/assets/tiles/tile_01.png',
+    image: './assets/tiles/tile_01.png',
     description: 'Semua petualang memulai perjalanan menjelajahi sistem pencernaan dari kotak ini dengan modal 30 poin.',
   },
   {
@@ -20,7 +20,7 @@ export const BOARD_TILES: BoardTile[] = [
     subtitle: 'Organ Pencernaan',
     category: 'organ',
     organKey: 'mulut',
-    image: '/assets/tiles/tile_02.png',
+    image: './assets/tiles/tile_02.png',
     description: 'Pintu gerbang makanan pertama kali masuk. Dapatkan Kartu Organ Mulut dan pelajari fungsinya!',
   },
   {
@@ -29,7 +29,7 @@ export const BOARD_TILES: BoardTile[] = [
     subtitle: 'Organ Pencernaan',
     category: 'organ',
     organKey: 'gigi',
-    image: '/assets/tiles/tile_03.png',
+    image: './assets/tiles/tile_03.png',
     description: 'Mengunyah makanan secara mekanik agar berukuran kecil dan mudah ditelan. Dapatkan Kartu Organ Gigi!',
   },
   {
@@ -37,7 +37,7 @@ export const BOARD_TILES: BoardTile[] = [
     name: 'MYSTERY',
     subtitle: 'Kotak Misteri',
     category: 'mystery',
-    image: '/assets/tiles/tile_04.png',
+    image: './assets/tiles/tile_04.png',
     description: 'Ambil satu Kartu Mystery acak! Bisa berupa kejutan langkah, pertanyaan edukasi, atau Kartu Penyelamat.',
   },
   {
@@ -46,7 +46,7 @@ export const BOARD_TILES: BoardTile[] = [
     subtitle: 'Organ Pencernaan',
     category: 'organ',
     organKey: 'lidah',
-    image: '/assets/tiles/tile_05.png',
+    image: './assets/tiles/tile_05.png',
     description: 'Mengecap 5 rasa utama, mengaduk makanan dengan air liur, dan membantu menelan ke kerongkongan.',
   },
   {
@@ -54,7 +54,7 @@ export const BOARD_TILES: BoardTile[] = [
     name: 'PILIH KARTU',
     subtitle: 'Toko & Kartu Pilihan',
     category: 'bonus',
-    image: '/assets/tiles/tile_06.png',
+    image: './assets/tiles/tile_06.png',
     description: 'Pemain berkesempatan memilih kartu organ atau menukarkan kartu yang dimiliki dengan tambahan +5 poin.',
   },
   {
@@ -62,7 +62,7 @@ export const BOARD_TILES: BoardTile[] = [
     name: 'QR CHALLENGE',
     subtitle: 'Tantangan QR / Digital',
     category: 'qr',
-    image: '/assets/tiles/tile_07.png',
+    image: './assets/tiles/tile_07.png',
     description: 'Pindai kode QR menggunakan kamera atau jawab kuis digital interaktif untuk mendapatkan 1 Bintang (+10 poin)!',
   },
   {
@@ -70,7 +70,7 @@ export const BOARD_TILES: BoardTile[] = [
     name: 'BONUS +10',
     subtitle: 'Koin Bintang Emas',
     category: 'bonus',
-    image: '/assets/tiles/tile_08.png',
+    image: './assets/tiles/tile_08.png',
     description: 'Selamat! Kamu menemukan pasokan energi sehat pencernaan. Langsung raih bonus +10 poin!',
   },
   {
@@ -79,7 +79,7 @@ export const BOARD_TILES: BoardTile[] = [
     subtitle: 'Organ Pencernaan',
     category: 'organ',
     organKey: 'kerongkongan',
-    image: '/assets/tiles/tile_09.png',
+    image: './assets/tiles/tile_09.png',
     description: 'Saluran pipa berotot yang mendorong makanan menuju lambung melalui gerakan peristaltik.',
   },
   {
@@ -87,7 +87,7 @@ export const BOARD_TILES: BoardTile[] = [
     name: 'HAMBATAN -5',
     subtitle: 'Peringatan Hambatan',
     category: 'penalty',
-    image: '/assets/tiles/tile_10.png',
+    image: './assets/tiles/tile_10.png',
     description: 'Ada gangguan pencernaan ringan! Kamu kehilangan 5 poin, kecuali kamu memiliki dan mengaktifkan Kartu Penyelamat.',
   },
   {
@@ -96,7 +96,7 @@ export const BOARD_TILES: BoardTile[] = [
     subtitle: 'Organ Pencernaan',
     category: 'organ',
     organKey: 'lambung',
-    image: '/assets/tiles/tile_11.png',
+    image: './assets/tiles/tile_11.png',
     description: 'Kantung berotot tebal yang mengaduk makanan serta memproduksi asam klorida (HCl) dan enzim pepsin.',
   },
   {
@@ -104,7 +104,7 @@ export const BOARD_TILES: BoardTile[] = [
     name: 'MYSTERY',
     subtitle: 'Kotak Misteri',
     category: 'mystery',
-    image: '/assets/tiles/tile_12.png',
+    image: './assets/tiles/tile_12.png',
     description: 'Ambil satu Kartu Mystery acak! Periksa keberuntunganmu di sepanjang petualangan.',
   },
   {
@@ -112,7 +112,7 @@ export const BOARD_TILES: BoardTile[] = [
     name: 'JEBAKAN',
     subtitle: 'Kotak Bahaya',
     category: 'trap',
-    image: '/assets/tiles/tile_13.png',
+    image: './assets/tiles/tile_13.png',
     description: 'Hati-hati! Ambil satu Kartu Jebakan dan hadapi tantangan atau hukumannya.',
   },
   {
@@ -120,7 +120,7 @@ export const BOARD_TILES: BoardTile[] = [
     name: 'BONUS +10',
     subtitle: 'Nutrisi Baik',
     category: 'bonus',
-    image: '/assets/tiles/tile_14.png',
+    image: './assets/tiles/tile_14.png',
     description: 'Pencernaanmu bekerja sangat lancar! Dapatkan hadiah langsung +10 poin.',
   },
   {
@@ -129,7 +129,7 @@ export const BOARD_TILES: BoardTile[] = [
     subtitle: 'Organ Pencernaan',
     category: 'organ',
     organKey: 'usus_halus',
-    image: '/assets/tiles/tile_15.png',
+    image: './assets/tiles/tile_15.png',
     description: 'Saluran pencernaan terpanjang tempat penyerapan sari-sari makanan ke dalam peredaran darah.',
   },
   {
@@ -137,7 +137,7 @@ export const BOARD_TILES: BoardTile[] = [
     name: 'QR CHALLENGE',
     subtitle: 'Tantangan QR / Digital',
     category: 'qr',
-    image: '/assets/tiles/tile_16.png',
+    image: './assets/tiles/tile_16.png',
     description: 'Pindai kode QR atau selesaikan tantangan digital sistem pencernaan untuk memperoleh 1 Bintang (+10 poin)!',
   },
   {
@@ -145,7 +145,7 @@ export const BOARD_TILES: BoardTile[] = [
     name: 'BAKTERI -5',
     subtitle: 'Bakteri Jahat',
     category: 'penalty',
-    image: '/assets/tiles/tile_17.png',
+    image: './assets/tiles/tile_17.png',
     description: 'Terkena bakteri patogen penyebab sakit perut! Kehilangan 5 poin, kecuali dibatalkan dengan Kartu Penyelamat.',
   },
   {
@@ -153,7 +153,7 @@ export const BOARD_TILES: BoardTile[] = [
     name: 'JEBAKAN',
     subtitle: 'Kotak Bahaya',
     category: 'trap',
-    image: '/assets/tiles/tile_18.png',
+    image: './assets/tiles/tile_18.png',
     description: 'Kamu terperangkap! Wajib membuka satu Kartu Jebakan untuk mengetahui efeknya.',
   },
   {
@@ -162,7 +162,7 @@ export const BOARD_TILES: BoardTile[] = [
     subtitle: 'Organ Pencernaan',
     category: 'organ',
     organKey: 'usus_besar',
-    image: '/assets/tiles/tile_19.png',
+    image: './assets/tiles/tile_19.png',
     description: 'Menyerap kembali kelebihan air dan garam mineral, serta membentuk ampas sisa makanan menjadi feses.',
   },
   {
@@ -170,7 +170,7 @@ export const BOARD_TILES: BoardTile[] = [
     name: 'MYSTERY',
     subtitle: 'Kotak Misteri',
     category: 'mystery',
-    image: '/assets/tiles/tile_20.png',
+    image: './assets/tiles/tile_20.png',
     description: 'Kotak misteri di ujung usus. Ambil satu Kartu Mystery dan bersiap menghadapi kejutan.',
   },
   {
@@ -178,7 +178,7 @@ export const BOARD_TILES: BoardTile[] = [
     name: 'AIR & SISA',
     subtitle: 'Penyerapan Cairan',
     category: 'bonus',
-    image: '/assets/tiles/tile_21.png',
+    image: './assets/tiles/tile_21.png',
     description: 'Mengenal proses penting penyerapan air agar tubuh tidak dehidrasi dan sisa makanan menjadi padat. Bonus kuis kilat!',
   },
   {
@@ -186,7 +186,7 @@ export const BOARD_TILES: BoardTile[] = [
     name: 'QR MISSION',
     subtitle: 'Misi Penjelajah',
     category: 'qr',
-    image: '/assets/tiles/tile_22.png',
+    image: './assets/tiles/tile_22.png',
     description: 'Misi tantangan edukasi khusus guru/siswa mengenai kesehatan organ pencernaan. Nilai: 1 Bintang (+10 poin).',
   },
   {
@@ -194,7 +194,7 @@ export const BOARD_TILES: BoardTile[] = [
     name: 'BONUS +15',
     subtitle: 'Piala Nutrisi Sehat',
     category: 'bonus',
-    image: '/assets/tiles/tile_23.png',
+    image: './assets/tiles/tile_23.png',
     description: 'Luar biasa! Pola makan sehat dan serat tinggi memberimu energi maksimal. Tambah +15 poin!',
   },
   {
@@ -202,7 +202,7 @@ export const BOARD_TILES: BoardTile[] = [
     name: 'QR CHALLENGE',
     subtitle: 'Tantangan QR / Digital',
     category: 'qr',
-    image: '/assets/tiles/tile_24.png',
+    image: './assets/tiles/tile_24.png',
     description: 'Pindai kode QR atau jawab kuis digital sistem pencernaan untuk mendapatkan 1 Bintang (+10 poin)!',
   },
   {
@@ -210,7 +210,7 @@ export const BOARD_TILES: BoardTile[] = [
     name: 'SECRET CODE',
     subtitle: 'Tebak Kode Rahasia',
     category: 'secret_code',
-    image: '/assets/tiles/tile_25.png',
+    image: './assets/tiles/tile_25.png',
     description: 'Pecahkan teka-teki kode rahasia organ (contoh: M _ L _ T). Jawab dengan benar untuk meraih +10 poin!',
   },
   {
@@ -219,7 +219,7 @@ export const BOARD_TILES: BoardTile[] = [
     subtitle: 'Organ Pencernaan',
     category: 'organ',
     organKey: 'anus',
-    image: '/assets/tiles/tile_26.png',
+    image: './assets/tiles/tile_26.png',
     description: 'Ujung akhir saluran pencernaan tempat pembuangan zat sisa makanan (feses) yang tidak dibutuhkan tubuh.',
   },
   {
@@ -227,7 +227,7 @@ export const BOARD_TILES: BoardTile[] = [
     name: 'FINAL MISSION',
     subtitle: 'Misi Gerakan Organ',
     category: 'final_mission',
-    image: '/assets/tiles/tile_27.png',
+    image: './assets/tiles/tile_27.png',
     description: 'Wajib peragakan gerakan khas organ pencernaan di depan guru atau penilai! Syarat mutlak untuk bisa Finish.',
   },
   {
@@ -235,7 +235,7 @@ export const BOARD_TILES: BoardTile[] = [
     name: 'FINISH',
     subtitle: 'Garis Akhir Petualang',
     category: 'finish',
-    image: '/assets/tiles/tile_28.png',
+    image: './assets/tiles/tile_28.png',
     description: 'Garis akhir petualangan! Hanya dapat dimasuki jika telah menyelesaikan Final Mission. Bonus pemenang: Ke-1 (+50), Ke-2 (+30), Ke-3 (+10).',
   },
 ];

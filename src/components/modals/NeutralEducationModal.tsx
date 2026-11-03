@@ -39,7 +39,7 @@ export const NeutralEducationModal: React.FC<NeutralEducationModalProps> = ({
         <div className="flex justify-center my-3">
           <div className="w-24 h-24 rounded-2xl overflow-hidden shadow-md border-2 border-emerald-300 bg-white">
             <img
-              src="/assets/tiles/tile_24.png"
+              src="./assets/tiles/tile_24.png"
               alt="Kotak 24 Info Sehat"
               className="w-full h-full object-contain p-1"
               referrerPolicy="no-referrer"

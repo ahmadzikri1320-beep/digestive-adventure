@@ -105,7 +105,7 @@ export const PlayerSetupModal: React.FC<PlayerSetupModalProps> = ({
       <div className="max-w-4xl mx-auto w-full text-center mt-2 sm:mt-6">
         <div className="flex justify-center mb-3">
           <img
-            src="/assets/logo_clean.png"
+            src="./assets/logo_clean.png"
             alt="DIGESTIVE ADVENTURE"
             className="h-28 sm:h-36 md:h-44 w-auto object-contain drop-shadow-md hover:scale-105 transition-transform duration-300"
             referrerPolicy="no-referrer"

@@ -321,37 +321,37 @@ export const FINAL_MISSION_TASKS: FinalMissionTask[] = [
     organ: 'MULUT & GIGI',
     actionInstruction: 'Peragakan gerakan membuka mulut dan mengunyah makanan sebanyak 10 kali dengan ekspresi ceria!',
     learningTip: 'Mengunyah makanan hingga lembut memudahkan lambung mencerna nutrisi tanpa beban berlebih.',
-    image: '/assets/cards/organ_mulut.png',
+    image: './assets/cards/organ_mulut.png',
   },
   {
     organ: 'KERONGKONGAN (ESOFAGUS)',
     actionInstruction: 'Peragakan gerakan menelan perlahan dan buat gelombang tangan ke bawah meniru gerak peristaltik!',
     learningTip: 'Gerak peristaltik memastikan makanan tetap meluncur turun menuju lambung bahkan saat kita berbaring.',
-    image: '/assets/cards/organ_kerongkongan.png',
+    image: './assets/cards/organ_kerongkongan.png',
   },
   {
     organ: 'LAMBUNG',
     actionInstruction: 'Letakkan kedua tangan di perut bagian kiri atas, lalu putar-putar perlahan memperagakan lambung yang sedang mengaduk kimus!',
     learningTip: 'Lambung bekerja seperti blender biologis yang mencampur makanan dengan asam lambung dan enzim pepsin.',
-    image: '/assets/cards/organ_lambung.png',
+    image: './assets/cards/organ_lambung.png',
   },
   {
     organ: 'USUS HALUS',
     actionInstruction: 'Rapatkan kedua tangan dan buat gerakan melingkar meliuk-liuk seperti pita panjang sambil memperagakan penyerapan sari makanan!',
     learningTip: 'Panjang usus halus manusia dewasa mencapai sekitar 6 meter agar penyerapan nutrisi berlangsung maksimal.',
-    image: '/assets/cards/organ_usus_halus.png',
+    image: './assets/cards/organ_usus_halus.png',
   },
   {
     organ: 'USUS BESAR & AIR',
     actionInstruction: 'Peragakan kedua tangan memeras spons imajiner perlahan untuk menyerap air hingga padat!',
     learningTip: 'Penyerapan air di usus besar mencegah tubuh dari bahaya kekurangan cairan (dehidrasi).',
-    image: '/assets/cards/organ_usus_besar.png',
+    image: './assets/cards/organ_usus_besar.png',
   },
   {
     organ: 'PEMBUANGAN AKHIR (ANUS)',
     actionInstruction: 'Berdiri tegak dengan sopan, tarik napas lega, dan ucapkan dengan lantang: "Pencernaan sehat, tubuh kuat dan bugar!"',
     learningTip: 'Mengeluarkan feses secara teratur setiap hari adalah tanda sistem pencernaan berfungsi dengan normal.',
-    image: '/assets/cards/organ_anus.png',
+    image: './assets/cards/organ_anus.png',
   },
 ];
 
@@ -373,7 +373,7 @@ export const ORGAN_ENCYCLOPEDIA: OrganEncyclopediaItem[] = [
     location: 'Rongga kepala bagian bawah.',
     enzymes: ['Ptialin (Amilase Ludah) - Mengurai amilum menjadi maltosa.'],
     healthTips: 'Kunyah makanan minimal 20-30 kali dan gosok gigi minimal 2 kali sehari setelah makan dan sebelum tidur.',
-    image: '/assets/cards/organ_mulut.png',
+    image: './assets/cards/organ_mulut.png',
   },
   {
     id: 'kerongkongan',
@@ -382,7 +382,7 @@ export const ORGAN_ENCYCLOPEDIA: OrganEncyclopediaItem[] = [
     location: 'Leher sampai dada, di belakang trakea.',
     enzymes: ['Lendir (Musin) - Melicinkan dinding kerongkongan agar makanan lancar.'],
     healthTips: 'Hindari makan sambil berbicara atau tertawa agar tidak tersedak ke saluran napas.',
-    image: '/assets/cards/organ_kerongkongan.png',
+    image: './assets/cards/organ_kerongkongan.png',
   },
   {
     id: 'lambung',
@@ -391,7 +391,7 @@ export const ORGAN_ENCYCLOPEDIA: OrganEncyclopediaItem[] = [
     location: 'Rongga perut sebelah kiri atas, tepat di bawah diafragma.',
     enzymes: ['Asam Klorida (HCl) - Membunuh kuman & mengaktifkan pepsin.', 'Pepsin - Memecah protein menjadi pepton.', 'Renin - Mengendapkan kasein susu.'],
     healthTips: 'Makan secara teratur, hindari stres berlebih dan kurangi makanan yang terlalu pedas/asam saat perut kosong.',
-    image: '/assets/cards/organ_lambung.png',
+    image: './assets/cards/organ_lambung.png',
   },
   {
     id: 'usus_halus',
@@ -400,7 +400,7 @@ export const ORGAN_ENCYCLOPEDIA: OrganEncyclopediaItem[] = [
     location: 'Bagian tengah rongga perut, terdiri dari usus dua belas jari, usus kosong, dan usus penyerapan.',
     enzymes: ['Maltase, Sukrase, Laktase - Mencerna gula.', 'Tripsin & Erepsin - Mencerna protein.', 'Lipase - Mencerna lemak dengan bantuan empedu.'],
     healthTips: 'Konsumsi makanan beragam dengan gizi seimbang (protein, karbohidrat kompleks, vitamin, dan mineral).',
-    image: '/assets/cards/organ_usus_halus.png',
+    image: './assets/cards/organ_usus_halus.png',
   },
   {
     id: 'usus_besar',
@@ -409,7 +409,7 @@ export const ORGAN_ENCYCLOPEDIA: OrganEncyclopediaItem[] = [
     location: 'Membingkai rongga perut dari kanan bawah, melintang ke kiri, lalu turun ke rektum.',
     enzymes: ['Bakteri Simbiosis Escherichia coli penghasil vitamin K dan biotin.'],
     healthTips: 'Perbanyak asupan serat dari sayur, buah, biji-bijian serta cukupi kebutuhan cairan harian.',
-    image: '/assets/cards/organ_usus_besar.png',
+    image: './assets/cards/organ_usus_besar.png',
   },
   {
     id: 'anus',
@@ -418,7 +418,7 @@ export const ORGAN_ENCYCLOPEDIA: OrganEncyclopediaItem[] = [
     location: 'Ujung paling bawah dari saluran gastrointestinal.',
     enzymes: ['Tidak ada enzim pencernaan.'],
     healthTips: 'Jangan menahan buang air besar dan jaga kebersihan area anus setelah buang air dengan air bersih mengalir.',
-    image: '/assets/cards/organ_anus.png',
+    image: './assets/cards/organ_anus.png',
   },
 ];
 

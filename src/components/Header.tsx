@@ -38,7 +38,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Zone 1: Brand Wordmark */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <img
-            src="/assets/logo_clean.png"
+            src="./assets/logo_clean.png"
             alt="Digestive Adventure"
             className="h-8 sm:h-10 w-auto object-contain drop-shadow-xs"
             referrerPolicy="no-referrer"
