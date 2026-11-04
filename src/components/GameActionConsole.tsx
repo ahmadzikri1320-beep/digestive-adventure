@@ -71,19 +71,10 @@ export const GameActionConsole: React.FC<GameActionConsoleProps> = ({
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
+            <div className="mt-0.5">
               <h3 className="text-sm sm:text-base font-heading font-extrabold text-slate-800 truncate">
                 {activePlayer.name} &bull; <span className="text-amber-600 font-bold">{activePlayer.points} Poin</span> &bull; Posisi Kotak #{activePlayer.position}
               </h3>
-              <button
-                type="button"
-                onClick={() => sounds.playCharacterStart(activePlayer.pawnColor, activePlayer.name)}
-                title="Dengar suara khas petualang ini"
-                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 hover:bg-amber-200 text-amber-800 border border-amber-300 transition-colors cursor-pointer shadow-2xs"
-              >
-                <Volume2 className="w-3 h-3 text-amber-600" />
-                <span>Suara Karakter</span>
-              </button>
             </div>
           </div>
         </div>

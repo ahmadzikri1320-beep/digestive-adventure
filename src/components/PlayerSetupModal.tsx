@@ -195,22 +195,11 @@ export const PlayerSetupModal: React.FC<PlayerSetupModalProps> = ({
               className="p-4 rounded-2xl bg-slate-50/80 border border-slate-200/90 flex flex-col sm:flex-row items-center gap-4 transition-colors"
             >
               {/* Player Index Badge & Avatar Preview */}
-              <div className="flex flex-col items-center gap-1.5 shrink-0">
-                <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full bg-slate-800 text-white font-bold text-xs flex items-center justify-center">
-                    {idx + 1}
-                  </span>
-                  <PawnAvatar color={draft.pawnColor} size="lg" isCurrent={false} />
-                </div>
-                <button
-                  type="button"
-                  onClick={() => sounds.playCharacterStart(draft.pawnColor, draft.name)}
-                  title="Dengar suara khas karakter petualang ini"
-                  className="px-2 py-0.5 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 rounded-full text-[10px] font-bold flex items-center gap-1 transition-colors cursor-pointer shadow-2xs"
-                >
-                  <Volume2 className="w-3 h-3 text-amber-700" />
-                  <span>Tes Suara</span>
-                </button>
+              <div className="flex items-center gap-3 shrink-0">
+                <span className="w-6 h-6 rounded-full bg-slate-800 text-white font-bold text-xs flex items-center justify-center">
+                  {idx + 1}
+                </span>
+                <PawnAvatar color={draft.pawnColor} size="lg" isCurrent={false} />
               </div>
 
               {/* Name Input */}

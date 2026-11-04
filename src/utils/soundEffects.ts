@@ -1,91 +1,40 @@
 import { PawnColor } from '../types/game';
 
-export interface CharacterVoiceProfile {
+export interface CharacterProfile {
   name: string;
   title: string;
-  phrases: string[];
-  pitch: number;
-  rate: number;
   baseFreq: number;
 }
 
-export const CHARACTER_PROFILES: Record<PawnColor, CharacterVoiceProfile> = {
+export const CHARACTER_PROFILES: Record<PawnColor, CharacterProfile> = {
   red: {
     name: 'Petualang Merah',
     title: 'Pemberani & Tangguh',
-    phrases: [
-      'Ayo maju pantang mundur!',
-      'Petualang Merah siap beraksi!',
-      'Langkah penuh keberanian!',
-      'Semangat, taklukkan rintangan!',
-    ],
-    pitch: 1.1,
-    rate: 1.1,
     baseFreq: 330,
   },
   blue: {
     name: 'Petualang Biru',
     title: 'Peneliti Cerdas',
-    phrases: [
-      'Langkah cerdas!',
-      'Teliti setiap organ pencernaan!',
-      'Analisis siap, ayo melangkah!',
-      'Fokus dan cermat!',
-    ],
-    pitch: 1.25,
-    rate: 1.15,
     baseFreq: 440,
   },
   green: {
     name: 'Petualang Hijau',
     title: 'Sahabat Sehat',
-    phrases: [
-      'Tubuh sehat, siap melangkah!',
-      'Pencernaan lancar, maju terus!',
-      'Langkah lincah dan bugar!',
-      'Jaga nutrisi, petualang bugar!',
-    ],
-    pitch: 1.2,
-    rate: 1.05,
     baseFreq: 370,
   },
   yellow: {
     name: 'Petualang Kuning',
     title: 'Cepat & Ceria',
-    phrases: [
-      'Hore, waktunya melesat!',
-      'Laju secepat kilat!',
-      'Semangat ceria, ayo jalan!',
-      'Gembira menjelajah!',
-    ],
-    pitch: 1.45,
-    rate: 1.25,
     baseFreq: 490,
   },
   purple: {
     name: 'Petualang Ungu',
     title: 'Pencari Rahasia',
-    phrases: [
-      'Bongkar rahasia organ!',
-      'Langkah penuh taktik!',
-      'Misteri pencernaan terungkap!',
-      'Strategi jitu, maju!',
-    ],
-    pitch: 1.05,
-    rate: 1.05,
     baseFreq: 392,
   },
   orange: {
     name: 'Petualang Oranye',
     title: 'Penuh Energi',
-    phrases: [
-      'Energi maksimal, gaskeun!',
-      'Lompat penuh semangat!',
-      'Petualangan dahsyat dimulai!',
-      'Tenaga penuh, gaspol!',
-    ],
-    pitch: 1.3,
-    rate: 1.2,
     baseFreq: 350,
   },
 };
@@ -497,157 +446,118 @@ class SoundEffectsManager {
     });
   }
 
-  // Web Speech API Voice-Over for Character Speech
-  public speakPhrase(text: string, options?: { pitch?: number; rate?: number }) {
+  // Unique Signature Fanfare SFX per Character when starting movement (Web Audio API Synthesizer)
+  public playCharacterStart(color: PawnColor) {
     if (this.sfxMuted) return;
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-    try {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'id-ID';
-      utterance.pitch = options?.pitch ?? 1.2;
-      utterance.rate = options?.rate ?? 1.1;
+    this.initCtx();
+    if (!this.ctx) return;
 
-      // Prefer Indonesian voice if available in the client system
-      const voices = window.speechSynthesis.getVoices();
-      const indonesianVoice = voices.find(
-        (v) =>
-          v.lang.toLowerCase().includes('id') ||
-          v.lang.toLowerCase().includes('indonesia')
-      );
-      if (indonesianVoice) {
-        utterance.voice = indonesianVoice;
+    const now = this.ctx.currentTime;
+    switch (color) {
+      case 'red': {
+        // Brave fanfare: C4 -> E4 -> G4 -> C5 (bold brassy chime)
+        const notes = [261.63, 329.63, 392.0, 523.25];
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx!.createOscillator();
+          const gain = this.ctx!.createGain();
+          osc.type = idx === notes.length - 1 ? 'triangle' : 'sawtooth';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.07);
+          gain.gain.setValueAtTime(0.12, now + idx * 0.07);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.22);
+          osc.connect(gain);
+          gain.connect(this.ctx!.destination);
+          osc.start(now + idx * 0.07);
+          osc.stop(now + idx * 0.07 + 0.25);
+        });
+        break;
       }
-      window.speechSynthesis.speak(utterance);
-    } catch {
-      // Graceful fallback if SpeechSynthesis is blocked or unsupported
-    }
-  }
-
-  // Unique Sound Effect & Voice-Over for Character when they start moving
-  public playCharacterStart(color: PawnColor, playerName?: string): string {
-    const profile = CHARACTER_PROFILES[color] || CHARACTER_PROFILES.red;
-    const randomPhrase =
-      profile.phrases[Math.floor(Math.random() * profile.phrases.length)];
-
-    // 1. Synthesize unique signature acoustic fanfare motif for this character
-    if (!this.sfxMuted) {
-      this.initCtx();
-      if (this.ctx) {
-        const now = this.ctx.currentTime;
-        switch (color) {
-          case 'red': {
-            // Brave fanfare: C4 -> E4 -> G4 -> C5 (bold brassy chime)
-            const notes = [261.63, 329.63, 392.0, 523.25];
-            notes.forEach((freq, idx) => {
-              const osc = this.ctx!.createOscillator();
-              const gain = this.ctx!.createGain();
-              osc.type = idx === notes.length - 1 ? 'triangle' : 'sawtooth';
-              osc.frequency.setValueAtTime(freq, now + idx * 0.07);
-              gain.gain.setValueAtTime(0.12, now + idx * 0.07);
-              gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.22);
-              osc.connect(gain);
-              gain.connect(this.ctx!.destination);
-              osc.start(now + idx * 0.07);
-              osc.stop(now + idx * 0.07 + 0.25);
-            });
-            break;
-          }
-          case 'blue': {
-            // Smart scientist: Bright xylophone glockenspiel (E4 -> B4 -> E5 -> G#5)
-            const notes = [329.63, 493.88, 659.25, 830.61];
-            notes.forEach((freq, idx) => {
-              const osc = this.ctx!.createOscillator();
-              const gain = this.ctx!.createGain();
-              osc.type = 'sine';
-              osc.frequency.setValueAtTime(freq, now + idx * 0.06);
-              gain.gain.setValueAtTime(0.15, now + idx * 0.06);
-              gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.28);
-              osc.connect(gain);
-              gain.connect(this.ctx!.destination);
-              osc.start(now + idx * 0.06);
-              osc.stop(now + idx * 0.06 + 0.3);
-            });
-            break;
-          }
-          case 'green': {
-            // Nature scout: Warm wooden flute acoustic arpeggio (F4 -> A4 -> C5 -> F5)
-            const notes = [349.23, 440.0, 523.25, 698.46];
-            notes.forEach((freq, idx) => {
-              const osc = this.ctx!.createOscillator();
-              const gain = this.ctx!.createGain();
-              osc.type = 'triangle';
-              osc.frequency.setValueAtTime(freq, now + idx * 0.07);
-              gain.gain.setValueAtTime(0.14, now + idx * 0.07);
-              gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.25);
-              osc.connect(gain);
-              gain.connect(this.ctx!.destination);
-              osc.start(now + idx * 0.07);
-              osc.stop(now + idx * 0.07 + 0.28);
-            });
-            break;
-          }
-          case 'yellow': {
-            // Sunny sprinter: Fast sparkling high glissando (G4 -> D5 -> G5 -> B5)
-            const notes = [392.0, 587.33, 783.99, 987.77];
-            notes.forEach((freq, idx) => {
-              const osc = this.ctx!.createOscillator();
-              const gain = this.ctx!.createGain();
-              osc.type = 'sine';
-              osc.frequency.setValueAtTime(freq, now + idx * 0.05);
-              gain.gain.setValueAtTime(0.16, now + idx * 0.05);
-              gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.05 + 0.2);
-              osc.connect(gain);
-              gain.connect(this.ctx!.destination);
-              osc.start(now + idx * 0.05);
-              osc.stop(now + idx * 0.05 + 0.22);
-            });
-            break;
-          }
-          case 'purple': {
-            // Mystery seeker: Ethereal magic harp ripple (D4 -> F#4 -> A4 -> C#5 -> D5)
-            const notes = [293.66, 369.99, 440.0, 554.37, 587.33];
-            notes.forEach((freq, idx) => {
-              const osc = this.ctx!.createOscillator();
-              const gain = this.ctx!.createGain();
-              osc.type = 'sine';
-              osc.frequency.setValueAtTime(freq, now + idx * 0.06);
-              gain.gain.setValueAtTime(0.13, now + idx * 0.06);
-              gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.32);
-              osc.connect(gain);
-              gain.connect(this.ctx!.destination);
-              osc.start(now + idx * 0.06);
-              osc.stop(now + idx * 0.06 + 0.35);
-            });
-            break;
-          }
-          case 'orange': {
-            // Dynamo: Upbeat peppy synth bounce (C4 -> G4 -> C5 -> E5)
-            const notes = [261.63, 392.0, 523.25, 659.25];
-            notes.forEach((freq, idx) => {
-              const osc = this.ctx!.createOscillator();
-              const gain = this.ctx!.createGain();
-              osc.type = 'triangle';
-              osc.frequency.setValueAtTime(freq, now + idx * 0.06);
-              osc.frequency.exponentialRampToValueAtTime(freq * 1.15, now + idx * 0.06 + 0.1);
-              gain.gain.setValueAtTime(0.15, now + idx * 0.06);
-              gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.22);
-              osc.connect(gain);
-              gain.connect(this.ctx!.destination);
-              osc.start(now + idx * 0.06);
-              osc.stop(now + idx * 0.06 + 0.25);
-            });
-            break;
-          }
-        }
+      case 'blue': {
+        // Smart scientist: Bright xylophone glockenspiel (E4 -> B4 -> E5 -> G#5)
+        const notes = [329.63, 493.88, 659.25, 830.61];
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx!.createOscillator();
+          const gain = this.ctx!.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+          gain.gain.setValueAtTime(0.15, now + idx * 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.28);
+          osc.connect(gain);
+          gain.connect(this.ctx!.destination);
+          osc.start(now + idx * 0.06);
+          osc.stop(now + idx * 0.06 + 0.3);
+        });
+        break;
+      }
+      case 'green': {
+        // Nature scout: Warm wooden flute acoustic arpeggio (F4 -> A4 -> C5 -> F5)
+        const notes = [349.23, 440.0, 523.25, 698.46];
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx!.createOscillator();
+          const gain = this.ctx!.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.07);
+          gain.gain.setValueAtTime(0.14, now + idx * 0.07);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.25);
+          osc.connect(gain);
+          gain.connect(this.ctx!.destination);
+          osc.start(now + idx * 0.07);
+          osc.stop(now + idx * 0.07 + 0.28);
+        });
+        break;
+      }
+      case 'yellow': {
+        // Sunny sprinter: Fast sparkling high glissando (G4 -> D5 -> G5 -> B5)
+        const notes = [392.0, 587.33, 783.99, 987.77];
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx!.createOscillator();
+          const gain = this.ctx!.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.05);
+          gain.gain.setValueAtTime(0.16, now + idx * 0.05);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.05 + 0.2);
+          osc.connect(gain);
+          gain.connect(this.ctx!.destination);
+          osc.start(now + idx * 0.05);
+          osc.stop(now + idx * 0.05 + 0.22);
+        });
+        break;
+      }
+      case 'purple': {
+        // Mystery seeker: Ethereal magic harp ripple (D4 -> F#4 -> A4 -> C#5 -> D5)
+        const notes = [293.66, 369.99, 440.0, 554.37, 587.33];
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx!.createOscillator();
+          const gain = this.ctx!.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+          gain.gain.setValueAtTime(0.13, now + idx * 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.32);
+          osc.connect(gain);
+          gain.connect(this.ctx!.destination);
+          osc.start(now + idx * 0.06);
+          osc.stop(now + idx * 0.06 + 0.35);
+        });
+        break;
+      }
+      case 'orange': {
+        // Dynamo: Upbeat peppy synth bounce (C4 -> G4 -> C5 -> E5)
+        const notes = [261.63, 392.0, 523.25, 659.25];
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx!.createOscillator();
+          const gain = this.ctx!.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+          osc.frequency.exponentialRampToValueAtTime(freq * 1.15, now + idx * 0.06 + 0.1);
+          gain.gain.setValueAtTime(0.15, now + idx * 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.22);
+          osc.connect(gain);
+          gain.connect(this.ctx!.destination);
+          osc.start(now + idx * 0.06);
+          osc.stop(now + idx * 0.06 + 0.25);
+        });
+        break;
       }
     }
-
-    // 2. Play speech-synthesis voiceover in Indonesian
-    const spokenText = playerName ? `${playerName}, ${randomPhrase}` : randomPhrase;
-    this.speakPhrase(spokenText, { pitch: profile.pitch, rate: profile.rate });
-
-    return randomPhrase;
   }
 
   // Unique hop step SFX per character color

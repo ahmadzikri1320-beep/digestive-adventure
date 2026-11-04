@@ -118,7 +118,7 @@ export const MYSTERY_CARDS: GameCard[] = [
     id: 'mystery_pilihan',
     type: 'mystery',
     title: 'PILIHAN!',
-    instruction: 'Ambil +5 poin atau Bonus Energi +10 poin.',
+    instruction: 'Ambil +5 poin atau lempar dadu lagi.',
     image: './assets/cards/mystery_pilihan.png',
     borderColor: '#8B5CF6',
     bgColor: '#F5F3FF',

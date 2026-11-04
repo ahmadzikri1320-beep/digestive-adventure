@@ -28,11 +28,6 @@ interface BoardProps {
   onToggleFullscreen?: () => void;
   isDiceDisabled?: boolean;
   hasRolledThisTurn?: boolean;
-  characterSpeech?: {
-    playerId: string;
-    text: string;
-    color: PawnColor;
-  } | null;
   children?: React.ReactNode;
 }
 
@@ -96,7 +91,6 @@ export const Board: React.FC<BoardProps> = ({
   onToggleFullscreen,
   isDiceDisabled,
   hasRolledThisTurn = false,
-  characterSpeech = null,
   children,
 }) => {
   const activePlayer = players[activePlayerIndex];
@@ -217,25 +211,6 @@ export const Board: React.FC<BoardProps> = ({
                               isThisPawnActive ? 'z-40 scale-105' : 'z-20'
                             }`}
                           >
-                            {/* Character Voice-Over Speech Bubble */}
-                            {characterSpeech && characterSpeech.playerId === p.id && (
-                              <motion.div
-                                initial={{ opacity: 0, scale: 0.5, y: 8 }}
-                                animate={{ opacity: 1, scale: [0.5, 1.15, 1], y: -34 }}
-                                exit={{ opacity: 0, scale: 0.8, y: -42 }}
-                                transition={{ duration: 0.35, ease: 'easeOut' }}
-                                className="absolute -top-7 left-1/2 -translate-x-1/2 z-50 pointer-events-none flex flex-col items-center select-none"
-                              >
-                                <div className="bg-slate-900/95 text-white px-2.5 py-1 rounded-2xl shadow-2xl border-2 border-amber-400 flex items-center gap-1.5 whitespace-nowrap">
-                                  <Volume2 className="w-3.5 h-3.5 text-amber-300 animate-pulse shrink-0" />
-                                  <span className="text-[10px] sm:text-[11px] font-heading font-black text-amber-200">
-                                    "{characterSpeech.text}"
-                                  </span>
-                                </div>
-                                <span className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[5px] border-t-amber-400 -mt-0.5" />
-                              </motion.div>
-                            )}
-
                             {/* Active Turn Pointer Arrow */}
                             {isThisPawnActive && (
                               <motion.div

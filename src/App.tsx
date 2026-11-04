@@ -228,13 +228,6 @@ export default function App() {
   // Floating Points Animation State (+10, -5, etc)
   const [floatingPoints, setFloatingPoints] = useState<FloatingPointItem[]>([]);
 
-  // Character Voice-Over Speech Bubble when moving
-  const [characterSpeech, setCharacterSpeech] = useState<{
-    playerId: string;
-    text: string;
-    color: PawnColor;
-  } | null>(null);
-
   // Trigger floating point badge directly over player avatar and active stats
   const triggerFloatingPoint = (playerId: string, tileId: number, delta: number) => {
     if (!delta || delta === 0) return;
@@ -317,7 +310,6 @@ export default function App() {
     setShowChooseCardModal(false);
     setPenaltyDialog(null);
     setFloatingPoints([]);
-    setCharacterSpeech(null);
     setView('WELCOME');
     updatePlayersState([]);
     setActivePlayerIndex(0);
@@ -449,14 +441,9 @@ export default function App() {
     setIsMoving(true);
     setLastRoll(diceValue);
 
-    // Play unique character sound effect & voice-over!
-    const voicePhrase = sounds.playCharacterStart(player.pawnColor, player.name);
-    setCharacterSpeech({
-      playerId: player.id,
-      text: voicePhrase,
-      color: player.pawnColor,
-    });
-    addLog(player.name, player.pawnColor, `Melempar dadu ${diceValue}: "${voicePhrase}"`);
+    // Play unique character start acoustic fanfare
+    sounds.playCharacterStart(player.pawnColor);
+    addLog(player.name, player.pawnColor, `Melempar dadu dan mendapatkan angka ${diceValue}.`);
 
     let currentPos = player.position;
     let remainingSteps = diceValue;
@@ -464,7 +451,6 @@ export default function App() {
     // Safety timeout to prevent isMoving from ever freezing
     const safetyTimer = setTimeout(() => {
       setIsMoving(false);
-      setCharacterSpeech(null);
     }, (diceValue + 2) * 600);
 
     const stepInterval = setInterval(() => {
@@ -506,7 +492,6 @@ export default function App() {
 
         setTimeout(() => {
           setIsMoving(false);
-          setCharacterSpeech(null);
           handleTileLanding(currentPos);
         }, 280);
       }
@@ -849,6 +834,13 @@ export default function App() {
       setSelectedTileId(updatedActive.position);
     }
 
+
+    // If player chose rollAgain from Pilihan card:
+    if (res.rollAgain) {
+      setHasRolledThisTurn(false);
+      addLog(player.name, player.pawnColor, 'Mendapat giliran melempar dadu lagi! Silakan lempar dadu.');
+      return;
+    }
 
     // Cascading tile effect: if pawn moved forward/backward/swapped, trigger the landing tile effect!
     if (updatedActive && updatedActive.position !== oldPosition) {
@@ -1351,7 +1343,6 @@ export default function App() {
             onOpenFinalMission={() => setShowFinalMission(true)}
             isFullscreen={isFullscreen}
             onToggleFullscreen={toggleFullscreen}
-            characterSpeech={characterSpeech}
           >
             {renderGameModals()}
           </Board>
