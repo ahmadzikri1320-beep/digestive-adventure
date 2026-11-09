@@ -32,6 +32,7 @@ import { MusicSelectorModal } from './components/modals/MusicSelectorModal';
 import { ShieldAlert, LayoutGrid, Users, ScrollText, Sparkles } from 'lucide-react';
 import { PawnAvatar } from './components/PawnAvatar';
 import { MobileTileInfoSheet } from './components/MobileTileInfoSheet';
+import { FloatingPointsOverlay } from './components/FloatingPointsOverlay';
 
 export default function App() {
   // Game View State
@@ -242,7 +243,7 @@ export default function App() {
     ]);
     setTimeout(() => {
       setFloatingPoints((prev) => prev.filter((item) => item.id !== id));
-    }, 2200);
+    }, 2800);
   };
 
   // Helper to add log and trigger floating point badge if points changed
@@ -1474,7 +1475,10 @@ export default function App() {
               className="flex items-center gap-1.5 cursor-pointer shrink-0"
               title="Buka daftar pemain"
             >
-              <PawnAvatar color={activePlayer.pawnColor} size="sm" isCurrent={true} />
+              <div className="relative shrink-0">
+                <FloatingPointsOverlay items={floatingPoints.filter((fp) => fp.playerId === activePlayer.id)} />
+                <PawnAvatar color={activePlayer.pawnColor} size="sm" isCurrent={true} />
+              </div>
               <div className="flex flex-col leading-tight">
                 <span className="text-[11px] font-heading font-black text-slate-800 max-w-[75px] truncate">
                   {activePlayer.name}
