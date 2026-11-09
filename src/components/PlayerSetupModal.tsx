@@ -13,6 +13,7 @@ interface PlayerSetupModalProps {
   onStartGame: (players: Player[]) => void;
   onOpenRules: () => void;
   onOpenOrganGuide: () => void;
+  onOpenMusicSelector?: () => void;
 }
 
 interface PlayerDraft {
@@ -33,6 +34,7 @@ export const PlayerSetupModal: React.FC<PlayerSetupModalProps> = ({
   onStartGame,
   onOpenRules,
   onOpenOrganGuide,
+  onOpenMusicSelector,
 }) => {
   const [playerCount, setPlayerCount] = useState<number>(2);
   const [isBgmOn, setIsBgmOn] = useState<boolean>(() => sounds.isBgmOn());
@@ -152,6 +154,19 @@ export const PlayerSetupModal: React.FC<PlayerSetupModalProps> = ({
             <Music className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${isBgmOn ? 'text-amber-600 animate-bounce' : 'text-slate-400'}`} />
             <span>{isBgmOn ? '🎵 Musik: ON' : '🔇 Musik: OFF'}</span>
           </button>
+
+          {onOpenMusicSelector && (
+            <button
+              onClick={() => {
+                sounds.playCardFlip();
+                onOpenMusicSelector();
+              }}
+              className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 bg-linear-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-[11px] sm:text-xs font-extrabold rounded-xl shadow-xs transition-all cursor-pointer hover:scale-105 active:scale-95"
+            >
+              <span>🎼</span>
+              <span>Pilih Musik</span>
+            </button>
+          )}
         </div>
       </div>
 

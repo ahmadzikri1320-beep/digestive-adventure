@@ -15,6 +15,7 @@ interface HeaderProps {
   onToggleMute: () => void;
   isBgmOn: boolean;
   onToggleBgm: () => void;
+  onOpenMusicSelector?: () => void;
   currentTurnPlayerName?: string;
   isFullscreen?: boolean;
   onToggleFullscreen?: () => void;
@@ -28,6 +29,7 @@ export const Header: React.FC<HeaderProps> = ({
   onToggleMute,
   isBgmOn,
   onToggleBgm,
+  onOpenMusicSelector,
   currentTurnPlayerName,
   isFullscreen,
   onToggleFullscreen,
@@ -102,6 +104,21 @@ export const Header: React.FC<HeaderProps> = ({
               {isBgmOn ? 'ON' : 'OFF'}
             </span>
           </button>
+
+          {/* Music Selector Button */}
+          {onOpenMusicSelector && (
+            <button
+              onClick={() => {
+                sounds.playCardFlip();
+                onOpenMusicSelector();
+              }}
+              title="Pilih atau Tambah Musik Latar Belakang (Tema Ceria / Lagu Sendiri)"
+              className="p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs hover:scale-105 active:scale-95"
+            >
+              <span className="text-xs">🎼</span>
+              <span className="hidden md:inline">Pilih Lagu</span>
+            </button>
+          )}
 
           {/* Sound Effects Toggle */}
           <button

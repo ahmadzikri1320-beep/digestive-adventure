@@ -28,6 +28,7 @@ import { RulebookModal } from './components/modals/RulebookModal';
 import { OrganGuideModal } from './components/modals/OrganGuideModal';
 import { GameSummaryModal } from './components/modals/GameSummaryModal';
 import { ResetConfirmModal } from './components/modals/ResetConfirmModal';
+import { MusicSelectorModal } from './components/modals/MusicSelectorModal';
 import { ShieldAlert, LayoutGrid, Users, ScrollText, Sparkles } from 'lucide-react';
 import { PawnAvatar } from './components/PawnAvatar';
 import { MobileTileInfoSheet } from './components/MobileTileInfoSheet';
@@ -37,6 +38,7 @@ export default function App() {
   const [view, setView] = useState<GameView>('WELCOME');
   const [mobileTab, setMobileTab] = useState<'board' | 'roster' | 'logs'>('board');
   const [showMobileTileSheet, setShowMobileTileSheet] = useState(false);
+  const [showMusicModal, setShowMusicModal] = useState(false);
 
   // Players State with Ref Sync to eliminate closure staleness
   const [players, setPlayers] = useState<Player[]>([]);
@@ -1257,17 +1259,28 @@ export default function App() {
         />
       )}
 
+      {/* 16. Music Selector Modal */}
+      {showMusicModal && (
+        <MusicSelectorModal onClose={() => setShowMusicModal(false)} />
+      )}
+
     </>
   );
 
   // View: Welcome & Setup
   if (view === 'WELCOME' || view === 'SETUP') {
     return (
-      <PlayerSetupModal
-        onStartGame={handleStartGame}
-        onOpenRules={() => setShowRules(true)}
-        onOpenOrganGuide={() => setShowOrganGuide(true)}
-      />
+      <>
+        <PlayerSetupModal
+          onStartGame={handleStartGame}
+          onOpenRules={() => setShowRules(true)}
+          onOpenOrganGuide={() => setShowOrganGuide(true)}
+          onOpenMusicSelector={() => setShowMusicModal(true)}
+        />
+        {showMusicModal && (
+          <MusicSelectorModal onClose={() => setShowMusicModal(false)} />
+        )}
+      </>
     );
   }
 
@@ -1282,6 +1295,7 @@ export default function App() {
         onToggleMute={handleToggleMute}
         isBgmOn={isBgmOn}
         onToggleBgm={() => sounds.toggleBgm()}
+        onOpenMusicSelector={() => setShowMusicModal(true)}
         currentTurnPlayerName={activePlayer?.name}
         isFullscreen={isFullscreen}
         onToggleFullscreen={toggleFullscreen}

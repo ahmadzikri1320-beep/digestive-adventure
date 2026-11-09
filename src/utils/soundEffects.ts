@@ -39,6 +39,66 @@ export const CHARACTER_PROFILES: Record<PawnColor, CharacterProfile> = {
   },
 };
 
+export interface BgmTrack {
+  id: string;
+  title: string;
+  subtitle: string;
+  badge: string;
+  bpm: number;
+  icon: string;
+  color: string;
+  isCustom?: boolean;
+}
+
+export const BGM_TRACKS: BgmTrack[] = [
+  {
+    id: 'ceria-explorer',
+    title: 'Petualangan Ceria',
+    subtitle: 'Irama marimba riang gembira & bersahabat',
+    badge: '🌟 Favorit Ceria',
+    bpm: 115,
+    icon: '🎒',
+    color: 'from-amber-400 to-orange-500',
+  },
+  {
+    id: 'semangat-juara',
+    title: 'Semangat Juara!',
+    subtitle: 'Irama cepat penuh motivasi & membakar semangat',
+    badge: '⚡ Motivasi Tinggi',
+    bpm: 136,
+    icon: '🏆',
+    color: 'from-rose-500 to-amber-500',
+  },
+  {
+    id: 'detektif-sains',
+    title: 'Misteri Organ Sains',
+    subtitle: 'Petikan staccato cerdas & lincah penuh rasa ingin tahu',
+    badge: '🔬 Eksplorasi Sains',
+    bpm: 120,
+    icon: '🔍',
+    color: 'from-indigo-500 to-sky-500',
+  },
+  {
+    id: 'karnaval-anak',
+    title: 'Karnaval Pesta Belajar',
+    subtitle: 'Musik pesta anak bertempo rancak yang membuat suasana heboh',
+    badge: '🎉 Ceria & Asik',
+    bpm: 128,
+    icon: '🎈',
+    color: 'from-emerald-500 to-teal-500',
+  },
+  {
+    id: 'custom',
+    title: 'Musik / Lagu Sendiri',
+    subtitle: 'Unggah lagu MP3/WAV pilihan guru atau siswa dari perangkat',
+    badge: '📁 File Audio Anda',
+    bpm: 0,
+    icon: '🎵',
+    color: 'from-purple-500 to-pink-500',
+    isCustom: true,
+  },
+];
+
 // Web Audio API Synthesizer with Cheerful Kids BGM & High-Quality SFX
 
 class SoundEffectsManager {
@@ -47,8 +107,11 @@ class SoundEffectsManager {
   private bgmMuted: boolean = false;
   private isBgmActive: boolean = false;
   private bgmTimer: number | null = null;
-  private bgmGainNode: GainNode | null = null;
   private bgmStepIndex: number = 0;
+  private currentTrackId: string = 'ceria-explorer';
+  private bgmVolume: number = 0.7; // 0.0 to 1.0
+  private customAudio: HTMLAudioElement | null = null;
+  private customTrackName: string = 'Lagu Sendiri.mp3';
   private listeners: Array<() => void> = [];
 
   constructor() {
@@ -60,6 +123,17 @@ class SoundEffectsManager {
       const savedBgm = localStorage.getItem('digestive_adventure_bgm_muted');
       if (savedBgm !== null) {
         this.bgmMuted = savedBgm === 'true';
+      }
+      const savedTrack = localStorage.getItem('digestive_adventure_bgm_track');
+      if (savedTrack && BGM_TRACKS.some((t) => t.id === savedTrack)) {
+        this.currentTrackId = savedTrack;
+      }
+      const savedVol = localStorage.getItem('digestive_adventure_bgm_volume');
+      if (savedVol !== null) {
+        const parsed = parseFloat(savedVol);
+        if (!isNaN(parsed) && parsed >= 0 && parsed <= 1) {
+          this.bgmVolume = parsed;
+        }
       }
     }
   }
@@ -97,6 +171,78 @@ class SoundEffectsManager {
     return !this.bgmMuted && this.isBgmActive;
   }
 
+  public getCurrentTrackId(): string {
+    return this.currentTrackId;
+  }
+
+  public getCurrentTrack(): BgmTrack {
+    return BGM_TRACKS.find((t) => t.id === this.currentTrackId) || BGM_TRACKS[0];
+  }
+
+  public getBgmVolume(): number {
+    return this.bgmVolume;
+  }
+
+  public setBgmVolume(vol: number) {
+    this.bgmVolume = Math.max(0, Math.min(1, vol));
+    localStorage.setItem('digestive_adventure_bgm_volume', String(this.bgmVolume));
+    if (this.customAudio) {
+      this.customAudio.volume = this.bgmVolume;
+    }
+    this.notify();
+  }
+
+  public setBgmTrack(trackId: string) {
+    if (this.currentTrackId === trackId) return;
+    const wasPlaying = this.isBgmOn();
+    this.pauseBgm();
+    this.currentTrackId = trackId;
+    localStorage.setItem('digestive_adventure_bgm_track', trackId);
+    this.bgmStepIndex = 0;
+    if (wasPlaying) {
+      this.startBgm();
+    } else {
+      this.notify();
+    }
+  }
+
+  public getCustomTrackName(): string {
+    return this.customTrackName;
+  }
+
+  public setCustomAudioFile(file: File) {
+    if (this.customAudio) {
+      this.customAudio.pause();
+      this.customAudio.src = '';
+    }
+    const objectUrl = URL.createObjectURL(file);
+    this.customTrackName = file.name;
+    const audio = new Audio(objectUrl);
+    audio.loop = true;
+    audio.volume = this.bgmVolume;
+    this.customAudio = audio;
+    this.setBgmTrack('custom');
+    if (!this.bgmMuted) {
+      this.startBgm();
+    }
+  }
+
+  public setCustomAudioUrl(url: string, name?: string) {
+    if (this.customAudio) {
+      this.customAudio.pause();
+      this.customAudio.src = '';
+    }
+    this.customTrackName = name || 'Musik URL';
+    const audio = new Audio(url);
+    audio.loop = true;
+    audio.volume = this.bgmVolume;
+    this.customAudio = audio;
+    this.setBgmTrack('custom');
+    if (!this.bgmMuted) {
+      this.startBgm();
+    }
+  }
+
   public toggleMute(): boolean {
     this.sfxMuted = !this.sfxMuted;
     localStorage.setItem('digestive_adventure_sfx_muted', String(this.sfxMuted));
@@ -118,14 +264,21 @@ class SoundEffectsManager {
   }
 
   /* -------------------------------------------------------------
-   * CHEERFUL CHILDREN'S BACKGROUND MUSIC (BGM)
-   * A happy, playful marimba tune at ~112 BPM (16-beat loop)
+   * MULTI-THEME CHILDREN'S BACKGROUND MUSIC (BGM)
    * ------------------------------------------------------------- */
   public startBgm() {
     if (this.bgmMuted) return;
     this.initCtx();
-    if (!this.ctx) return;
 
+    if (this.currentTrackId === 'custom' && this.customAudio) {
+      this.isBgmActive = true;
+      this.customAudio.volume = this.bgmVolume;
+      this.customAudio.play().catch(() => {});
+      this.notify();
+      return;
+    }
+
+    if (!this.ctx) return;
     if (this.isBgmActive && this.bgmTimer) return;
     this.isBgmActive = true;
     this.scheduleBgmLoop();
@@ -134,6 +287,9 @@ class SoundEffectsManager {
 
   public pauseBgm() {
     this.isBgmActive = false;
+    if (this.customAudio) {
+      this.customAudio.pause();
+    }
     if (this.bgmTimer) {
       window.clearTimeout(this.bgmTimer);
       this.bgmTimer = null;
@@ -144,70 +300,223 @@ class SoundEffectsManager {
   private scheduleBgmLoop() {
     if (!this.isBgmActive || this.bgmMuted || !this.ctx) return;
 
-    const beatDuration = 0.26; // ~115 BPM
-    const melody = [
-      // Bar 1: C - E - G - E
-      { note: 523.25, bass: 130.81, dur: 0.22 },
-      { note: 659.25, dur: 0.22 },
-      { note: 783.99, bass: 196.0, dur: 0.22 },
-      { note: 659.25, dur: 0.22 },
-
-      // Bar 2: A - G - E - C
-      { note: 880.0, bass: 174.61, dur: 0.22 },
-      { note: 783.99, dur: 0.22 },
-      { note: 659.25, bass: 196.0, dur: 0.22 },
-      { note: 523.25, dur: 0.22 },
-
-      // Bar 3: D - F - A - G
-      { note: 587.33, bass: 146.83, dur: 0.22 },
-      { note: 698.46, dur: 0.22 },
-      { note: 880.0, bass: 196.0, dur: 0.22 },
-      { note: 783.99, dur: 0.22 },
-
-      // Bar 4: E - G - C6 - G
-      { note: 659.25, bass: 130.81, dur: 0.22 },
-      { note: 783.99, dur: 0.22 },
-      { note: 1046.5, bass: 196.0, dur: 0.25 },
-      { note: 783.99, dur: 0.22 },
-    ];
-
-    const currentBeat = melody[this.bgmStepIndex % melody.length];
-    const now = this.ctx.currentTime;
-
-    // Lead Marimba Voice
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(currentBeat.note, now);
-
-    // Soft warm envelope
-    gain.gain.setValueAtTime(0.045, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + currentBeat.dur);
-
-    osc.connect(gain);
-    gain.connect(this.ctx.destination);
-    osc.start(now);
-    osc.stop(now + currentBeat.dur + 0.05);
-
-    // Bass accompaniment on strong beats
-    if (currentBeat.bass) {
-      const bassOsc = this.ctx.createOscillator();
-      const bassGain = this.ctx.createGain();
-      bassOsc.type = 'sine';
-      bassOsc.frequency.setValueAtTime(currentBeat.bass, now);
-      bassGain.gain.setValueAtTime(0.035, now);
-      bassGain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
-
-      bassOsc.connect(bassGain);
-      bassGain.connect(this.ctx.destination);
-      bassOsc.start(now);
-      bassOsc.stop(now + 0.22);
+    if (this.currentTrackId === 'custom') {
+      if (this.customAudio && this.customAudio.paused) {
+        this.customAudio.play().catch(() => {});
+      }
+      return;
     }
 
-    this.bgmStepIndex = (this.bgmStepIndex + 1) % melody.length;
-    this.bgmTimer = window.setTimeout(() => {
-      this.scheduleBgmLoop();
-    }, beatDuration * 1000);
+    const vol = this.bgmVolume;
+    const now = this.ctx.currentTime;
+
+    // --- TRACK 1: PETUALANGAN CERIA (Upbeat Marimba ~115 BPM) ---
+    if (this.currentTrackId === 'ceria-explorer') {
+      const beatDuration = 0.26;
+      const melody = [
+        { note: 523.25, bass: 130.81, dur: 0.22 },
+        { note: 659.25, dur: 0.22 },
+        { note: 783.99, bass: 196.0, dur: 0.22 },
+        { note: 659.25, dur: 0.22 },
+        { note: 880.0, bass: 174.61, dur: 0.22 },
+        { note: 783.99, dur: 0.22 },
+        { note: 659.25, bass: 196.0, dur: 0.22 },
+        { note: 523.25, dur: 0.22 },
+        { note: 587.33, bass: 146.83, dur: 0.22 },
+        { note: 698.46, dur: 0.22 },
+        { note: 880.0, bass: 196.0, dur: 0.22 },
+        { note: 783.99, dur: 0.22 },
+        { note: 659.25, bass: 130.81, dur: 0.22 },
+        { note: 783.99, dur: 0.22 },
+        { note: 1046.5, bass: 196.0, dur: 0.25 },
+        { note: 783.99, dur: 0.22 },
+      ];
+
+      const current = melody[this.bgmStepIndex % melody.length];
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(current.note, now);
+      gain.gain.setValueAtTime(0.06 * vol, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + current.dur);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + current.dur + 0.05);
+
+      if (current.bass) {
+        const bassOsc = this.ctx.createOscillator();
+        const bassGain = this.ctx.createGain();
+        bassOsc.type = 'sine';
+        bassOsc.frequency.setValueAtTime(current.bass, now);
+        bassGain.gain.setValueAtTime(0.05 * vol, now);
+        bassGain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+        bassOsc.connect(bassGain);
+        bassGain.connect(this.ctx.destination);
+        bassOsc.start(now);
+        bassOsc.stop(now + 0.22);
+      }
+
+      this.bgmStepIndex = (this.bgmStepIndex + 1) % melody.length;
+      this.bgmTimer = window.setTimeout(() => this.scheduleBgmLoop(), beatDuration * 1000);
+      return;
+    }
+
+    // --- TRACK 2: SEMANGAT JUARA! (High-Energy March ~136 BPM) ---
+    if (this.currentTrackId === 'semangat-juara') {
+      const beatDuration = 0.22;
+      const melody = [
+        // Motivating driving march: C - C - E - G | G - F - E - D | G - G - B - D6 | C6 - G - E - C
+        { note: 523.25, bass: 130.81, dur: 0.18, type: 'sawtooth' as OscillatorType },
+        { note: 523.25, dur: 0.18, type: 'sawtooth' as OscillatorType },
+        { note: 659.25, bass: 130.81, dur: 0.18, type: 'triangle' as OscillatorType },
+        { note: 783.99, bass: 196.0, dur: 0.24, type: 'square' as OscillatorType },
+        { note: 783.99, dur: 0.18, type: 'triangle' as OscillatorType },
+        { note: 698.46, dur: 0.18, type: 'triangle' as OscillatorType },
+        { note: 659.25, bass: 174.61, dur: 0.18, type: 'triangle' as OscillatorType },
+        { note: 587.33, bass: 196.0, dur: 0.22, type: 'sawtooth' as OscillatorType },
+        { note: 783.99, bass: 196.0, dur: 0.18, type: 'sawtooth' as OscillatorType },
+        { note: 783.99, dur: 0.18, type: 'sawtooth' as OscillatorType },
+        { note: 987.77, bass: 196.0, dur: 0.18, type: 'triangle' as OscillatorType },
+        { note: 1174.66, bass: 146.83, dur: 0.24, type: 'square' as OscillatorType },
+        { note: 1046.5, bass: 130.81, dur: 0.22, type: 'square' as OscillatorType },
+        { note: 783.99, dur: 0.18, type: 'triangle' as OscillatorType },
+        { note: 659.25, bass: 196.0, dur: 0.18, type: 'triangle' as OscillatorType },
+        { note: 523.25, bass: 130.81, dur: 0.26, type: 'sawtooth' as OscillatorType },
+      ];
+
+      const current = melody[this.bgmStepIndex % melody.length];
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = current.type || 'triangle';
+      osc.frequency.setValueAtTime(current.note, now);
+      gain.gain.setValueAtTime(0.045 * vol, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + current.dur);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + current.dur + 0.04);
+
+      if (current.bass) {
+        const bassOsc = this.ctx.createOscillator();
+        const bassGain = this.ctx.createGain();
+        bassOsc.type = 'sawtooth';
+        bassOsc.frequency.setValueAtTime(current.bass, now);
+        bassGain.gain.setValueAtTime(0.038 * vol, now);
+        bassGain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+        bassOsc.connect(bassGain);
+        bassGain.connect(this.ctx.destination);
+        bassOsc.start(now);
+        bassOsc.stop(now + 0.2);
+      }
+
+      this.bgmStepIndex = (this.bgmStepIndex + 1) % melody.length;
+      this.bgmTimer = window.setTimeout(() => this.scheduleBgmLoop(), beatDuration * 1000);
+      return;
+    }
+
+    // --- TRACK 3: DETEKTIF ORGAN SAINS (Curious Pizzicato Quest ~120 BPM) ---
+    if (this.currentTrackId === 'detektif-sains') {
+      const beatDuration = 0.25;
+      const melody = [
+        { note: 659.25, bass: 164.81, dur: 0.12 }, // E5
+        { note: 987.77, dur: 0.12 },              // B5
+        { note: 783.99, bass: 196.0, dur: 0.12 },  // G5
+        { note: 1318.51, dur: 0.14 },             // E6
+        { note: 587.33, bass: 146.83, dur: 0.12 }, // D5
+        { note: 880.0, dur: 0.12 },               // A5
+        { note: 739.99, bass: 146.83, dur: 0.12 }, // F#5
+        { note: 1174.66, dur: 0.14 },             // D6
+        { note: 523.25, bass: 130.81, dur: 0.12 }, // C5
+        { note: 783.99, dur: 0.12 },              // G5
+        { note: 659.25, bass: 130.81, dur: 0.12 }, // E5
+        { note: 1046.5, dur: 0.14 },              // C6
+        { note: 493.88, bass: 123.47, dur: 0.12 }, // B4
+        { note: 739.99, dur: 0.12 },              // F#5
+        { note: 622.25, bass: 123.47, dur: 0.12 }, // D#5
+        { note: 987.77, bass: 164.81, dur: 0.18 }, // B5
+      ];
+
+      const current = melody[this.bgmStepIndex % melody.length];
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(current.note, now);
+      gain.gain.setValueAtTime(0.065 * vol, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + current.dur);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + current.dur + 0.03);
+
+      if (current.bass) {
+        const bassOsc = this.ctx.createOscillator();
+        const bassGain = this.ctx.createGain();
+        bassOsc.type = 'triangle';
+        bassOsc.frequency.setValueAtTime(current.bass, now);
+        bassGain.gain.setValueAtTime(0.04 * vol, now);
+        bassGain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+        bassOsc.connect(bassGain);
+        bassGain.connect(this.ctx.destination);
+        bassOsc.start(now);
+        bassOsc.stop(now + 0.18);
+      }
+
+      this.bgmStepIndex = (this.bgmStepIndex + 1) % melody.length;
+      this.bgmTimer = window.setTimeout(() => this.scheduleBgmLoop(), beatDuration * 1000);
+      return;
+    }
+
+    // --- TRACK 4: KARNAVAL PESTA BELAJAR (Joyful Fiesta ~128 BPM) ---
+    {
+      const beatDuration = 0.235;
+      const melody = [
+        { note: 523.25, bass: 130.81, dur: 0.18 }, // C5
+        { note: 783.99, dur: 0.18 },              // G5
+        { note: 1046.5, bass: 174.61, dur: 0.2 },  // C6
+        { note: 783.99, dur: 0.16 },              // G5
+        { note: 880.0, bass: 174.61, dur: 0.18 },  // A5
+        { note: 698.46, dur: 0.16 },              // F5
+        { note: 587.33, bass: 196.0, dur: 0.18 },  // D5
+        { note: 698.46, dur: 0.16 },              // F5
+        { note: 783.99, bass: 130.81, dur: 0.18 }, // G5
+        { note: 659.25, dur: 0.16 },              // E5
+        { note: 523.25, bass: 130.81, dur: 0.18 }, // C5
+        { note: 659.25, dur: 0.16 },              // E5
+        { note: 587.33, bass: 196.0, dur: 0.18 },  // D5
+        { note: 783.99, dur: 0.16 },              // G5
+        { note: 987.77, bass: 196.0, dur: 0.2 },   // B5
+        { note: 1046.5, bass: 130.81, dur: 0.24 }, // C6
+      ];
+
+      const current = melody[this.bgmStepIndex % melody.length];
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(current.note, now);
+      gain.gain.setValueAtTime(0.06 * vol, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + current.dur);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + current.dur + 0.04);
+
+      if (current.bass) {
+        const bassOsc = this.ctx.createOscillator();
+        const bassGain = this.ctx.createGain();
+        bassOsc.type = 'sine';
+        bassOsc.frequency.setValueAtTime(current.bass, now);
+        bassGain.gain.setValueAtTime(0.045 * vol, now);
+        bassGain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+        bassOsc.connect(bassGain);
+        bassGain.connect(this.ctx.destination);
+        bassOsc.start(now);
+        bassOsc.stop(now + 0.2);
+      }
+
+      this.bgmStepIndex = (this.bgmStepIndex + 1) % melody.length;
+      this.bgmTimer = window.setTimeout(() => this.scheduleBgmLoop(), beatDuration * 1000);
+    }
   }
 
   /* -------------------------------------------------------------
