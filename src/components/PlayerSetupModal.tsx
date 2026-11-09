@@ -100,33 +100,33 @@ export const PlayerSetupModal: React.FC<PlayerSetupModalProps> = ({
   const activeDrafts = drafts.slice(0, playerCount);
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-[#FFFDF9] via-[#FFF9F0] to-[#FEF3C7]/40 flex flex-col justify-between p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-linear-to-b from-[#FFFDF9] via-[#FFF9F0] to-[#FEF3C7]/40 flex flex-col justify-between p-3 sm:p-6 lg:p-8">
       {/* Top Banner with Brand Logo and Subtitle */}
-      <div className="max-w-4xl mx-auto w-full text-center mt-2 sm:mt-6">
-        <div className="flex justify-center mb-3">
+      <div className="max-w-4xl mx-auto w-full text-center mt-1 sm:mt-6">
+        <div className="flex justify-center mb-2 sm:mb-3">
           <img
             src="./assets/logo_clean.png"
             alt="DIGESTIVE ADVENTURE"
-            className="h-28 sm:h-36 md:h-44 w-auto object-contain drop-shadow-md hover:scale-105 transition-transform duration-300"
+            className="h-16 xs:h-20 sm:h-36 md:h-44 w-auto object-contain drop-shadow-md hover:scale-105 transition-transform duration-300"
             referrerPolicy="no-referrer"
           />
         </div>
 
-        <h2 className="text-xl sm:text-2xl font-heading font-bold text-slate-800">
-          Petualangan Seru Menjelajahi Sistem Pencernaan Manusia!
+        <h2 className="text-base sm:text-2xl font-heading font-bold text-slate-800">
+          Petualangan Seru Menjelajahi Sistem Pencernaan!
         </h2>
-        <p className="mt-2 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-          Lempar dadu, jelajahi 28 organ & tantangan pencernaan, kumpulkan poin, pecahkan kode rahasia, dan tuntaskan misi akhir untuk menjadi juara!
+        <p className="mt-1 sm:mt-2 text-xs sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
+          Jelajahi 28 organ & tantangan pencernaan, kumpulkan poin, dan selesaikan misi akhir!
         </p>
 
         {/* Quick Nav Pill / Action Buttons */}
-        <div className="flex flex-wrap justify-center gap-3 mt-4">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-3 sm:mt-4">
           <button
             onClick={() => {
               sounds.playCardFlip();
               onOpenRules();
             }}
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-amber-50 text-slate-700 text-xs font-semibold rounded-xl border border-amber-200 shadow-xs transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1 px-3 sm:px-4 py-1.5 sm:py-2 bg-white hover:bg-amber-50 text-slate-700 text-[11px] sm:text-xs font-semibold rounded-xl border border-amber-200 shadow-xs transition-colors cursor-pointer"
           >
             📖 Cara Bermain
           </button>
@@ -136,30 +136,30 @@ export const PlayerSetupModal: React.FC<PlayerSetupModalProps> = ({
               sounds.playCardFlip();
               onOpenOrganGuide();
             }}
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-emerald-50 text-slate-700 text-xs font-semibold rounded-xl border border-emerald-200 shadow-xs transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1 px-3 sm:px-4 py-1.5 sm:py-2 bg-white hover:bg-emerald-50 text-slate-700 text-[11px] sm:text-xs font-semibold rounded-xl border border-emerald-200 shadow-xs transition-colors cursor-pointer"
           >
-            🔬 Mengenal Organ Pencernaan
+            🔬 Kenali Organ
           </button>
 
           <button
             onClick={() => sounds.toggleBgm()}
-            className={`inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-xl border shadow-xs transition-colors cursor-pointer ${
+            className={`inline-flex items-center gap-1 px-3 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold rounded-xl border shadow-xs transition-colors cursor-pointer ${
               isBgmOn
                 ? 'bg-amber-100 border-amber-400 text-amber-900 shadow-sm'
                 : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-600'
             }`}
           >
-            <Music className={`w-3.5 h-3.5 ${isBgmOn ? 'text-amber-600 animate-bounce' : 'text-slate-400'}`} />
-            <span>{isBgmOn ? '🎵 Musik Ceria: ON' : '🔇 Musik Ceria: OFF'}</span>
+            <Music className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${isBgmOn ? 'text-amber-600 animate-bounce' : 'text-slate-400'}`} />
+            <span>{isBgmOn ? '🎵 Musik: ON' : '🔇 Musik: OFF'}</span>
           </button>
         </div>
       </div>
 
       {/* Main Setup Card */}
-      <div className="max-w-3xl mx-auto w-full bg-white rounded-3xl p-6 sm:p-8 shadow-xl border-3 border-amber-200 my-6">
-        <div className="flex items-center gap-3 pb-4 border-b border-slate-100">
-          <Users className="w-6 h-6 text-amber-500" />
-          <h3 className="text-lg sm:text-xl font-heading font-bold text-slate-800">
+      <div className="max-w-3xl mx-auto w-full bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-8 shadow-xl border-2 sm:border-3 border-amber-200 my-3 sm:my-6">
+        <div className="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+          <Users className="w-5 h-5 sm:w-6 sm:h-6 text-amber-500" />
+          <h3 className="text-base sm:text-xl font-heading font-bold text-slate-800">
             Pengaturan Jumlah & Pion Petualang
           </h3>
         </div>
@@ -188,23 +188,26 @@ export const PlayerSetupModal: React.FC<PlayerSetupModalProps> = ({
         </div>
 
         {/* Players Configuration List */}
-        <div className="mt-6 space-y-4">
+        <div className="mt-4 sm:mt-6 space-y-2.5 sm:space-y-4">
           {activeDrafts.map((draft, idx) => (
             <div
               key={idx}
-              className="p-4 rounded-2xl bg-slate-50/80 border border-slate-200/90 flex flex-col sm:flex-row items-center gap-4 transition-colors"
+              className="p-2.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50/80 border border-slate-200/90 flex flex-col sm:flex-row items-center gap-2.5 sm:gap-4 transition-colors"
             >
               {/* Player Index Badge & Avatar Preview */}
-              <div className="flex items-center gap-3 shrink-0">
-                <span className="w-6 h-6 rounded-full bg-slate-800 text-white font-bold text-xs flex items-center justify-center">
+              <div className="flex items-center gap-2 sm:gap-3 shrink-0 self-start sm:self-center">
+                <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-800 text-white font-bold text-[10px] sm:text-xs flex items-center justify-center">
                   {idx + 1}
                 </span>
-                <PawnAvatar color={draft.pawnColor} size="lg" isCurrent={false} />
+                <PawnAvatar color={draft.pawnColor} size="md" isCurrent={false} />
+                <span className="sm:hidden text-[11px] font-bold text-amber-800 bg-amber-100/80 px-2 py-0.5 rounded-md">
+                  {CHARACTER_PROFILES[draft.pawnColor]?.title || 'Petualang'}
+                </span>
               </div>
 
               {/* Name Input */}
               <div className="flex-1 w-full">
-                <div className="flex items-center justify-between mb-1">
+                <div className="hidden sm:flex items-center justify-between mb-1">
                   <label className="block text-xs font-medium text-slate-500">
                     Nama Petualang {idx + 1}
                   </label>
@@ -218,16 +221,16 @@ export const PlayerSetupModal: React.FC<PlayerSetupModalProps> = ({
                   value={draft.name}
                   onChange={(e) => handleNameChange(idx, e.target.value)}
                   placeholder={`Petualang ${idx + 1}`}
-                  className="w-full px-3.5 py-2 text-sm font-medium bg-white border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-amber-400 focus:border-amber-400"
+                  className="w-full px-3 py-1.5 sm:py-2 text-xs sm:text-sm font-medium bg-white border border-slate-300 rounded-lg sm:rounded-xl focus:outline-hidden focus:ring-2 focus:ring-amber-400 focus:border-amber-400"
                 />
               </div>
 
               {/* Pawn Color Selector */}
-              <div className="shrink-0 w-full sm:w-auto">
-                <label className="block text-xs font-medium text-slate-500 mb-1 text-center sm:text-left">
-                  Pilih Warna Pion
+              <div className="shrink-0 w-full sm:w-auto flex items-center justify-between sm:justify-start gap-2">
+                <label className="sm:hidden text-[11px] font-medium text-slate-500">
+                  Warna Pion:
                 </label>
-                <div className="flex items-center justify-center sm:justify-start gap-1.5">
+                <div className="flex items-center gap-1 sm:gap-1.5">
                   {PAWN_COLORS.map((col) => {
                     const isSelected = draft.pawnColor === col;
                     return (
@@ -235,11 +238,11 @@ export const PlayerSetupModal: React.FC<PlayerSetupModalProps> = ({
                         key={col}
                         type="button"
                         onClick={() => handlePawnSelect(idx, col)}
-                        className={`p-1 rounded-full border-2 transition-transform cursor-pointer ${
+                        className={`p-0.5 sm:p-1 rounded-full border-2 transition-transform cursor-pointer ${
                           isSelected ? 'border-slate-800 scale-110 shadow-xs' : 'border-transparent opacity-70 hover:opacity-100'
                         }`}
                       >
-                        <PawnAvatar color={col} size="sm" />
+                        <PawnAvatar color={col} size="xs" />
                       </button>
                     );
                   })}

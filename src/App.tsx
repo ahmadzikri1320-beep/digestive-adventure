@@ -28,13 +28,15 @@ import { RulebookModal } from './components/modals/RulebookModal';
 import { OrganGuideModal } from './components/modals/OrganGuideModal';
 import { GameSummaryModal } from './components/modals/GameSummaryModal';
 import { ResetConfirmModal } from './components/modals/ResetConfirmModal';
-import { ShieldAlert, LayoutGrid, Users, ScrollText } from 'lucide-react';
+import { ShieldAlert, LayoutGrid, Users, ScrollText, Sparkles } from 'lucide-react';
 import { PawnAvatar } from './components/PawnAvatar';
+import { MobileTileInfoSheet } from './components/MobileTileInfoSheet';
 
 export default function App() {
   // Game View State
   const [view, setView] = useState<GameView>('WELCOME');
   const [mobileTab, setMobileTab] = useState<'board' | 'roster' | 'logs'>('board');
+  const [showMobileTileSheet, setShowMobileTileSheet] = useState(false);
 
   // Players State with Ref Sync to eliminate closure staleness
   const [players, setPlayers] = useState<Player[]>([]);
@@ -1327,14 +1329,43 @@ export default function App() {
       {/* Main Playing Arena Layout */}
       <main className="max-w-7xl mx-auto w-full px-2 sm:px-4 md:px-6 py-2 sm:py-5 flex-1 flex flex-col lg:flex-row gap-4 lg:gap-5 items-start justify-center">
         {/* Left / Center Area: Board + External Game Action Console (Dadu & Keterangan) */}
-        <div className={`flex-1 w-full flex flex-col items-center ${mobileTab !== 'board' ? 'hidden lg:flex' : 'flex'}`}>
+        <div className={`flex-1 w-full flex flex-col items-center pb-20 sm:pb-0 ${mobileTab !== 'board' ? 'hidden lg:flex' : 'flex'}`}>
+          {/* Mobile Turn Status Banner (Visible only on smartphones < sm) */}
+          {activePlayer && (
+            <div className="sm:hidden w-full max-w-[1080px] mb-2 px-3 py-1.5 bg-white/95 backdrop-blur-md rounded-xl border border-amber-300 shadow-2xs flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="text-[10px] font-extrabold text-amber-900 bg-amber-100 px-2 py-0.5 rounded-md border border-amber-300 shrink-0">
+                  Giliran
+                </span>
+                <span className="font-heading font-extrabold text-slate-800 truncate">
+                  {activePlayer.name}
+                </span>
+                <span className="text-slate-300">&bull;</span>
+                <span className="text-slate-600 font-semibold truncate text-[11px]">
+                  #{activePlayer.position} {BOARD_TILES[activePlayer.position - 1]?.name}
+                </span>
+              </div>
+              <div className="flex items-center gap-1 shrink-0 ml-1">
+                {activePlayer.hasSaverCard && <span title="Kartu Penyelamat">🛡️</span>}
+                {activePlayer.hasCompletedFinalMission && <span title="Lolos Final">⭐</span>}
+                {activePlayer.skipNextTurn && <span title="Sakit Perut">🤢</span>}
+                <span className="font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200 text-[11px]">
+                  {activePlayer.points} P
+                </span>
+              </div>
+            </div>
+          )}
+
           {/* 10x6 Board with Central Interactive Dice Arena */}
           <Board
             tiles={BOARD_TILES}
             players={players}
             activePlayerIndex={activePlayerIndex}
             isMoving={isMoving}
-            onTileClick={(tile) => setSelectedTileId(tile.id)}
+            onTileClick={(tile) => {
+              setSelectedTileId(tile.id);
+              setShowMobileTileSheet(true);
+            }}
             selectedTileId={selectedTileId}
             floatingPoints={floatingPoints}
             onRollDice={handleRollDice}
@@ -1347,23 +1378,25 @@ export default function App() {
             {renderGameModals()}
           </Board>
 
-          {/* Dadu & Keterangan Dibuat di Luar Papan Permainan */}
+          {/* Dadu & Keterangan Dibuat di Luar Papan Permainan (Visible on Desktop & Tablet) */}
           {activePlayer && (
-            <GameActionConsole
-              activePlayer={activePlayer}
-              currentTile={BOARD_TILES[activePlayer.position - 1] || BOARD_TILES[0]}
-              isMoving={isMoving}
-              onRollDice={handleRollDice}
-              lastRoll={lastRoll}
-              selectedTile={selectedTileId ? BOARD_TILES[selectedTileId - 1] : null}
-              onStepAdjust={handleStepAdjust}
-              onOpenFinalMission={() => setShowFinalMission(true)}
-              floatingPoints={floatingPoints}
-            />
+            <div className="hidden sm:block w-full">
+              <GameActionConsole
+                activePlayer={activePlayer}
+                currentTile={BOARD_TILES[activePlayer.position - 1] || BOARD_TILES[0]}
+                isMoving={isMoving}
+                onRollDice={handleRollDice}
+                lastRoll={lastRoll}
+                selectedTile={selectedTileId ? BOARD_TILES[selectedTileId - 1] : null}
+                onStepAdjust={handleStepAdjust}
+                onOpenFinalMission={() => setShowFinalMission(true)}
+                floatingPoints={floatingPoints}
+              />
+            </div>
           )}
 
-          {/* Quick Horizontal Player Status Strip for Mobile / Tablet */}
-          <div className="lg:hidden w-full mt-3 p-2.5 bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-xs">
+          {/* Quick Horizontal Player Status Strip (Visible on Tablet, hidden on mobile HP to prevent overcrowding) */}
+          <div className="hidden sm:block lg:hidden w-full mt-3 p-2.5 bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-xs">
             <div className="flex items-center justify-between mb-1.5 px-1">
               <span className="text-[10px] font-heading font-bold text-slate-400 uppercase tracking-wider">
                 Ringkasan Pemain ({players.length})
@@ -1404,6 +1437,105 @@ export default function App() {
             </div>
           </div>
         </div>
+
+        {/* Mobile Tile Info Sheet / Drawer (On-demand inspection for HP) */}
+        {showMobileTileSheet && activePlayer && (
+          <MobileTileInfoSheet
+            tile={selectedTileId ? (BOARD_TILES[selectedTileId - 1] || BOARD_TILES[0]) : (BOARD_TILES[activePlayer.position - 1] || BOARD_TILES[0])}
+            activePlayer={activePlayer}
+            onClose={() => setShowMobileTileSheet(false)}
+            onStepAdjust={handleStepAdjust}
+            onOpenFinalMission={() => setShowFinalMission(true)}
+          />
+        )}
+
+        {/* ========================================================
+            STICKY MOBILE ACTION DOCK (Ergonomic Thumb-Zone for HP)
+            ======================================================== */}
+        {activePlayer && view === 'PLAYING' && mobileTab === 'board' && (
+          <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t-2 border-amber-300 shadow-[0_-6px_25px_rgba(0,0,0,0.12)] px-3 py-2 pb-safe flex items-center justify-between gap-2.5">
+            {/* Active Player Mini Profile */}
+            <div
+              onClick={() => setMobileTab('roster')}
+              className="flex items-center gap-1.5 cursor-pointer shrink-0"
+              title="Buka daftar pemain"
+            >
+              <PawnAvatar color={activePlayer.pawnColor} size="sm" isCurrent={true} />
+              <div className="flex flex-col leading-tight">
+                <span className="text-[11px] font-heading font-black text-slate-800 max-w-[75px] truncate">
+                  {activePlayer.name}
+                </span>
+                <span className="text-[10px] font-bold text-amber-700">
+                  {activePlayer.points} Poin
+                </span>
+              </div>
+            </div>
+
+            {/* Main Primary Thumb Action Button */}
+            <div className="flex-1 flex justify-center min-w-0">
+              {activePlayer.skipNextTurn ? (
+                <button
+                  onClick={() => {
+                    sounds.playStep();
+                    handleRollDice(0);
+                  }}
+                  className="w-full h-11 px-3 bg-linear-to-r from-rose-500 to-red-600 text-white font-heading font-black text-xs rounded-xl shadow-md active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer animate-pulse"
+                >
+                  <span>🤢 Lewati Giliran (Sakit)</span>
+                </button>
+              ) : activePlayer.position === 27 && !activePlayer.hasCompletedFinalMission ? (
+                <button
+                  onClick={() => {
+                    sounds.playBonus();
+                    setShowFinalMission(true);
+                  }}
+                  className="w-full h-11 px-3 bg-linear-to-r from-emerald-500 to-teal-600 text-white font-heading font-black text-xs rounded-xl shadow-md active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer animate-pulse"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  <span>🏆 MISI FINAL</span>
+                </button>
+              ) : isMoving ? (
+                <div className="w-full h-11 px-3 bg-amber-100 border border-amber-300 text-amber-900 font-heading font-black text-xs rounded-xl flex items-center justify-center gap-2 animate-pulse">
+                  <span className="w-2 h-2 rounded-full bg-amber-500 animate-ping" />
+                  <span>🏃 Melangkah...</span>
+                </div>
+              ) : activePlayer.hasFinished ? (
+                <div className="w-full h-11 px-3 bg-slate-100 border border-slate-300 text-slate-600 font-heading font-bold text-xs rounded-xl flex items-center justify-center">
+                  <span>🏁 Selesai</span>
+                </div>
+              ) : hasRolledThisTurn ? (
+                <div className="w-full h-11 px-3 bg-emerald-50 border border-emerald-300 text-emerald-800 font-heading font-bold text-xs rounded-xl flex items-center justify-center gap-1.5">
+                  <span>🎲 Dadu: {lastRoll || 0}</span>
+                </div>
+              ) : (
+                <button
+                  onClick={() => {
+                    sounds.playDiceRoll();
+                    const diceVal = Math.floor(Math.random() * 6) + 1;
+                    handleRollDice(diceVal);
+                  }}
+                  className="w-full h-11 px-3 bg-linear-to-r from-amber-500 via-orange-500 to-amber-600 text-white font-heading font-black text-sm tracking-wide rounded-xl shadow-lg shadow-amber-500/30 active:scale-95 hover:brightness-105 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span className="text-base animate-bounce">🎲</span>
+                  <span>LEMPAR DADU</span>
+                </button>
+              )}
+            </div>
+
+            {/* Info Kotak Button */}
+            <button
+              onClick={() => {
+                sounds.playCardFlip();
+                setShowMobileTileSheet(true);
+              }}
+              className="px-2.5 h-11 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl border border-slate-300 font-heading font-bold text-[11px] flex flex-col items-center justify-center shrink-0 cursor-pointer transition-all active:scale-95"
+              title="Informasi Kotak & Organ"
+            >
+              <span className="text-xs">📖</span>
+              <span>Info</span>
+            </button>
+          </div>
+        )}
 
         {/* Right Sidebar: Player Roster & Activity Log */}
         <div className={`w-full lg:w-80 shrink-0 space-y-4 ${mobileTab === 'board' ? 'hidden lg:block' : 'block'}`}>

@@ -307,27 +307,27 @@ export const Board: React.FC<BoardProps> = ({
             {/* ========================================================
                 1. CENTER: GRAND TITLE & LOGO ("judul DIGESTIVE ADVENTURE dibuat besar lagi dan tulisan di bawahnya dikosongkan")
                 ======================================================== */}
-            <div className="flex flex-col items-center justify-center text-center px-1 sm:px-2 py-1 select-none pointer-events-none z-10 max-w-[65%] sm:max-w-[70%] md:max-w-[75%]">
+            <div className="flex flex-col items-center justify-center text-center px-1 sm:px-2 py-1 select-none pointer-events-none z-10 max-w-[85%] sm:max-w-[70%] md:max-w-[75%]">
               <img
                 src="./assets/logo_clean.png"
                 alt="Digestive Adventure"
-                className="max-h-16 xs:max-h-24 sm:max-h-36 md:max-h-48 lg:max-h-56 xl:max-h-64 w-auto object-contain drop-shadow-lg transition-all duration-300"
+                className="max-h-20 xs:max-h-26 sm:max-h-36 md:max-h-48 lg:max-h-56 xl:max-h-64 w-auto object-contain drop-shadow-md sm:drop-shadow-lg transition-all duration-300"
                 draggable={false}
                 referrerPolicy="no-referrer"
               />
             </div>
 
             {/* ========================================================
-                2. POJOK KANAN BAWAH (BOTTOM-RIGHT CORNER): 3D DICE ("dadunya di pojok")
+                2. POJOK KANAN BAWAH (BOTTOM-RIGHT CORNER): 3D DICE (Visible on desktop/tablet, hidden on mobile)
                 ======================================================== */}
-            <div className="absolute bottom-0.5 right-0.5 sm:bottom-2 sm:right-2 z-20 flex flex-col items-end pointer-events-auto">
-              <div className="bg-white/95 backdrop-blur-md p-0.5 sm:p-1 md:p-1.5 rounded-lg sm:rounded-2xl border sm:border-2 border-amber-300 shadow-md sm:shadow-lg w-[78px] xs:w-[84px] sm:w-[120px] md:w-[134px] flex flex-col items-center">
+            <div className="hidden sm:flex absolute bottom-2 right-2 z-20 flex-col items-end pointer-events-auto">
+              <div className="bg-white/95 backdrop-blur-md p-1 md:p-1.5 rounded-2xl border-2 border-amber-300 shadow-md sm:shadow-lg w-[120px] md:w-[134px] flex flex-col items-center">
                 <div className="w-full flex items-center justify-between mb-0.5 px-0.5">
-                  <span className="text-[7px] sm:text-[9.5px] font-heading font-extrabold text-amber-900 flex items-center gap-0.5">
+                  <span className="text-[9.5px] font-heading font-extrabold text-amber-900 flex items-center gap-0.5">
                     🎲 Dadu
                   </span>
                   {lastRoll && (
-                    <span className="text-[6.5px] sm:text-[8.5px] font-bold text-emerald-700 bg-emerald-50 px-0.5 sm:px-1 rounded border border-emerald-200">
+                    <span className="text-[8.5px] font-bold text-emerald-700 bg-emerald-50 px-1 rounded border border-emerald-200">
                       {lastRoll} Langkah
                     </span>
                   )}
@@ -347,20 +347,20 @@ export const Board: React.FC<BoardProps> = ({
             </div>
 
             {/* ========================================================
-                3. POJOK KIRI ATAS (TOP-LEFT CORNER): ACTIVE PLAYER TURN BADGE
+                3. POJOK KIRI ATAS (TOP-LEFT CORNER): ACTIVE PLAYER TURN BADGE (Desktop/Tablet)
                 ======================================================== */}
             {activePlayer && (
-              <div className="absolute top-0.5 left-0.5 sm:top-2 sm:left-2 z-20 flex items-center gap-0.5 sm:gap-1.5 bg-white/95 backdrop-blur-md px-1 sm:px-2 py-0.5 sm:py-1 rounded-lg sm:rounded-xl border border-amber-300 shadow-2xs max-w-[86px] sm:max-w-[170px] pointer-events-auto">
+              <div className="hidden sm:flex absolute top-2 left-2 z-20 items-center gap-1.5 bg-white/95 backdrop-blur-md px-2 py-1 rounded-xl border border-amber-300 shadow-2xs max-w-[170px] pointer-events-auto">
                 <PawnAvatar color={activePlayer.pawnColor} size="xs" isCurrent={true} />
                 <div className="flex flex-col min-w-0">
                   <div className="flex items-center gap-0.5">
-                    <span className="text-[7.5px] sm:text-[11px] font-heading font-extrabold text-slate-800 truncate">
+                    <span className="text-[11px] font-heading font-extrabold text-slate-800 truncate">
                       {activePlayer.name}
                     </span>
                     {activePlayer.hasSaverCard && <span className="text-[8px]" title="Kartu Penyelamat">🛡️</span>}
                     {activePlayer.hasCompletedFinalMission && <span className="text-[8px]" title="Lolos Final Mission">⭐</span>}
                   </div>
-                  <div className="text-[6.5px] sm:text-[9px] font-bold text-amber-900 flex items-center gap-0.5">
+                  <div className="text-[9px] font-bold text-amber-900 flex items-center gap-0.5">
                     <span>#{activePlayer.position}</span>
                     <span>&bull;</span>
                     <span className="text-amber-700">{activePlayer.points}P</span>
@@ -374,9 +374,9 @@ export const Board: React.FC<BoardProps> = ({
             {/* ========================================================
                 4. POJOK KANAN ATAS (TOP-RIGHT CORNER): FULLSCREEN & CORRECTION
                 ======================================================== */}
-            <div className="absolute top-0.5 right-0.5 sm:top-2 sm:right-2 z-30 flex items-center gap-1 sm:gap-1.5 pointer-events-auto">
+            <div className="absolute top-1 right-1 sm:top-2 sm:right-2 z-30 flex items-center gap-1 sm:gap-1.5 pointer-events-auto">
               {onStepAdjust && activePlayer && !isMoving && !activePlayer.hasFinished && (
-                <div className="flex items-center gap-0.5 bg-white/95 p-0.5 sm:p-1 rounded-md sm:rounded-lg border border-amber-300 shadow-2xs">
+                <div className="hidden sm:flex items-center gap-0.5 bg-white/95 p-0.5 sm:p-1 rounded-md sm:rounded-lg border border-amber-300 shadow-2xs">
                   <button
                     onClick={() => {
                       sounds.playStep();
@@ -410,10 +410,10 @@ export const Board: React.FC<BoardProps> = ({
                     onToggleFullscreen();
                   }}
                   title={isBoardFullscreen ? 'Keluar Layar Penuh (Perkecil) - Esc' : 'Layar Penuh Papan Permainan'}
-                  className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl transition-all cursor-pointer shadow-sm flex items-center gap-1 sm:gap-1.5 font-heading active:scale-95 ${
+                  className={`px-1.5 sm:px-3 py-0.5 sm:py-1.5 rounded-lg sm:rounded-xl transition-all cursor-pointer shadow-sm flex items-center gap-1 sm:gap-1.5 font-heading active:scale-95 ${
                     isBoardFullscreen
                       ? 'bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-[8px] sm:text-[10px] border-2 border-rose-700 shadow-md ring-2 ring-rose-300'
-                      : 'bg-white/95 hover:bg-amber-100 text-slate-800 hover:text-amber-950 font-bold text-[8px] sm:text-[9.5px] border border-amber-300'
+                      : 'hidden sm:flex bg-white/95 hover:bg-amber-100 text-slate-800 hover:text-amber-950 font-bold text-[8px] sm:text-[9.5px] border border-amber-300'
                   }`}
                 >
                   {isBoardFullscreen ? (
@@ -432,9 +432,9 @@ export const Board: React.FC<BoardProps> = ({
             </div>
 
             {/* ========================================================
-                5. POJOK KIRI BAWAH (BOTTOM-LEFT CORNER): GUIDANCE & ALERTS
+                5. POJOK KIRI BAWAH (BOTTOM-LEFT CORNER): GUIDANCE & ALERTS (Desktop/Tablet)
                 ======================================================== */}
-            <div className="absolute bottom-0.5 left-0.5 sm:bottom-2 sm:left-2 z-20 flex flex-col gap-1 pointer-events-auto max-w-[120px] xs:max-w-[150px] sm:max-w-[220px]">
+            <div className="hidden sm:flex absolute bottom-2 left-2 z-20 flex-col gap-1 pointer-events-auto max-w-[220px]">
               {/* Guidance & Alerts for Active Player */}
               {activePlayer && (
                 <div className="flex flex-col gap-0.5">

@@ -81,11 +81,11 @@ export const PawnAvatar: React.FC<PawnAvatarProps> = ({
   const config = COLOR_MAP[color] || COLOR_MAP.red;
 
   const sizeClasses = {
-    xs: 'w-5 h-5 sm:w-5.5 sm:h-5.5',
-    sm: 'w-6 h-6 sm:w-7 sm:h-7',
-    md: 'w-8 h-8 sm:w-9 sm:h-9',
-    lg: 'w-11 h-11 sm:w-12 sm:h-12',
-    xl: 'w-14 h-14 sm:w-16 sm:h-16',
+    xs: 'w-4 h-4 sm:w-5.5 sm:h-5.5',
+    sm: 'w-5 h-5 sm:w-7 sm:h-7',
+    md: 'w-6.5 h-6.5 sm:w-8.5 sm:h-8.5',
+    lg: 'w-9 h-9 sm:w-12 sm:h-12',
+    xl: 'w-12 h-12 sm:w-16 sm:h-16',
   };
 
   return (
