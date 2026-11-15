@@ -39,7 +39,7 @@ export const WaterAndWasteModal: React.FC<WaterAndWasteModalProps> = ({
 
         {/* Tile Image */}
         <div className="flex justify-center my-3">
-          <div className="card-hover card-hover-sky card-hover-shine group w-24 h-24 rounded-2xl overflow-hidden shadow-md border-2 border-sky-300 bg-white">
+          <div className="card-hover card-hover-sky card-hover-shine group w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden shadow-md border-2 border-sky-300 bg-white">
             <img
               src="./assets/tiles/tile_21.png"
               alt="Air dan Sisa"

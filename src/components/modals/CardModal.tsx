@@ -84,14 +84,14 @@ export const CardModal: React.FC<CardModalProps> = ({
           </div>
         )}
 
-        {/* Card Image Authentic View */}
+        {/* Card Authentic View */}
         <div className="flex justify-center my-2">
-          <div className="card-hover card-hover-rose card-hover-shine group relative rounded-2xl overflow-hidden shadow-md border-2 border-rose-200 max-w-[260px] bg-rose-50 cursor-pointer">
+          <div className="card-hover card-hover-rose card-hover-shine group relative rounded-2xl overflow-hidden shadow-md border-2 border-rose-200 max-w-[330px] w-full bg-rose-50 cursor-pointer">
             <img
               src={card.image}
               alt={card.title}
               className={`w-full h-auto object-contain transition-transform duration-300 ${
-                isReadingMode ? 'scale-110' : 'group-hover:scale-108 group-hover:-rotate-1'
+                isReadingMode ? 'scale-108' : 'group-hover:scale-105 group-hover:-rotate-1'
               }`}
               referrerPolicy="no-referrer"
             />

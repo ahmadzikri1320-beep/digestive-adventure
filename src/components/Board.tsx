@@ -119,7 +119,7 @@ export const Board: React.FC<BoardProps> = ({
 
         {/* 10x6 Rigid Grid with LayoutGroup for silky-smooth pawn transitions */}
         <LayoutGroup id="board-pawns-layout">
-          <div className={`relative ${isBoardFullscreen ? 'w-full max-w-[1300px] max-h-[96vh] aspect-[10/6]' : 'w-full'} grid grid-cols-10 grid-rows-6 gap-0.5 sm:gap-1.5 md:gap-2`}>
+          <div className={`relative ${isBoardFullscreen ? 'w-full max-w-[1440px] max-h-[96vh] aspect-[10/6]' : 'w-full'} grid grid-cols-10 grid-rows-6 gap-0.5 sm:gap-1.5 md:gap-2`}>
           {/* Render 28 Perimeter Tiles */}
           {tiles.map((tile) => {
             const pos = TILE_GRID_POSITIONS[tile.id];

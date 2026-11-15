@@ -37,7 +37,7 @@ export const NeutralEducationModal: React.FC<NeutralEducationModalProps> = ({
 
         {/* Tile Graphic Preview */}
         <div className="flex justify-center my-3">
-          <div className="card-hover card-hover-emerald card-hover-shine group w-24 h-24 rounded-2xl overflow-hidden shadow-md border-2 border-emerald-300 bg-white">
+          <div className="card-hover card-hover-emerald card-hover-shine group w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden shadow-md border-2 border-emerald-300 bg-white">
             <img
               src="./assets/tiles/tile_24.png"
               alt="Kotak 24 Info Sehat"

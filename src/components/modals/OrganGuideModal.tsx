@@ -77,7 +77,7 @@ export const OrganGuideModal: React.FC<OrganGuideModalProps> = ({ onClose }) => 
           {/* Organ Details View */}
           <div className="flex-1 bg-slate-50/80 rounded-2xl p-5 border border-slate-200">
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 mb-5">
-              <div className="card-hover card-hover-emerald card-hover-shine group w-32 h-32 rounded-2xl overflow-hidden bg-white shadow-md border-2 border-emerald-300 shrink-0">
+              <div className="card-hover card-hover-emerald card-hover-shine group w-36 h-36 sm:w-40 sm:h-40 rounded-2xl overflow-hidden bg-white shadow-md border-2 border-emerald-300 shrink-0">
                 <img
                   src={currentOrgan.image}
                   alt={currentOrgan.name}

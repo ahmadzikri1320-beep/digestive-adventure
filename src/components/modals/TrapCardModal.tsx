@@ -307,11 +307,11 @@ export const TrapCardModal: React.FC<TrapCardModalProps> = ({
         <div className="flex-1 overflow-y-auto space-y-3 pr-1">
           {/* Card Authentic Visual */}
           <div className="flex justify-center my-1">
-            <div className="card-hover card-hover-blue card-hover-shine group rounded-2xl overflow-hidden shadow-md border-3 border-blue-200 max-w-[240px] bg-blue-50">
+            <div className="card-hover card-hover-blue card-hover-shine group rounded-2xl overflow-hidden shadow-md border-3 border-blue-200 max-w-[320px] w-full bg-blue-50">
               <img
                 src={currentCard.image}
                 alt={currentCard.title}
-                className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-106 group-hover:-rotate-1"
+                className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-1"
                 referrerPolicy="no-referrer"
               />
             </div>

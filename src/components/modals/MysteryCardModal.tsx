@@ -228,11 +228,11 @@ export const MysteryCardModal: React.FC<MysteryCardModalProps> = ({
 
         {/* Card Authentic Visual */}
         <div className="flex justify-center my-2">
-          <div className="card-hover card-hover-purple card-hover-shine group rounded-2xl overflow-hidden shadow-lg border-2 border-purple-200 max-w-[260px] bg-purple-50 p-1">
+          <div className="card-hover card-hover-purple card-hover-shine group rounded-2xl overflow-hidden shadow-lg border-2 border-purple-200 max-w-[330px] w-full bg-purple-50 p-1">
             <img
               src={currentCard.image}
               alt={currentCard.title}
-              className="w-full h-auto object-contain rounded-xl transition-transform duration-300 group-hover:scale-106 group-hover:-rotate-1"
+              className="w-full h-auto object-contain rounded-xl transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-1"
               referrerPolicy="no-referrer"
             />
           </div>
