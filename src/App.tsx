@@ -1279,6 +1279,8 @@ export default function App() {
           onOpenOrganGuide={() => setShowOrganGuide(true)}
           onOpenMusicSelector={() => setShowMusicModal(true)}
         />
+        {showRules && <RulebookModal onClose={() => setShowRules(false)} />}
+        {showOrganGuide && <OrganGuideModal onClose={() => setShowOrganGuide(false)} />}
         {showMusicModal && (
           <MusicSelectorModal onClose={() => setShowMusicModal(false)} />
         )}
