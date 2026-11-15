@@ -31,7 +31,7 @@ export const RulebookModal: React.FC<RulebookModalProps> = ({ onClose }) => {
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full hover:bg-white/20 text-white transition-colors cursor-pointer"
+            className="btn-nav p-1.5 rounded-full hover:bg-white/20 text-white cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -40,7 +40,7 @@ export const RulebookModal: React.FC<RulebookModalProps> = ({ onClose }) => {
         {/* Content Body */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5 text-slate-700 text-xs sm:text-sm">
           {/* Section 1 */}
-          <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200">
+          <div className="card-hover-subtle card-hover-amber p-4 rounded-2xl bg-amber-50/70 border border-amber-200">
             <h4 className="font-heading font-bold text-amber-900 text-sm sm:text-base flex items-center gap-2 mb-2">
               <Sparkles className="w-4 h-4 text-amber-600" />
               <span>1. Tujuan Permainan & Poin Awal</span>
@@ -52,7 +52,7 @@ export const RulebookModal: React.FC<RulebookModalProps> = ({ onClose }) => {
           </div>
 
           {/* Section 2 */}
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+          <div className="card-hover-subtle card-hover-amber p-4 rounded-2xl bg-slate-50 border border-slate-200">
             <h4 className="font-heading font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2 mb-2">
               <span>🎲 2. Giliran & Dadu (Digital & Fisik)</span>
             </h4>
@@ -65,7 +65,7 @@ export const RulebookModal: React.FC<RulebookModalProps> = ({ onClose }) => {
           </div>
 
           {/* Section 3 */}
-          <div className="p-4 rounded-2xl bg-rose-50/70 border border-rose-200">
+          <div className="card-hover-subtle card-hover-rose p-4 rounded-2xl bg-rose-50/70 border border-rose-200">
             <h4 className="font-heading font-bold text-rose-900 text-sm sm:text-base flex items-center gap-2 mb-2">
               <Award className="w-4 h-4 text-rose-600" />
               <span>3. Kartu Organ & Transaksi Jual (+5 Poin)</span>
@@ -80,7 +80,7 @@ export const RulebookModal: React.FC<RulebookModalProps> = ({ onClose }) => {
           </div>
 
           {/* Section 4 */}
-          <div className="p-4 rounded-2xl bg-purple-50/70 border border-purple-200">
+          <div className="card-hover-subtle card-hover-purple p-4 rounded-2xl bg-purple-50/70 border border-purple-200">
             <h4 className="font-heading font-bold text-purple-900 text-sm sm:text-base flex items-center gap-2 mb-2">
               <span>🔮 4. Kotak Mystery & Kotak Jebakan</span>
             </h4>
@@ -91,7 +91,7 @@ export const RulebookModal: React.FC<RulebookModalProps> = ({ onClose }) => {
           </div>
 
           {/* Section 5 */}
-          <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200">
+          <div className="card-hover-subtle card-hover-emerald p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200">
             <h4 className="font-heading font-bold text-emerald-900 text-sm sm:text-base flex items-center gap-2 mb-2">
               <ShieldCheck className="w-4 h-4 text-emerald-600" />
               <span>5. Kartu Penyelamat (SELAMAT!)</span>
@@ -102,7 +102,7 @@ export const RulebookModal: React.FC<RulebookModalProps> = ({ onClose }) => {
           </div>
 
           {/* Section 6 */}
-          <div className="p-4 rounded-2xl bg-sky-50/70 border border-sky-200">
+          <div className="card-hover-subtle card-hover-sky p-4 rounded-2xl bg-sky-50/70 border border-sky-200">
             <h4 className="font-heading font-bold text-sky-900 text-sm sm:text-base flex items-center gap-2 mb-2">
               <span>⭐ 6. QR Challenge, QR Mission & Secret Code</span>
             </h4>
@@ -113,7 +113,7 @@ export const RulebookModal: React.FC<RulebookModalProps> = ({ onClose }) => {
           </div>
 
           {/* Section 7 */}
-          <div className="p-4 rounded-2xl bg-linear-to-r from-amber-50 to-orange-50 border-2 border-amber-300">
+          <div className="card-hover-subtle card-hover-amber p-4 rounded-2xl bg-linear-to-r from-amber-50 to-orange-50 border-2 border-amber-300">
             <h4 className="font-heading font-bold text-amber-950 text-sm sm:text-base flex items-center gap-2 mb-2">
               <Trophy className="w-5 h-5 text-amber-600" />
               <span>7. Final Mission (Kotak 27) & Syarat FINISH (Kotak 28)</span>
@@ -137,7 +137,7 @@ export const RulebookModal: React.FC<RulebookModalProps> = ({ onClose }) => {
         <div className="p-4 bg-slate-50 border-t border-slate-200 flex justify-end">
           <button
             onClick={onClose}
-            className="px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer shadow-md shadow-amber-500/20"
+            className="btn-cta px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-bold cursor-pointer shadow-md shadow-amber-500/20"
           >
             Saya Mengerti Aturan Bermain!
           </button>

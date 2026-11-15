@@ -141,7 +141,7 @@ export const Board: React.FC<BoardProps> = ({
                   gridRowStart: pos.row + 1,
                   gridColumnStart: pos.col + 1,
                 }}
-                className={`relative aspect-square w-full rounded-lg sm:rounded-xl md:rounded-2xl cursor-pointer transition-all duration-150 bg-white/90 ${
+                className={`tile-hover relative aspect-square w-full rounded-lg sm:rounded-xl md:rounded-2xl cursor-pointer bg-white/90 ${
                   isTargetActive
                     ? 'ring-2 sm:ring-4 ring-amber-400 ring-offset-0.5 sm:ring-offset-2 z-20 shadow-md'
                     : isSelected
@@ -384,7 +384,7 @@ export const Board: React.FC<BoardProps> = ({
                     }}
                     disabled={activePlayer.position <= 1}
                     title="Koreksi mundur 1 kotak jika salah langkah fisik"
-                    className="px-1.5 sm:px-2 py-0.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-30 text-slate-700 rounded text-[7.5px] sm:text-[9px] font-bold cursor-pointer"
+                    className="btn-nav px-1.5 sm:px-2 py-0.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-30 text-slate-700 rounded text-[7.5px] sm:text-[9px] font-bold cursor-pointer"
                   >
                     -1
                   </button>
@@ -395,7 +395,7 @@ export const Board: React.FC<BoardProps> = ({
                     }}
                     disabled={activePlayer.position >= 28}
                     title="Koreksi maju 1 kotak"
-                    className="px-1.5 sm:px-2 py-0.5 bg-amber-500 hover:bg-amber-600 disabled:opacity-30 text-white rounded text-[7.5px] sm:text-[9px] font-bold cursor-pointer"
+                    className="btn-nav px-1.5 sm:px-2 py-0.5 bg-amber-500 hover:bg-amber-600 disabled:opacity-30 text-white rounded text-[7.5px] sm:text-[9px] font-bold cursor-pointer"
                   >
                     +1
                   </button>
@@ -410,7 +410,7 @@ export const Board: React.FC<BoardProps> = ({
                     onToggleFullscreen();
                   }}
                   title={isBoardFullscreen ? 'Keluar Layar Penuh (Perkecil) - Esc' : 'Layar Penuh Papan Permainan'}
-                  className={`px-1.5 sm:px-3 py-0.5 sm:py-1.5 rounded-lg sm:rounded-xl transition-all cursor-pointer shadow-sm flex items-center gap-1 sm:gap-1.5 font-heading active:scale-95 ${
+                  className={`btn-nav group px-1.5 sm:px-3 py-0.5 sm:py-1.5 rounded-lg sm:rounded-xl cursor-pointer shadow-sm flex items-center gap-1 sm:gap-1.5 font-heading ${
                     isBoardFullscreen
                       ? 'bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-[8px] sm:text-[10px] border-2 border-rose-700 shadow-md ring-2 ring-rose-300'
                       : 'hidden sm:flex bg-white/95 hover:bg-amber-100 text-slate-800 hover:text-amber-950 font-bold text-[8px] sm:text-[9.5px] border border-amber-300'
@@ -418,12 +418,12 @@ export const Board: React.FC<BoardProps> = ({
                 >
                   {isBoardFullscreen ? (
                     <>
-                      <Minimize className="w-3.5 h-3.5 text-white shrink-0" />
+                      <Minimize className="w-3.5 h-3.5 text-white shrink-0 transition-transform group-hover:scale-90" />
                       <span>Perkecil</span>
                     </>
                   ) : (
                     <>
-                      <Maximize className="w-3.5 h-3.5 text-indigo-700 shrink-0" />
+                      <Maximize className="w-3.5 h-3.5 text-indigo-700 shrink-0 transition-transform group-hover:scale-115" />
                       <span className="hidden sm:inline">Layar Penuh</span>
                     </>
                   )}

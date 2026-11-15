@@ -66,7 +66,7 @@ export const SecretCodeModal: React.FC<SecretCodeModalProps> = ({
         </div>
 
         {/* Lock Graphic Card */}
-        <div className="bg-linear-to-b from-amber-50 to-orange-50/50 rounded-2xl p-5 border-2 border-amber-200 text-center mb-5">
+        <div className="card-hover card-hover-amber card-hover-shine bg-linear-to-b from-amber-50 to-orange-50/50 rounded-2xl p-5 border-2 border-amber-200 text-center mb-5">
           <div className="inline-flex items-center justify-center w-12 h-12 bg-amber-400 text-amber-950 rounded-2xl shadow-md mb-3">
             <KeyRound className="w-6 h-6" />
           </div>
@@ -109,14 +109,14 @@ export const SecretCodeModal: React.FC<SecretCodeModalProps> = ({
 
             <button
               type="submit"
-              className="w-full py-3.5 rounded-xl bg-linear-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-heading font-bold text-sm tracking-wide shadow-md shadow-orange-500/20 active:scale-98 transition-all cursor-pointer"
+              className="btn-cta w-full py-3.5 rounded-xl bg-linear-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-heading font-bold text-sm tracking-wide shadow-md shadow-orange-500/20 cursor-pointer"
             >
               PERIKSA JAWABAN (+10 POIN)
             </button>
           </form>
         ) : (
           <div className="space-y-4 animate-in zoom-in-95">
-            <div className="p-4 bg-emerald-50 border-2 border-emerald-400 rounded-2xl text-center">
+            <div className="card-hover-subtle card-hover-emerald p-4 bg-emerald-50 border-2 border-emerald-400 rounded-2xl text-center">
               <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto mb-1 animate-bounce" />
               <h4 className="text-lg font-heading font-extrabold text-emerald-900">
                 HEBAT! KODE BERHASIL DIPECAHKAN!
@@ -131,7 +131,7 @@ export const SecretCodeModal: React.FC<SecretCodeModalProps> = ({
 
             <button
               onClick={handleComplete}
-              className="w-full py-3.5 rounded-xl bg-linear-to-r from-emerald-500 to-teal-500 text-white font-heading font-bold text-sm tracking-wide shadow-md shadow-emerald-500/20 hover:brightness-105 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="btn-cta w-full py-3.5 rounded-xl bg-linear-to-r from-emerald-500 to-teal-500 text-white font-heading font-bold text-sm tracking-wide shadow-md shadow-emerald-500/20 flex items-center justify-center gap-2 cursor-pointer"
             >
               <Sparkles className="w-4 h-4" />
               <span>SIMPAN 10 POIN & LANJUTKAN</span>
@@ -143,7 +143,7 @@ export const SecretCodeModal: React.FC<SecretCodeModalProps> = ({
         {status !== 'correct' && (
           <button
             onClick={onClose}
-            className="w-full mt-3 py-2 text-xs font-semibold text-slate-400 hover:text-slate-700 transition-colors"
+            className="btn-nav w-full mt-3 py-2 text-xs font-semibold text-slate-400 hover:text-slate-700 rounded-xl cursor-pointer"
           >
             Lewati Tantangan
           </button>
@@ -151,7 +151,7 @@ export const SecretCodeModal: React.FC<SecretCodeModalProps> = ({
 
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+          className="btn-nav absolute top-4 right-4 p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>

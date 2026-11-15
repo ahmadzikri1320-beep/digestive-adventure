@@ -37,7 +37,7 @@ export const OrganGuideModal: React.FC<OrganGuideModalProps> = ({ onClose }) => 
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full hover:bg-white/20 text-white transition-colors cursor-pointer"
+            className="btn-nav p-1.5 rounded-full hover:bg-white/20 text-white cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -56,16 +56,16 @@ export const OrganGuideModal: React.FC<OrganGuideModalProps> = ({ onClose }) => 
                     sounds.playStep();
                     setSelectedId(organ.id);
                   }}
-                  className={`flex items-center gap-2.5 p-2.5 rounded-xl text-left text-xs font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 md:whitespace-normal ${
+                  className={`card-hover-subtle card-hover-emerald group flex items-center gap-2.5 p-2.5 rounded-xl text-left text-xs font-bold cursor-pointer whitespace-nowrap shrink-0 md:whitespace-normal border ${
                     isSelected
-                      ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                      ? 'bg-emerald-600 text-white border-emerald-700 shadow-md shadow-emerald-600/30 animate-tab-pop'
+                      : 'bg-slate-100 text-slate-700 border-slate-200/80 hover:bg-emerald-50 hover:text-emerald-900'
                   }`}
                 >
                   <img
                     src={organ.image}
                     alt={organ.name}
-                    className="w-7 h-7 rounded-lg object-contain bg-white p-0.5 border border-slate-300"
+                    className="w-7 h-7 rounded-lg object-contain bg-white p-0.5 border border-slate-300 transition-transform duration-200 group-hover:scale-115"
                     referrerPolicy="no-referrer"
                   />
                   <span>{organ.name}</span>
@@ -77,11 +77,11 @@ export const OrganGuideModal: React.FC<OrganGuideModalProps> = ({ onClose }) => 
           {/* Organ Details View */}
           <div className="flex-1 bg-slate-50/80 rounded-2xl p-5 border border-slate-200">
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 mb-5">
-              <div className="w-32 h-32 rounded-2xl overflow-hidden bg-white shadow-md border-2 border-emerald-300 shrink-0">
+              <div className="card-hover card-hover-emerald card-hover-shine group w-32 h-32 rounded-2xl overflow-hidden bg-white shadow-md border-2 border-emerald-300 shrink-0">
                 <img
                   src={currentOrgan.image}
                   alt={currentOrgan.name}
-                  className="w-full h-full object-contain p-2"
+                  className="w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-2"
                   referrerPolicy="no-referrer"
                 />
               </div>
@@ -109,7 +109,7 @@ export const OrganGuideModal: React.FC<OrganGuideModalProps> = ({ onClose }) => 
                 {currentOrgan.enzymes.map((enz, idx) => (
                   <div
                     key={idx}
-                    className="p-2.5 bg-white rounded-xl border border-slate-200 text-xs font-medium text-slate-700"
+                    className="card-hover-subtle card-hover-amber p-2.5 bg-white rounded-xl border border-slate-200 text-xs font-medium text-slate-700"
                   >
                     • {enz}
                   </div>
@@ -118,7 +118,7 @@ export const OrganGuideModal: React.FC<OrganGuideModalProps> = ({ onClose }) => 
             </div>
 
             {/* Health Tips */}
-            <div className="p-3.5 bg-rose-50 border border-rose-200 rounded-xl flex items-start gap-3">
+            <div className="card-hover-subtle card-hover-rose p-3.5 bg-rose-50 border border-rose-200 rounded-xl flex items-start gap-3">
               <HeartPulse className="w-5 h-5 text-rose-500 shrink-0 mt-0.5" />
               <div className="text-xs text-rose-950">
                 <strong className="font-bold">Tips Sehat Pencernaan:</strong> {currentOrgan.healthTips}
@@ -131,7 +131,7 @@ export const OrganGuideModal: React.FC<OrganGuideModalProps> = ({ onClose }) => 
         <div className="p-4 bg-slate-50 border-t border-slate-200 flex justify-end">
           <button
             onClick={onClose}
-            className="px-6 py-2.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer"
+            className="btn-nav px-6 py-2.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold cursor-pointer"
           >
             Tutup Ensiklopedia
           </button>

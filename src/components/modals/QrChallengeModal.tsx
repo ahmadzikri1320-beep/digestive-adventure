@@ -315,11 +315,12 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
         <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-2xl mb-3 shrink-0 overflow-x-auto">
           <button
             onClick={() => {
+              sounds.playStep();
               stopCamera();
               setActiveTab('matching');
             }}
-            className={`flex-1 min-w-[100px] py-2 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-              activeTab === 'matching' ? 'bg-purple-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+            className={`btn-nav flex-1 min-w-[100px] py-2 text-xs font-bold rounded-xl cursor-pointer flex items-center justify-center gap-1.5 ${
+              activeTab === 'matching' ? 'bg-purple-600 text-white shadow-xs animate-tab-pop' : 'text-slate-600 hover:text-slate-900 hover:bg-white/70'
             }`}
           >
             <Puzzle className="w-3.5 h-3.5" />
@@ -328,11 +329,12 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
 
           <button
             onClick={() => {
+              sounds.playStep();
               stopCamera();
               setActiveTab('sequence');
             }}
-            className={`flex-1 min-w-[100px] py-2 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-              activeTab === 'sequence' ? 'bg-indigo-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+            className={`btn-nav flex-1 min-w-[100px] py-2 text-xs font-bold rounded-xl cursor-pointer flex items-center justify-center gap-1.5 ${
+              activeTab === 'sequence' ? 'bg-indigo-600 text-white shadow-xs animate-tab-pop' : 'text-slate-600 hover:text-slate-900 hover:bg-white/70'
             }`}
           >
             <ArrowUpDown className="w-3.5 h-3.5" />
@@ -341,11 +343,12 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
 
           <button
             onClick={() => {
+              sounds.playStep();
               stopCamera();
               setActiveTab('quiz');
             }}
-            className={`flex-1 min-w-[80px] py-2 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-              activeTab === 'quiz' ? 'bg-amber-500 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+            className={`btn-nav flex-1 min-w-[80px] py-2 text-xs font-bold rounded-xl cursor-pointer flex items-center justify-center gap-1.5 ${
+              activeTab === 'quiz' ? 'bg-amber-500 text-white shadow-xs animate-tab-pop' : 'text-slate-600 hover:text-slate-900 hover:bg-white/70'
             }`}
           >
             <HelpCircle className="w-3.5 h-3.5" />
@@ -354,11 +357,12 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
 
           <button
             onClick={() => {
+              sounds.playStep();
               setActiveTab('scanner');
               startCamera();
             }}
-            className={`flex-1 min-w-[85px] py-2 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-              activeTab === 'scanner' ? 'bg-emerald-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+            className={`btn-nav flex-1 min-w-[85px] py-2 text-xs font-bold rounded-xl cursor-pointer flex items-center justify-center gap-1.5 ${
+              activeTab === 'scanner' ? 'bg-emerald-600 text-white shadow-xs animate-tab-pop' : 'text-slate-600 hover:text-slate-900 hover:bg-white/70'
             }`}
           >
             <Camera className="w-3.5 h-3.5" />
@@ -367,11 +371,12 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
 
           <button
             onClick={() => {
+              sounds.playStep();
               stopCamera();
               setActiveTab('web');
             }}
-            className={`flex-1 min-w-[80px] py-2 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-              activeTab === 'web' ? 'bg-sky-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+            className={`btn-nav flex-1 min-w-[80px] py-2 text-xs font-bold rounded-xl cursor-pointer flex items-center justify-center gap-1.5 ${
+              activeTab === 'web' ? 'bg-sky-600 text-white shadow-xs animate-tab-pop' : 'text-slate-600 hover:text-slate-900 hover:bg-white/70'
             }`}
           >
             <Globe className="w-3.5 h-3.5" />
@@ -395,9 +400,9 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
                 </div>
                 <button
                   onClick={handleNextMatchingChallenge}
-                  className="px-2.5 py-1.5 bg-purple-100 hover:bg-purple-200 text-purple-800 rounded-xl text-xs font-bold flex items-center gap-1 shrink-0 cursor-pointer shadow-2xs"
+                  className="btn-nav group px-2.5 py-1.5 bg-purple-100 hover:bg-purple-200 text-purple-800 rounded-xl text-xs font-bold flex items-center gap-1 shrink-0 cursor-pointer shadow-2xs"
                 >
-                  <RefreshCw className="w-3.5 h-3.5" />
+                  <RefreshCw className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-180" />
                   <span>Acak Puzzle</span>
                 </button>
               </div>
@@ -424,12 +429,12 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
                         key={p.id}
                         disabled={isMatched}
                         onClick={() => handleSelectLeft(p.id)}
-                        className={`w-full p-3 rounded-2xl border-2 text-left text-xs font-extrabold transition-all cursor-pointer flex items-center justify-between gap-2 ${
+                        className={`w-full p-3 rounded-2xl border-2 text-left text-xs font-extrabold flex items-center justify-between gap-2 ${
                           isMatched
-                            ? 'bg-emerald-50 border-emerald-400 text-emerald-800 opacity-90 shadow-2xs'
+                            ? 'card-disabled bg-emerald-50 border-emerald-400 text-emerald-800 opacity-90 shadow-2xs cursor-default'
                             : isSelected
-                            ? 'bg-purple-600 text-white border-purple-700 shadow-md scale-[1.02] ring-2 ring-purple-300'
-                            : 'bg-white hover:bg-purple-50/60 border-purple-200 text-slate-800 shadow-2xs'
+                            ? 'bg-purple-600 text-white border-purple-700 shadow-md scale-[1.02] ring-2 ring-purple-300 cursor-pointer'
+                            : 'card-hover-subtle card-hover-purple bg-white hover:bg-purple-50/60 border-purple-200 text-slate-800 shadow-2xs cursor-pointer'
                         }`}
                       >
                         <div>
@@ -472,12 +477,12 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
                         key={p.id}
                         disabled={isMatched || !selectedLeftId}
                         onClick={() => handleSelectRight(p.id)}
-                        className={`w-full p-3 rounded-2xl border-2 text-left text-xs transition-all cursor-pointer flex items-center justify-between gap-2 min-h-[58px] ${
+                        className={`w-full p-3 rounded-2xl border-2 text-left text-xs flex items-center justify-between gap-2 min-h-[58px] ${
                           isMatched
-                            ? 'bg-emerald-50 border-emerald-400 text-emerald-900 font-bold opacity-90 shadow-2xs'
+                            ? 'card-disabled bg-emerald-50 border-emerald-400 text-emerald-900 font-bold opacity-90 shadow-2xs cursor-default'
                             : selectedLeftId
-                            ? 'bg-white hover:bg-amber-50 border-amber-300 text-slate-800 shadow-2xs hover:scale-[1.01]'
-                            : 'bg-slate-50 border-slate-200 text-slate-400 cursor-not-allowed'
+                            ? 'card-hover-subtle card-hover-amber bg-white hover:bg-amber-50 border-amber-300 text-slate-800 shadow-2xs cursor-pointer'
+                            : 'card-disabled bg-slate-50 border-slate-200 text-slate-400 cursor-not-allowed'
                         }`}
                       >
                         <span className="leading-snug">{p.right}</span>
@@ -508,7 +513,7 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
                     onClick={() =>
                       onSuccess(10, `Berhasil menyelesaikan puzzle mencocokkan "${matchingChallenge.title}" (+10 poin)!`)
                     }
-                    className="w-full py-3 bg-linear-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-heading font-extrabold text-sm rounded-xl shadow-lg transition-transform active:scale-98 cursor-pointer"
+                    className="btn-cta w-full py-3 bg-linear-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-heading font-extrabold text-sm rounded-xl shadow-lg cursor-pointer"
                   >
                     🎉 KLAIM BONUS MISI QR (+10 POIN) &rarr;
                   </button>
@@ -531,9 +536,9 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
                 </div>
                 <button
                   onClick={handleNextSequencePuzzle}
-                  className="px-2.5 py-1.5 bg-indigo-100 hover:bg-indigo-200 text-indigo-800 rounded-xl text-xs font-bold flex items-center gap-1 shrink-0 cursor-pointer shadow-2xs"
+                  className="btn-nav group px-2.5 py-1.5 bg-indigo-100 hover:bg-indigo-200 text-indigo-800 rounded-xl text-xs font-bold flex items-center gap-1 shrink-0 cursor-pointer shadow-2xs"
                 >
-                  <RefreshCw className="w-3.5 h-3.5" />
+                  <RefreshCw className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-180" />
                   <span>Acak Puzzle</span>
                 </button>
               </div>
@@ -546,7 +551,7 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
                   return (
                     <div
                       key={id}
-                      className="p-3 bg-white rounded-2xl border-2 border-indigo-200 flex items-center justify-between gap-2 shadow-xs"
+                      className="card-hover-subtle card-hover-indigo p-3 bg-white rounded-2xl border-2 border-indigo-200 flex items-center justify-between gap-2 shadow-xs"
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
                         <span className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-900 font-extrabold text-xs flex items-center justify-center shrink-0">
@@ -563,7 +568,7 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
                         <button
                           disabled={idx === 0 || isSequenceCorrect}
                           onClick={() => handleMoveSequenceItem(idx, 'up')}
-                          className="p-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 disabled:opacity-30 disabled:hover:bg-indigo-50 text-indigo-700 cursor-pointer transition-colors"
+                          className="btn-nav p-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 disabled:opacity-30 disabled:hover:bg-indigo-50 text-indigo-700 cursor-pointer"
                           title="Geser ke atas"
                         >
                           <ChevronUp className="w-4 h-4" />
@@ -571,7 +576,7 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
                         <button
                           disabled={idx === currentSequenceOrder.length - 1 || isSequenceCorrect}
                           onClick={() => handleMoveSequenceItem(idx, 'down')}
-                          className="p-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 disabled:opacity-30 disabled:hover:bg-indigo-50 text-indigo-700 cursor-pointer transition-colors"
+                          className="btn-nav p-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 disabled:opacity-30 disabled:hover:bg-indigo-50 text-indigo-700 cursor-pointer"
                           title="Geser ke bawah"
                         >
                           <ChevronDown className="w-4 h-4" />
@@ -586,7 +591,7 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
               {!isSequenceCorrect && (
                 <button
                   onClick={handleCheckSequence}
-                  className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-heading font-extrabold text-xs sm:text-sm rounded-xl shadow-md cursor-pointer transition-transform active:scale-98"
+                  className="btn-cta w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-heading font-extrabold text-xs sm:text-sm rounded-xl shadow-md cursor-pointer"
                 >
                   ✓ PERIKSA KEBENARAN SUSUNAN RUTE
                 </button>
@@ -638,9 +643,9 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
                 </div>
                 <button
                   onClick={handleNextRandomQuestion}
-                  className="px-2.5 py-1.5 bg-amber-100 hover:bg-amber-200 text-amber-900 rounded-xl text-xs font-bold flex items-center gap-1 shrink-0 cursor-pointer shadow-2xs"
+                  className="btn-nav group px-2.5 py-1.5 bg-amber-100 hover:bg-amber-200 text-amber-900 rounded-xl text-xs font-bold flex items-center gap-1 shrink-0 cursor-pointer shadow-2xs"
                 >
-                  <RefreshCw className="w-3.5 h-3.5" />
+                  <RefreshCw className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-180" />
                   <span>Soal Lain</span>
                 </button>
               </div>
@@ -650,18 +655,18 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
                 {question.options.map((option, idx) => {
                   const isSelected = selectedOption === idx;
                   const isAnswer = question.correctAnswer === idx;
-                  let btnStyle = 'bg-white hover:bg-amber-50/50 border-slate-200 text-slate-700';
+                  let btnStyle = 'card-hover-subtle card-hover-amber bg-white hover:bg-amber-50/50 border-slate-200 text-slate-700';
 
                   if (isSubmitted) {
                     if (isAnswer) {
-                      btnStyle = 'bg-emerald-50 border-emerald-500 text-emerald-800 font-bold';
+                      btnStyle = 'card-disabled bg-emerald-50 border-emerald-500 text-emerald-800 font-bold';
                     } else if (isSelected) {
-                      btnStyle = 'bg-rose-50 border-rose-500 text-rose-800 font-bold';
+                      btnStyle = 'card-disabled bg-rose-50 border-rose-500 text-rose-800 font-bold';
                     } else {
-                      btnStyle = 'bg-slate-50 border-slate-200 text-slate-400 opacity-60';
+                      btnStyle = 'card-disabled bg-slate-50 border-slate-200 text-slate-400 opacity-60';
                     }
                   } else if (isSelected) {
-                    btnStyle = 'bg-amber-50 border-amber-500 text-amber-900 font-bold shadow-xs';
+                    btnStyle = 'card-hover-subtle card-hover-amber bg-amber-50 border-amber-500 text-amber-900 font-bold shadow-xs';
                   }
 
                   return (
@@ -669,7 +674,7 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
                       key={idx}
                       disabled={isSubmitted}
                       onClick={() => handleOptionSelect(idx)}
-                      className={`w-full p-3 rounded-xl border-2 text-left text-xs transition-all flex items-center justify-between gap-2 cursor-pointer ${btnStyle}`}
+                      className={`w-full p-3 rounded-xl border-2 text-left text-xs flex items-center justify-between gap-2 cursor-pointer ${btnStyle}`}
                     >
                       <div className="flex items-center gap-2">
                         <span className="font-extrabold w-5">{String.fromCharCode(65 + idx)}.</span>
@@ -686,7 +691,7 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
                 <button
                   disabled={selectedOption === null}
                   onClick={handleSubmitQuiz}
-                  className="w-full py-3 bg-amber-500 hover:bg-amber-600 disabled:opacity-40 disabled:hover:bg-amber-500 text-white font-heading font-extrabold text-xs sm:text-sm rounded-xl shadow-md cursor-pointer transition-transform active:scale-98"
+                  className="btn-cta w-full py-3 bg-amber-500 hover:bg-amber-600 disabled:opacity-40 disabled:hover:bg-amber-500 text-white font-heading font-extrabold text-xs sm:text-sm rounded-xl shadow-md cursor-pointer"
                 >
                   KIRIM JAWABAN
                 </button>
@@ -698,7 +703,7 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
                     onClick={() =>
                       onSuccess(10, `Berhasil menjawab kuis QR Kotak #${tileNumber} secara benar (+10 poin)!`)
                     }
-                    className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md cursor-pointer"
+                    className="btn-cta w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md cursor-pointer"
                   >
                     KLAIM +10 POIN &rarr;
                   </button>
@@ -777,7 +782,7 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
                 {EDUCATIONAL_WEB_LINKS.map((item, idx) => (
                   <div
                     key={idx}
-                    className="p-3 bg-white rounded-xl border border-slate-200 hover:border-sky-400 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-xs"
+                    className="card-hover card-hover-sky card-hover-shine p-3 bg-white rounded-xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-xs"
                   >
                     <div>
                       <h5 className="text-xs font-bold text-slate-800">{item.title}</h5>
@@ -785,7 +790,7 @@ export const QrChallengeModal: React.FC<QrChallengeModalProps> = ({
                     </div>
                     <button
                       onClick={() => openWeb(item.url)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-sky-500 hover:bg-sky-600 text-white rounded-lg text-xs font-bold transition-colors cursor-pointer shrink-0 self-start sm:self-auto shadow-xs"
+                      className="btn-nav inline-flex items-center gap-1.5 px-3 py-1.5 bg-sky-500 hover:bg-sky-600 text-white rounded-lg text-xs font-bold cursor-pointer shrink-0 self-start sm:self-auto shadow-xs"
                     >
                       <span>Buka Web</span>
                       <ExternalLink className="w-3.5 h-3.5" />

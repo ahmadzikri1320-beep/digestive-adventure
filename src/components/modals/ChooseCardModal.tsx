@@ -97,15 +97,15 @@ export const ChooseCardModal: React.FC<ChooseCardModalProps> = ({
               sounds.playButton();
               setActiveTab('organ');
             }}
-            className={`p-2.5 sm:p-3 rounded-2xl border-2 transition-all cursor-pointer text-center flex flex-col items-center justify-center gap-1 ${
+            className={`btn-nav group p-2.5 sm:p-3 rounded-2xl border-2 cursor-pointer text-center flex flex-col items-center justify-center gap-1 ${
               activeTab === 'organ'
-                ? 'bg-rose-600 text-white border-rose-700 shadow-md ring-2 ring-rose-400 scale-[1.02]'
+                ? 'bg-rose-600 text-white border-rose-700 shadow-md ring-2 ring-rose-400 scale-[1.02] animate-tab-pop'
                 : 'bg-rose-50/70 text-rose-800 border-rose-200 hover:bg-rose-100 hover:border-rose-300'
             }`}
           >
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-rose-400 animate-pulse" />
-              <Layers className="w-4 h-4" />
+              <Layers className="w-4 h-4 transition-transform duration-300 group-hover:scale-115" />
               <span className="text-xs sm:text-sm font-heading font-black tracking-wide">ORGAN</span>
             </div>
             <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${
@@ -121,15 +121,15 @@ export const ChooseCardModal: React.FC<ChooseCardModalProps> = ({
               sounds.playButton();
               setActiveTab('mystery');
             }}
-            className={`p-2.5 sm:p-3 rounded-2xl border-2 transition-all cursor-pointer text-center flex flex-col items-center justify-center gap-1 ${
+            className={`btn-nav group p-2.5 sm:p-3 rounded-2xl border-2 cursor-pointer text-center flex flex-col items-center justify-center gap-1 ${
               activeTab === 'mystery'
-                ? 'bg-purple-600 text-white border-purple-700 shadow-md ring-2 ring-purple-400 scale-[1.02]'
+                ? 'bg-purple-600 text-white border-purple-700 shadow-md ring-2 ring-purple-400 scale-[1.02] animate-tab-pop'
                 : 'bg-purple-50/70 text-purple-800 border-purple-200 hover:bg-purple-100 hover:border-purple-300'
             }`}
           >
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-purple-400 animate-pulse" />
-              <HelpCircle className="w-4 h-4" />
+              <HelpCircle className="w-4 h-4 transition-transform duration-300 group-hover:scale-115" />
               <span className="text-xs sm:text-sm font-heading font-black tracking-wide">MYSTERY</span>
             </div>
             <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${
@@ -145,15 +145,15 @@ export const ChooseCardModal: React.FC<ChooseCardModalProps> = ({
               sounds.playButton();
               setActiveTab('trap');
             }}
-            className={`p-2.5 sm:p-3 rounded-2xl border-2 transition-all cursor-pointer text-center flex flex-col items-center justify-center gap-1 ${
+            className={`btn-nav group p-2.5 sm:p-3 rounded-2xl border-2 cursor-pointer text-center flex flex-col items-center justify-center gap-1 ${
               activeTab === 'trap'
-                ? 'bg-blue-600 text-white border-blue-700 shadow-md ring-2 ring-blue-400 scale-[1.02]'
+                ? 'bg-blue-600 text-white border-blue-700 shadow-md ring-2 ring-blue-400 scale-[1.02] animate-tab-pop'
                 : 'bg-blue-50/70 text-blue-800 border-blue-200 hover:bg-blue-100 hover:border-blue-300'
             }`}
           >
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-blue-400 animate-pulse" />
-              <AlertTriangle className="w-4 h-4" />
+              <AlertTriangle className="w-4 h-4 transition-transform duration-300 group-hover:scale-115" />
               <span className="text-xs sm:text-sm font-heading font-black tracking-wide">JEBAKAN</span>
             </div>
             <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${
@@ -183,13 +183,13 @@ export const ChooseCardModal: React.FC<ChooseCardModalProps> = ({
                 <button
                   disabled={availableOrgans.length === 0}
                   onClick={handlePickRandomOrgan}
-                  className={`px-3 py-1.5 font-bold text-xs rounded-xl shadow-xs flex items-center gap-1.5 transition-transform shrink-0 ${
+                  className={`btn-cta group px-3 py-1.5 font-bold text-xs rounded-xl shadow-xs flex items-center gap-1.5 shrink-0 ${
                     availableOrgans.length === 0
                       ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                      : 'bg-rose-600 hover:bg-rose-700 text-white cursor-pointer active:scale-95'
+                      : 'bg-rose-600 hover:bg-rose-700 text-white cursor-pointer'
                   }`}
                 >
-                  <Dices className="w-3.5 h-3.5" />
+                  <Dices className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-45" />
                   <span>
                     {availableOrgans.length > 0
                       ? `Ambil Acak (${availableOrgans.length} Tersedia)`
@@ -216,12 +216,12 @@ export const ChooseCardModal: React.FC<ChooseCardModalProps> = ({
                         sounds.playBonus();
                         onPickOrgan(key);
                       }}
-                      className={`p-2.5 rounded-2xl border-2 text-center transition-all flex flex-col items-center justify-between min-h-[148px] relative ${
+                      className={`p-2.5 rounded-2xl border-2 text-center flex flex-col items-center justify-between min-h-[148px] relative ${
                         isOwnedByMe
-                          ? 'bg-emerald-50/70 border-emerald-300 cursor-default shadow-xs'
+                          ? 'card-disabled bg-emerald-50/70 border-emerald-300 cursor-default shadow-xs'
                           : isOwnedByOther
-                          ? 'bg-slate-100/80 border-slate-300 opacity-60 grayscale-40 cursor-not-allowed'
-                          : 'bg-white border-rose-200 hover:border-rose-500 hover:bg-rose-50/50 cursor-pointer shadow-xs group'
+                          ? 'card-disabled bg-slate-100/80 border-slate-300 opacity-60 grayscale-40 cursor-not-allowed'
+                          : 'card-hover card-hover-rose card-hover-shine bg-white border-rose-200 hover:bg-rose-50/50 cursor-pointer shadow-xs group'
                       }`}
                     >
                       <div className="w-full flex justify-center mb-1">
@@ -244,7 +244,7 @@ export const ChooseCardModal: React.FC<ChooseCardModalProps> = ({
                       <img
                         src={organ.image}
                         alt={organ.title}
-                        className={`w-14 h-14 object-contain mx-auto my-0.5 ${isAvailable ? 'group-hover:scale-108 transition-transform' : ''}`}
+                        className={`w-14 h-14 object-contain mx-auto my-0.5 ${isAvailable ? 'transition-transform duration-300 group-hover:scale-115 group-hover:-rotate-3' : ''}`}
                         referrerPolicy="no-referrer"
                       />
 
@@ -293,9 +293,9 @@ export const ChooseCardModal: React.FC<ChooseCardModalProps> = ({
                 </div>
                 <button
                   onClick={handlePickRandomMystery}
-                  className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl shadow-xs flex items-center gap-1.5 cursor-pointer transition-transform active:scale-95 shrink-0"
+                  className="btn-cta group px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl shadow-xs flex items-center gap-1.5 cursor-pointer shrink-0"
                 >
-                  <Dices className="w-3.5 h-3.5" />
+                  <Dices className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-45" />
                   <span>Ambil Acak ({availableMystery.length} Tersisa dari {MYSTERY_CARDS.length})</span>
                 </button>
               </div>
@@ -313,10 +313,10 @@ export const ChooseCardModal: React.FC<ChooseCardModalProps> = ({
                         sounds.playCardFlip();
                         onPickMystery(card);
                       }}
-                      className={`p-3 rounded-2xl border-2 text-left transition-all flex items-center gap-3 relative ${
+                      className={`p-3 rounded-2xl border-2 text-left flex items-center gap-3 relative ${
                         isUsed
-                          ? 'bg-slate-100/90 border-slate-300 opacity-55 grayscale-40 cursor-not-allowed'
-                          : 'bg-white hover:bg-purple-50/70 border-purple-200 hover:border-purple-500 cursor-pointer shadow-xs group'
+                          ? 'card-disabled bg-slate-100/90 border-slate-300 opacity-55 grayscale-40 cursor-not-allowed'
+                          : 'card-hover card-hover-purple card-hover-shine bg-white hover:bg-purple-50/70 border-purple-200 cursor-pointer shadow-xs group'
                       }`}
                     >
                       <div className={`w-14 h-16 rounded-xl overflow-hidden border shrink-0 flex items-center justify-center p-0.5 ${
@@ -325,7 +325,7 @@ export const ChooseCardModal: React.FC<ChooseCardModalProps> = ({
                         <img
                           src={card.image}
                           alt={card.title}
-                          className={`w-full h-full object-contain ${!isUsed ? 'group-hover:scale-105 transition-transform' : ''}`}
+                          className={`w-full h-full object-contain ${!isUsed ? 'transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-2' : ''}`}
                           referrerPolicy="no-referrer"
                         />
                       </div>
@@ -392,9 +392,9 @@ export const ChooseCardModal: React.FC<ChooseCardModalProps> = ({
                 </div>
                 <button
                   onClick={handlePickRandomTrap}
-                  className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs flex items-center gap-1.5 cursor-pointer transition-transform active:scale-95 shrink-0"
+                  className="btn-cta group px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs flex items-center gap-1.5 cursor-pointer shrink-0"
                 >
-                  <Dices className="w-3.5 h-3.5" />
+                  <Dices className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-45" />
                   <span>Ambil Acak ({availableTrap.length} Tersisa dari {TRAP_CARDS.length})</span>
                 </button>
               </div>
@@ -412,10 +412,10 @@ export const ChooseCardModal: React.FC<ChooseCardModalProps> = ({
                         sounds.playCardFlip();
                         onPickTrap(card);
                       }}
-                      className={`p-3 rounded-2xl border-2 text-left transition-all flex items-center gap-3 relative ${
+                      className={`p-3 rounded-2xl border-2 text-left flex items-center gap-3 relative ${
                         isUsed
-                          ? 'bg-slate-100/90 border-slate-300 opacity-55 grayscale-40 cursor-not-allowed'
-                          : 'bg-white hover:bg-blue-50/70 border-blue-200 hover:border-blue-500 cursor-pointer shadow-xs group'
+                          ? 'card-disabled bg-slate-100/90 border-slate-300 opacity-55 grayscale-40 cursor-not-allowed'
+                          : 'card-hover card-hover-blue card-hover-shine bg-white hover:bg-blue-50/70 border-blue-200 cursor-pointer shadow-xs group'
                       }`}
                     >
                       <div className={`w-14 h-16 rounded-xl overflow-hidden border shrink-0 flex items-center justify-center p-0.5 ${
@@ -424,7 +424,7 @@ export const ChooseCardModal: React.FC<ChooseCardModalProps> = ({
                         <img
                           src={card.image}
                           alt={card.title}
-                          className={`w-full h-full object-contain ${!isUsed ? 'group-hover:scale-105 transition-transform' : ''}`}
+                          className={`w-full h-full object-contain ${!isUsed ? 'transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-2' : ''}`}
                           referrerPolicy="no-referrer"
                         />
                       </div>
@@ -474,7 +474,7 @@ export const ChooseCardModal: React.FC<ChooseCardModalProps> = ({
           <div className="mt-4 pt-3 border-t-2 border-slate-200">
             <button
               onClick={() => setShowSellDrawer(!showSellDrawer)}
-              className="w-full p-2.5 bg-slate-100 hover:bg-slate-200/80 rounded-2xl flex items-center justify-between text-slate-700 cursor-pointer transition-colors"
+              className="btn-nav w-full p-2.5 bg-slate-100 hover:bg-slate-200/80 rounded-2xl flex items-center justify-between text-slate-700 cursor-pointer"
             >
               <div className="flex items-center gap-2">
                 <Coins className="w-4 h-4 text-emerald-600" />
@@ -504,7 +504,7 @@ export const ChooseCardModal: React.FC<ChooseCardModalProps> = ({
                       return (
                         <div
                           key={key}
-                          className="p-2 bg-white rounded-xl border border-slate-200 flex items-center justify-between gap-2 shadow-2xs"
+                          className="card-hover-subtle card-hover-emerald p-2 bg-white rounded-xl border border-slate-200 flex items-center justify-between gap-2 shadow-2xs"
                         >
                           <div className="flex items-center gap-2">
                             <img
@@ -523,7 +523,7 @@ export const ChooseCardModal: React.FC<ChooseCardModalProps> = ({
                               sounds.playBonus();
                               onSellOrgan(key);
                             }}
-                            className="px-3 py-1 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg text-xs font-bold transition-all cursor-pointer shadow-xs"
+                            className="btn-nav px-3 py-1 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg text-xs font-bold cursor-pointer shadow-xs"
                           >
                             Jual (+5 Poin)
                           </button>
@@ -544,7 +544,7 @@ export const ChooseCardModal: React.FC<ChooseCardModalProps> = ({
               sounds.playButton();
               onClose();
             }}
-            className="w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-heading font-bold text-xs sm:text-sm tracking-wide shadow-md active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
+            className="btn-cta w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-heading font-bold text-xs sm:text-sm tracking-wide shadow-md flex items-center justify-center gap-2 cursor-pointer"
           >
             <Check className="w-4 h-4" />
             <span>TUTUP & SELESAIKAN GILIRAN</span>
@@ -557,7 +557,7 @@ export const ChooseCardModal: React.FC<ChooseCardModalProps> = ({
             sounds.playButton();
             onClose();
           }}
-          className="absolute top-4 right-4 p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+          className="btn-nav absolute top-4 right-4 p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>

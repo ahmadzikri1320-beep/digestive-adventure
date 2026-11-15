@@ -53,15 +53,15 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Zone 2: Navigation Links */}
-        <nav className="hidden md:flex items-center gap-5 text-sm font-medium text-slate-600">
+        <nav className="hidden md:flex items-center gap-3 text-sm font-medium text-slate-600">
           <button
             onClick={() => {
               sounds.playCardFlip();
               onOpenRules();
             }}
-            className="flex items-center gap-1.5 hover:text-amber-600 transition-colors cursor-pointer whitespace-nowrap shrink-0"
+            className="btn-nav group flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50/70 hover:bg-amber-100/90 text-slate-700 hover:text-amber-800 border border-amber-200/80 hover:border-amber-300 cursor-pointer whitespace-nowrap shrink-0"
           >
-            <BookOpen className="w-4 h-4 text-amber-500" />
+            <BookOpen className="w-4 h-4 text-amber-500 transition-transform duration-300 group-hover:scale-115 group-hover:-rotate-6" />
             <span>Cara Bermain</span>
           </button>
 
@@ -70,16 +70,14 @@ export const Header: React.FC<HeaderProps> = ({
               sounds.playCardFlip();
               onOpenOrganGuide();
             }}
-            className="flex items-center gap-1.5 hover:text-emerald-600 transition-colors cursor-pointer whitespace-nowrap shrink-0"
+            className="btn-nav group flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50/70 hover:bg-emerald-100/90 text-slate-700 hover:text-emerald-800 border border-emerald-200/80 hover:border-emerald-300 cursor-pointer whitespace-nowrap shrink-0"
           >
-            <Sparkles className="w-4 h-4 text-emerald-500" />
+            <Sparkles className="w-4 h-4 text-emerald-500 transition-transform duration-300 group-hover:scale-115 group-hover:rotate-12" />
             <span>Mengenal Organ</span>
           </button>
 
-
-
           {currentTurnPlayerName && (
-            <div className="flex items-center gap-2 text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
+            <div className="card-hover-subtle card-hover-emerald flex items-center gap-2 text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Giliran: {currentTurnPlayerName}</span>
             </div>
@@ -92,13 +90,13 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={onToggleBgm}
             title={isBgmOn ? 'Matikan Musik Latar Ceria' : 'Putar Musik Ceria Anak-Anak'}
-            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
+            className={`btn-nav group flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-bold cursor-pointer border ${
               isBgmOn
-                ? 'bg-amber-100 border-amber-300 text-amber-800 shadow-2xs'
+                ? 'bg-amber-100 border-amber-300 text-amber-800 shadow-2xs hover:bg-amber-200/80'
                 : 'bg-slate-50 border-slate-200 text-slate-500 hover:bg-slate-100'
             }`}
           >
-            <Music className={`w-3.5 h-3.5 ${isBgmOn ? 'text-amber-600 animate-bounce' : 'text-slate-400'}`} />
+            <Music className={`w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-115 ${isBgmOn ? 'text-amber-600 animate-bounce' : 'text-slate-400'}`} />
             <span className="hidden sm:inline">Lagu Anak</span>
             <span className={`text-[10px] px-1 rounded-sm ${isBgmOn ? 'bg-amber-500 text-white' : 'bg-slate-200 text-slate-600'}`}>
               {isBgmOn ? 'ON' : 'OFF'}
@@ -113,9 +111,9 @@ export const Header: React.FC<HeaderProps> = ({
                 onOpenMusicSelector();
               }}
               title="Pilih atau Tambah Musik Latar Belakang (Tema Ceria / Lagu Sendiri)"
-              className="p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs hover:scale-105 active:scale-95"
+              className="btn-nav group p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold cursor-pointer flex items-center gap-1.5 shadow-2xs"
             >
-              <span className="text-xs">🎼</span>
+              <span className="text-xs transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12 inline-block">🎼</span>
               <span className="hidden md:inline">Pilih Lagu</span>
             </button>
           )}
@@ -124,12 +122,12 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={onToggleMute}
             title={isMuted ? 'Nyalakan Efek Suara' : 'Matikan Efek Suara'}
-            className="p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer border border-slate-200"
+            className="btn-nav group p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer border border-slate-200"
           >
             {isMuted ? (
-              <VolumeX className="w-4 h-4 text-rose-500" />
+              <VolumeX className="w-4 h-4 text-rose-500 transition-transform duration-200 group-hover:scale-115" />
             ) : (
-              <Volume2 className="w-4 h-4 text-emerald-600" />
+              <Volume2 className="w-4 h-4 text-emerald-600 transition-transform duration-200 group-hover:scale-115" />
             )}
           </button>
 
@@ -141,7 +139,7 @@ export const Header: React.FC<HeaderProps> = ({
                 onToggleFullscreen();
               }}
               title={isFullscreen ? 'Keluar Layar Penuh (Esc)' : 'Masuk Mode Layar Penuh'}
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
+              className={`btn-nav group flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-bold cursor-pointer border ${
                 isFullscreen
                   ? 'bg-rose-600 border-rose-700 text-white shadow-xs hover:bg-rose-700'
                   : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
@@ -149,12 +147,12 @@ export const Header: React.FC<HeaderProps> = ({
             >
               {isFullscreen ? (
                 <>
-                  <Minimize className="w-3.5 h-3.5 text-white" />
+                  <Minimize className="w-3.5 h-3.5 text-white transition-transform duration-200 group-hover:scale-90" />
                   <span className="hidden sm:inline font-extrabold">Perkecil</span>
                 </>
               ) : (
                 <>
-                  <Maximize className="w-3.5 h-3.5 text-slate-600" />
+                  <Maximize className="w-3.5 h-3.5 text-slate-600 transition-transform duration-200 group-hover:scale-115" />
                   <span className="hidden sm:inline font-bold">Layar Penuh</span>
                 </>
               )}
@@ -168,18 +166,21 @@ export const Header: React.FC<HeaderProps> = ({
               onResetGame();
             }}
             title="Mulai Ulang Permainan"
-            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-semibold text-rose-700 bg-rose-50 hover:bg-rose-100 rounded-xl transition-colors cursor-pointer border border-rose-200 whitespace-nowrap shrink-0"
+            className="btn-nav group flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-semibold text-rose-700 bg-rose-50 hover:bg-rose-100 rounded-xl cursor-pointer border border-rose-200 whitespace-nowrap shrink-0"
           >
-            <RotateCcw className="w-3.5 h-3.5 text-rose-600" />
+            <RotateCcw className="w-3.5 h-3.5 text-rose-600 transition-transform duration-300 group-hover:-rotate-90" />
             <span className="hidden sm:inline">Ulang</span>
           </button>
 
           <button
-            onClick={onOpenRules}
-            className="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 border border-slate-200"
+            onClick={() => {
+              sounds.playCardFlip();
+              onOpenRules();
+            }}
+            className="btn-nav group md:hidden p-2 rounded-xl text-slate-600 hover:bg-amber-50 border border-slate-200 hover:border-amber-300 cursor-pointer"
             title="Petunjuk"
           >
-            <BookOpen className="w-4 h-4 text-amber-600" />
+            <BookOpen className="w-4 h-4 text-amber-600 transition-transform duration-200 group-hover:scale-110" />
           </button>
         </div>
       </div>

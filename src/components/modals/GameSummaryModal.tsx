@@ -113,22 +113,28 @@ export const GameSummaryModal: React.FC<GameSummaryModalProps> = ({
           </span>
           <div className="flex items-center gap-1 p-1 bg-white rounded-xl border border-amber-200 shadow-2xs">
             <button
-              onClick={() => setActiveTab('chart')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              onClick={() => {
+                sounds.playStep();
+                setActiveTab('chart');
+              }}
+              className={`btn-nav flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer ${
                 activeTab === 'chart'
-                  ? 'bg-amber-500 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-amber-500 text-white shadow-xs animate-tab-pop'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-amber-50'
               }`}
             >
               <BarChart3 className="w-3.5 h-3.5" />
               <span>Grafik Batang (Recharts)</span>
             </button>
             <button
-              onClick={() => setActiveTab('list')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              onClick={() => {
+                sounds.playStep();
+                setActiveTab('list');
+              }}
+              className={`btn-nav flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer ${
                 activeTab === 'list'
-                  ? 'bg-amber-500 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-amber-500 text-white shadow-xs animate-tab-pop'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-amber-50'
               }`}
             >
               <ListOrdered className="w-3.5 h-3.5" />
@@ -141,7 +147,7 @@ export const GameSummaryModal: React.FC<GameSummaryModalProps> = ({
         <div className="flex-1 overflow-y-auto p-4 sm:p-6">
           {activeTab === 'chart' ? (
             <div className="space-y-4">
-              <div className="p-4 bg-slate-50/90 rounded-2xl border border-slate-200">
+              <div className="card-hover-subtle card-hover-amber p-4 bg-slate-50/90 rounded-2xl border border-slate-200">
                 <div className="flex items-center justify-between mb-3">
                   <h4 className="text-xs font-heading font-extrabold text-slate-700 uppercase tracking-wider">
                     Perbandingan Total Poin Antar Pemain
@@ -208,7 +214,7 @@ export const GameSummaryModal: React.FC<GameSummaryModalProps> = ({
                 {chartData.map((entry, idx) => (
                   <div
                     key={idx}
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-white border border-slate-200 text-xs shadow-2xs"
+                    className="card-hover-subtle card-hover-amber inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-white border border-slate-200 text-xs shadow-2xs"
                   >
                     <span
                       className="w-3 h-3 rounded-full"
@@ -229,10 +235,10 @@ export const GameSummaryModal: React.FC<GameSummaryModalProps> = ({
               {sortedPlayers.map((player, idx) => (
                 <div
                   key={player.id}
-                  className={`p-3.5 rounded-2xl flex items-center justify-between gap-3 border transition-all ${
+                  className={`card-hover card-hover-amber card-hover-shine p-3.5 rounded-2xl flex items-center justify-between gap-3 border ${
                     idx === 0
                       ? 'bg-amber-50/80 border-amber-300 shadow-xs'
-                      : 'bg-white border-slate-200 hover:bg-slate-50'
+                      : 'bg-white border-slate-200 hover:bg-amber-50/30'
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -289,16 +295,16 @@ export const GameSummaryModal: React.FC<GameSummaryModalProps> = ({
         <div className="p-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row gap-2 justify-between shrink-0">
           <button
             onClick={onClose}
-            className="py-2.5 px-4 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 text-xs font-bold transition-colors cursor-pointer"
+            className="btn-nav py-2.5 px-4 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 text-xs font-bold cursor-pointer"
           >
             Tinjau Papan Permainan
           </button>
 
           <button
             onClick={onPlayAgain}
-            className="py-3 px-6 rounded-xl bg-linear-to-r from-amber-500 via-orange-500 to-rose-500 text-white font-heading font-bold text-xs sm:text-sm tracking-wide shadow-md shadow-orange-500/25 hover:brightness-105 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
+            className="btn-cta group py-3 px-6 rounded-xl bg-linear-to-r from-amber-500 via-orange-500 to-rose-500 text-white font-heading font-bold text-xs sm:text-sm tracking-wide shadow-md shadow-orange-500/25 flex items-center justify-center gap-2 cursor-pointer"
           >
-            <RotateCcw className="w-4 h-4" />
+            <RotateCcw className="w-4 h-4 transition-transform duration-300 group-hover:-rotate-90" />
             <span>MAIN LAGI DENGAN PEMAIN BARU</span>
           </button>
         </div>

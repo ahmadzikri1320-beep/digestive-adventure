@@ -69,7 +69,7 @@ export const FinishModal: React.FC<FinishModalProps> = ({
                 sounds.playBonus();
                 fireVictoryConfetti();
               }}
-              className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-100 hover:bg-amber-200 text-amber-900 rounded-full text-xs font-bold border border-amber-300 shadow-2xs cursor-pointer transition-all active:scale-95 animate-pulse"
+              className="btn-nav inline-flex items-center gap-1.5 px-3 py-1 bg-amber-100 hover:bg-amber-200 text-amber-900 rounded-full text-xs font-bold border border-amber-300 shadow-2xs cursor-pointer animate-pulse"
             >
               <PartyPopper className="w-3.5 h-3.5 text-amber-600" />
               <span>Rayakan Konfeti Lagi! 🎉</span>
@@ -77,7 +77,7 @@ export const FinishModal: React.FC<FinishModalProps> = ({
           </div>
 
           {/* Total Bonus Point Hero Card */}
-          <div className="my-4 p-4 rounded-2xl bg-linear-to-r from-amber-50 via-orange-50 to-amber-50 border-2 border-amber-300 shadow-xs">
+          <div className="card-hover card-hover-amber card-hover-shine my-4 p-4 rounded-2xl bg-linear-to-r from-amber-50 via-orange-50 to-amber-50 border-2 border-amber-300 shadow-xs">
             <div className="text-[11px] font-extrabold text-amber-800 uppercase tracking-wider">
               TOTAL BONUS DI GARIS FINISH
             </div>
@@ -92,7 +92,7 @@ export const FinishModal: React.FC<FinishModalProps> = ({
           {/* Breakdown Section: Rank Bonus + Organ Accumulation Bonus */}
           <div className="space-y-2.5 text-left mb-4">
             {/* 1. Rank Bonus */}
-            <div className="p-3 bg-amber-50/70 rounded-xl border border-amber-200 flex items-center justify-between">
+            <div className="card-hover-subtle card-hover-amber p-3 bg-amber-50/70 rounded-xl border border-amber-200 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Award className="w-4 h-4 text-amber-600 shrink-0" />
                 <span className="text-xs font-bold text-amber-950">
@@ -105,7 +105,7 @@ export const FinishModal: React.FC<FinishModalProps> = ({
             </div>
 
             {/* 2. Organ Cards Accumulation */}
-            <div className="p-3 bg-rose-50/70 rounded-xl border border-rose-200 space-y-2">
+            <div className="card-hover-subtle card-hover-rose p-3 bg-rose-50/70 rounded-xl border border-rose-200 space-y-2">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Layers className="w-4 h-4 text-rose-600 shrink-0" />
@@ -178,7 +178,7 @@ export const FinishModal: React.FC<FinishModalProps> = ({
                 sounds.playBonus();
                 onViewSummary();
               }}
-              className="w-full py-3.5 rounded-xl bg-linear-to-r from-amber-500 via-orange-500 to-rose-500 text-white font-heading font-bold text-sm tracking-wide shadow-lg shadow-orange-500/25 hover:brightness-105 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="btn-cta w-full py-3.5 rounded-xl bg-linear-to-r from-amber-500 via-orange-500 to-rose-500 text-white font-heading font-bold text-sm tracking-wide shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2 cursor-pointer"
             >
               <Sparkles className="w-4 h-4" />
               <span>LIHAT PAPAN KLASEMEN AKHIR</span>
@@ -189,7 +189,7 @@ export const FinishModal: React.FC<FinishModalProps> = ({
                 sounds.playStep();
                 onContinue();
               }}
-              className="w-full py-3.5 rounded-xl bg-linear-to-r from-emerald-500 to-teal-500 text-white font-heading font-bold text-sm tracking-wide shadow-lg shadow-emerald-500/25 hover:brightness-105 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="btn-cta w-full py-3.5 rounded-xl bg-linear-to-r from-emerald-500 to-teal-500 text-white font-heading font-bold text-sm tracking-wide shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>LANJUTKAN GILIRAN BERIKUTNYA</span>
               <ArrowRight className="w-4 h-4" />

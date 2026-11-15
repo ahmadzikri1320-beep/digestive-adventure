@@ -128,9 +128,10 @@ export const PlayerSetupModal: React.FC<PlayerSetupModalProps> = ({
               sounds.playCardFlip();
               onOpenRules();
             }}
-            className="inline-flex items-center gap-1 px-3 sm:px-4 py-1.5 sm:py-2 bg-white hover:bg-amber-50 text-slate-700 text-[11px] sm:text-xs font-semibold rounded-xl border border-amber-200 shadow-xs transition-colors cursor-pointer"
+            className="btn-nav group inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 bg-white hover:bg-amber-50 text-slate-700 hover:text-amber-900 text-[11px] sm:text-xs font-semibold rounded-xl border border-amber-200 hover:border-amber-300 shadow-xs cursor-pointer"
           >
-            📖 Cara Bermain
+            <span className="transition-transform duration-300 group-hover:scale-120 group-hover:-rotate-6 inline-block">📖</span>
+            <span>Cara Bermain</span>
           </button>
 
           <button
@@ -138,20 +139,21 @@ export const PlayerSetupModal: React.FC<PlayerSetupModalProps> = ({
               sounds.playCardFlip();
               onOpenOrganGuide();
             }}
-            className="inline-flex items-center gap-1 px-3 sm:px-4 py-1.5 sm:py-2 bg-white hover:bg-emerald-50 text-slate-700 text-[11px] sm:text-xs font-semibold rounded-xl border border-emerald-200 shadow-xs transition-colors cursor-pointer"
+            className="btn-nav group inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 bg-white hover:bg-emerald-50 text-slate-700 hover:text-emerald-900 text-[11px] sm:text-xs font-semibold rounded-xl border border-emerald-200 hover:border-emerald-300 shadow-xs cursor-pointer"
           >
-            🔬 Kenali Organ
+            <span className="transition-transform duration-300 group-hover:scale-120 group-hover:rotate-12 inline-block">🔬</span>
+            <span>Kenali Organ</span>
           </button>
 
           <button
             onClick={() => sounds.toggleBgm()}
-            className={`inline-flex items-center gap-1 px-3 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold rounded-xl border shadow-xs transition-colors cursor-pointer ${
+            className={`btn-nav group inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold rounded-xl border shadow-xs cursor-pointer ${
               isBgmOn
-                ? 'bg-amber-100 border-amber-400 text-amber-900 shadow-sm'
+                ? 'bg-amber-100 border-amber-400 text-amber-900 shadow-sm hover:bg-amber-200/80'
                 : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-600'
             }`}
           >
-            <Music className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${isBgmOn ? 'text-amber-600 animate-bounce' : 'text-slate-400'}`} />
+            <Music className={`w-3 h-3 sm:w-3.5 sm:h-3.5 transition-transform duration-300 group-hover:scale-115 ${isBgmOn ? 'text-amber-600 animate-bounce' : 'text-slate-400'}`} />
             <span>{isBgmOn ? '🎵 Musik: ON' : '🔇 Musik: OFF'}</span>
           </button>
 
@@ -161,9 +163,9 @@ export const PlayerSetupModal: React.FC<PlayerSetupModalProps> = ({
                 sounds.playCardFlip();
                 onOpenMusicSelector();
               }}
-              className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 bg-linear-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-[11px] sm:text-xs font-extrabold rounded-xl shadow-xs transition-all cursor-pointer hover:scale-105 active:scale-95"
+              className="btn-cta group inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 bg-linear-to-r from-amber-500 to-orange-500 text-white text-[11px] sm:text-xs font-extrabold rounded-xl shadow-xs cursor-pointer"
             >
-              <span>🎼</span>
+              <span className="transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12 inline-block">🎼</span>
               <span>Pilih Musik</span>
             </button>
           )}
@@ -190,10 +192,10 @@ export const PlayerSetupModal: React.FC<PlayerSetupModalProps> = ({
                 key={num}
                 type="button"
                 onClick={() => handlePlayerCountChange(num)}
-                className={`py-2.5 px-2 rounded-xl text-xs sm:text-sm font-heading font-bold transition-all cursor-pointer ${
+                className={`btn-nav py-2.5 px-2 rounded-xl text-xs sm:text-sm font-heading font-bold cursor-pointer ${
                   playerCount === num
-                    ? 'bg-amber-500 text-white shadow-md shadow-amber-500/30 scale-105'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    ? 'bg-amber-500 text-white shadow-md shadow-amber-500/30 scale-105 animate-tab-pop'
+                    : 'bg-slate-100 text-slate-700 hover:bg-amber-50 hover:text-amber-900 border border-transparent hover:border-amber-200'
                 }`}
               >
                 {num} PEMAIN
@@ -207,7 +209,7 @@ export const PlayerSetupModal: React.FC<PlayerSetupModalProps> = ({
           {activeDrafts.map((draft, idx) => (
             <div
               key={idx}
-              className="p-2.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50/80 border border-slate-200/90 flex flex-col sm:flex-row items-center gap-2.5 sm:gap-4 transition-colors"
+              className="card-hover-subtle card-hover-amber p-2.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50/80 border border-slate-200/90 flex flex-col sm:flex-row items-center gap-2.5 sm:gap-4"
             >
               {/* Player Index Badge & Avatar Preview */}
               <div className="flex items-center gap-2 sm:gap-3 shrink-0 self-start sm:self-center">
@@ -253,7 +255,7 @@ export const PlayerSetupModal: React.FC<PlayerSetupModalProps> = ({
                         key={col}
                         type="button"
                         onClick={() => handlePawnSelect(idx, col)}
-                        className={`p-0.5 sm:p-1 rounded-full border-2 transition-transform cursor-pointer ${
+                        className={`p-0.5 sm:p-1 rounded-full border-2 transition-transform duration-200 cursor-pointer hover:scale-115 active:scale-95 ${
                           isSelected ? 'border-slate-800 scale-110 shadow-xs' : 'border-transparent opacity-70 hover:opacity-100'
                         }`}
                       >
@@ -268,7 +270,7 @@ export const PlayerSetupModal: React.FC<PlayerSetupModalProps> = ({
         </div>
 
         {/* Summary of Starting Rules */}
-        <div className="mt-6 p-4 rounded-2xl bg-amber-50/70 border border-amber-200 flex items-start gap-3">
+        <div className="card-hover-subtle card-hover-amber mt-6 p-4 rounded-2xl bg-amber-50/70 border border-amber-200 flex items-start gap-3">
           <Award className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
           <div className="text-xs text-amber-900 leading-relaxed">
             <span className="font-bold">Ketentuan Awal:</span> Setiap pemain memulai di Kotak 1 (START) dengan modal{' '}
@@ -279,10 +281,10 @@ export const PlayerSetupModal: React.FC<PlayerSetupModalProps> = ({
         {/* Start Game Button */}
         <button
           onClick={handleStart}
-          className="mt-6 w-full py-4 rounded-2xl bg-linear-to-r from-amber-500 via-orange-500 to-rose-500 text-white font-heading font-bold text-base sm:text-lg tracking-wide shadow-lg shadow-orange-500/30 hover:brightness-105 active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
+          className="btn-cta group mt-6 w-full py-4 rounded-2xl bg-linear-to-r from-amber-500 via-orange-500 to-rose-500 text-white font-heading font-bold text-base sm:text-lg tracking-wide shadow-lg shadow-orange-500/30 flex items-center justify-center gap-2 cursor-pointer"
         >
-          <Play className="w-5 h-5 fill-current" />
-          MULAI PETUALANGAN
+          <Play className="w-5 h-5 fill-current transition-transform duration-300 group-hover:scale-120 group-hover:translate-x-0.5" />
+          <span>MULAI PETUALANGAN</span>
         </button>
       </div>
 

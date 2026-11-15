@@ -43,7 +43,7 @@ export const PlayerRosterPanel: React.FC<PlayerRosterPanelProps> = ({
           return (
             <div
               key={player.id}
-              className={`p-3 rounded-2xl border transition-all ${
+              className={`card-hover-subtle card-hover-amber p-3 rounded-2xl border ${
                 isTurn
                   ? 'bg-amber-50/70 border-amber-300 ring-2 ring-amber-400/40 shadow-xs'
                   : 'bg-slate-50/70 border-slate-200'
@@ -119,16 +119,16 @@ export const PlayerRosterPanel: React.FC<PlayerRosterPanelProps> = ({
                             sounds.playCardFlip();
                             onOpenCardModal(key, isTurn);
                           }}
-                          className="inline-flex items-center gap-1 px-2 py-1 bg-white hover:bg-amber-50 text-slate-700 hover:text-amber-900 text-[11px] font-semibold rounded-lg border border-slate-200 shadow-2xs transition-colors cursor-pointer"
+                          className="card-hover card-hover-rose card-hover-shine group inline-flex items-center gap-1.5 px-2.5 py-1 bg-white hover:bg-rose-50 text-slate-700 hover:text-rose-900 text-[11px] font-semibold rounded-lg border border-slate-200 shadow-2xs cursor-pointer"
                         >
                           <img
                             src={organ.image}
                             alt={organ.title}
-                            className="w-4 h-4 rounded-xs object-contain"
+                            className="w-4 h-4 rounded-xs object-contain transition-transform duration-200 group-hover:scale-120 group-hover:-rotate-6"
                             referrerPolicy="no-referrer"
                           />
                           <span>{organ.title}</span>
-                          {isTurn && <Coins className="w-3 h-3 text-emerald-600 ml-0.5" />}
+                          {isTurn && <Coins className="w-3 h-3 text-emerald-600 ml-0.5 transition-transform group-hover:scale-115" />}
                         </button>
                       );
                     })}

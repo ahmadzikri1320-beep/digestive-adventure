@@ -63,9 +63,9 @@ export const FinalMissionModal: React.FC<FinalMissionModalProps> = ({
         </div>
 
         {/* Task Visual Card */}
-        <div className="bg-linear-to-b from-emerald-50 to-teal-50/60 rounded-2xl p-5 border-2 border-emerald-200 text-center mb-5">
+        <div className="card-hover card-hover-emerald card-hover-shine group bg-linear-to-b from-emerald-50 to-teal-50/60 rounded-2xl p-5 border-2 border-emerald-200 text-center mb-5">
           <div className="flex justify-center mb-3">
-            <div className="w-24 h-24 rounded-2xl overflow-hidden shadow-md border-2 border-emerald-300 bg-white">
+            <div className="w-24 h-24 rounded-2xl overflow-hidden shadow-md border-2 border-emerald-300 bg-white transition-transform duration-300 group-hover:scale-108 group-hover:-rotate-2">
               <img
                 src={task.image}
                 alt={task.organ}
@@ -100,9 +100,9 @@ export const FinalMissionModal: React.FC<FinalMissionModalProps> = ({
             </div>
             <button
               onClick={handleNextTask}
-              className="text-[11px] text-slate-500 hover:text-slate-800 flex items-center gap-1 cursor-pointer"
+              className="btn-nav group text-[11px] text-slate-600 hover:text-slate-900 bg-white px-2.5 py-1 rounded-lg border border-slate-200 flex items-center gap-1 cursor-pointer"
             >
-              <RotateCcw className="w-3 h-3" />
+              <RotateCcw className="w-3 h-3 transition-transform duration-300 group-hover:-rotate-90" />
               <span>Ganti Misi</span>
             </button>
           </div>
@@ -110,7 +110,7 @@ export const FinalMissionModal: React.FC<FinalMissionModalProps> = ({
           <div className="grid grid-cols-2 gap-3">
             <button
               onClick={() => handleEvaluate(true)}
-              className={`py-2.5 px-3 rounded-xl font-heading font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+              className={`btn-nav py-2.5 px-3 rounded-xl font-heading font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 cursor-pointer ${
                 evaluation === 'success'
                   ? 'bg-emerald-600 text-white shadow-md'
                   : 'bg-white border-2 border-emerald-400 text-emerald-700 hover:bg-emerald-50'
@@ -122,7 +122,7 @@ export const FinalMissionModal: React.FC<FinalMissionModalProps> = ({
 
             <button
               onClick={() => handleEvaluate(false)}
-              className={`py-2.5 px-3 rounded-xl font-heading font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+              className={`btn-nav py-2.5 px-3 rounded-xl font-heading font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 cursor-pointer ${
                 evaluation === 'retry'
                   ? 'bg-rose-600 text-white shadow-md'
                   : 'bg-white border-2 border-rose-400 text-rose-700 hover:bg-rose-50'
@@ -144,7 +144,7 @@ export const FinalMissionModal: React.FC<FinalMissionModalProps> = ({
         {evaluation === 'success' ? (
           <button
             onClick={handleFinishMission}
-            className="w-full py-3.5 rounded-xl bg-linear-to-r from-emerald-500 via-teal-500 to-emerald-600 text-white font-heading font-bold text-sm tracking-wide shadow-lg shadow-emerald-500/25 hover:brightness-105 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer animate-pulse"
+            className="btn-cta w-full py-3.5 rounded-xl bg-linear-to-r from-emerald-500 via-teal-500 to-emerald-600 text-white font-heading font-bold text-sm tracking-wide shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2 cursor-pointer animate-pulse"
           >
             <Sparkles className="w-4 h-4" />
             <span>FINAL MISSION SELESAI! BUKA GERBANG FINISH</span>
@@ -157,7 +157,7 @@ export const FinalMissionModal: React.FC<FinalMissionModalProps> = ({
 
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+          className="btn-nav absolute top-4 right-4 p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>

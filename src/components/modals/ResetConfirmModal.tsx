@@ -37,15 +37,15 @@ export const ResetConfirmModal: React.FC<ResetConfirmModalProps> = ({
               sounds.playPenalty();
               onConfirm();
             }}
-            className="w-full py-3 bg-linear-to-r from-rose-500 via-red-500 to-rose-600 hover:from-rose-600 hover:to-red-600 text-white font-heading font-extrabold text-sm rounded-xl shadow-md shadow-rose-500/25 cursor-pointer transition-all active:scale-95 flex items-center justify-center gap-2"
+            className="btn-cta group w-full py-3 bg-linear-to-r from-rose-500 via-red-500 to-rose-600 hover:from-rose-600 hover:to-red-600 text-white font-heading font-extrabold text-sm rounded-xl shadow-md shadow-rose-500/25 cursor-pointer flex items-center justify-center gap-2"
           >
-            <RotateCcw className="w-4 h-4" />
+            <RotateCcw className="w-4 h-4 transition-transform duration-300 group-hover:-rotate-90" />
             <span>Ya, Mulai Ulang</span>
           </button>
 
           <button
             onClick={onCancel}
-            className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl cursor-pointer transition-all"
+            className="btn-nav w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl cursor-pointer"
           >
             Batal & Lanjutkan Main
           </button>

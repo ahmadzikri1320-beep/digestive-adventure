@@ -173,20 +173,20 @@ export const DiceRoller: React.FC<DiceRollerProps> = ({
       >
         <button
           onClick={() => setMode('digital')}
-          className={`flex-1 py-0.2 sm:py-0.5 text-[7px] xs:text-[8px] sm:text-[9.5px] font-bold rounded-md transition-all cursor-pointer text-center ${
+          className={`btn-nav flex-1 py-0.2 sm:py-0.5 text-[7px] xs:text-[8px] sm:text-[9.5px] font-bold rounded-md cursor-pointer text-center ${
             mode === 'digital'
-              ? 'bg-white text-amber-900 shadow-2xs font-extrabold'
-              : 'text-slate-500 hover:text-slate-800'
+              ? 'bg-white text-amber-900 shadow-2xs font-extrabold animate-tab-pop'
+              : 'text-slate-500 hover:text-slate-800 hover:bg-white/60'
           }`}
         >
           Dadu 3D
         </button>
         <button
           onClick={() => setMode('physical')}
-          className={`flex-1 py-0.2 sm:py-0.5 text-[7px] xs:text-[8px] sm:text-[9.5px] font-bold rounded-md transition-all cursor-pointer text-center ${
+          className={`btn-nav flex-1 py-0.2 sm:py-0.5 text-[7px] xs:text-[8px] sm:text-[9.5px] font-bold rounded-md cursor-pointer text-center ${
             mode === 'physical'
-              ? 'bg-white text-amber-900 shadow-2xs font-extrabold'
-              : 'text-slate-500 hover:text-slate-800'
+              ? 'bg-white text-amber-900 shadow-2xs font-extrabold animate-tab-pop'
+              : 'text-slate-500 hover:text-slate-800 hover:bg-white/60'
           }`}
         >
           Fisik
@@ -280,13 +280,13 @@ export const DiceRoller: React.FC<DiceRollerProps> = ({
             isEmbedded
               ? 'mt-0.5 py-0.5 sm:py-1 px-1 text-[8px] xs:text-[9px] sm:text-[10.5px] rounded-md sm:rounded-lg'
               : 'mt-2 py-2 px-3 text-xs sm:text-sm rounded-xl'
-          } w-full font-heading font-extrabold tracking-wide transition-all shadow-md cursor-pointer flex items-center justify-center gap-1 ${
+          } btn-cta group w-full font-heading font-extrabold tracking-wide shadow-md cursor-pointer flex items-center justify-center gap-1 ${
             disabled || isRolling
               ? 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none'
-              : 'bg-linear-to-r from-amber-500 via-orange-500 to-amber-600 text-white hover:from-amber-600 hover:to-orange-600 active:scale-95 shadow-orange-500/25 hover:shadow-orange-500/40'
+              : 'bg-linear-to-r from-amber-500 via-orange-500 to-amber-600 text-white shadow-orange-500/25 hover:shadow-orange-500/40'
           }`}
         >
-          <Dices className={`w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0 ${isRolling ? 'animate-spin' : ''}`} />
+          <Dices className={`w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0 transition-transform duration-300 group-hover:rotate-12 ${isRolling ? 'animate-spin' : ''}`} />
           <span className="truncate">{isRolling ? 'Mengocok...' : disabled ? 'Melangkah...' : 'KOCOK DADU'}</span>
         </button>
       ) : (
@@ -306,13 +306,13 @@ export const DiceRoller: React.FC<DiceRollerProps> = ({
             </button>
           </div>
           <div className="grid grid-cols-3 gap-0.5 sm:gap-1 w-full">
-            {[1, 2, 3, 4, 5, 6].map((num) => (
+              {[1, 2, 3, 4, 5, 6].map((num) => (
               <button
                 key={num}
                 onClick={() => handleManualInput(num)}
                 disabled={disabled || isRolling}
                 title={`Pilih ${num} langkah`}
-                className="py-0.5 sm:py-1 bg-amber-50 hover:bg-amber-100 active:bg-amber-200 disabled:opacity-40 border border-amber-300 hover:border-amber-400 rounded text-[9px] xs:text-[9.5px] sm:text-xs font-heading font-black text-amber-950 transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-2xs flex items-center justify-center"
+                className="btn-nav py-0.5 sm:py-1 bg-amber-50 hover:bg-amber-100 active:bg-amber-200 disabled:opacity-40 border border-amber-300 hover:border-amber-400 rounded text-[9px] xs:text-[9.5px] sm:text-xs font-heading font-black text-amber-950 cursor-pointer shadow-2xs flex items-center justify-center"
               >
                 {num}
               </button>
@@ -340,7 +340,7 @@ export const DiceRoller: React.FC<DiceRollerProps> = ({
                 </div>
                 <button
                   onClick={() => setShowManualModal(false)}
-                  className="p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 cursor-pointer"
+                  className="btn-nav p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -352,9 +352,9 @@ export const DiceRoller: React.FC<DiceRollerProps> = ({
                     key={num}
                     onClick={() => handleManualInput(num)}
                     disabled={disabled || isRolling}
-                    className="group flex flex-col items-center justify-center py-2.5 sm:py-3.5 px-2 bg-amber-50/80 hover:bg-amber-100 active:bg-amber-200 border-2 border-amber-300 hover:border-amber-500 rounded-xl sm:rounded-2xl transition-all duration-150 hover:scale-105 active:scale-95 cursor-pointer shadow-xs hover:shadow-md"
+                    className="card-hover card-hover-amber card-hover-shine group flex flex-col items-center justify-center py-2.5 sm:py-3.5 px-2 bg-amber-50/80 hover:bg-amber-100 border-2 border-amber-300 rounded-xl sm:rounded-2xl cursor-pointer shadow-xs"
                   >
-                    <div className="w-7 h-7 sm:w-9 sm:h-9 bg-white border border-amber-300 rounded-md relative shadow-inner mb-1.5 flex items-center justify-center">
+                    <div className="w-7 h-7 sm:w-9 sm:h-9 bg-white border border-amber-300 rounded-md relative shadow-inner mb-1.5 flex items-center justify-center transition-transform duration-200 group-hover:scale-115 group-hover:-rotate-3">
                       {renderDiceFaceDots(num)}
                     </div>
                     <span className="text-lg sm:text-xl font-heading font-black text-amber-950 leading-none">
@@ -369,7 +369,7 @@ export const DiceRoller: React.FC<DiceRollerProps> = ({
 
               <button
                 onClick={() => setShowManualModal(false)}
-                className="w-full py-2 sm:py-2.5 text-xs font-bold text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors cursor-pointer"
+                className="btn-nav w-full py-2 sm:py-2.5 text-xs font-bold text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-xl cursor-pointer"
               >
                 Batal / Tutup
               </button>

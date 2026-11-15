@@ -102,7 +102,7 @@ export const MusicSelectorModal: React.FC<MusicSelectorModalProps> = ({ onClose 
               sounds.playCardFlip();
               onClose();
             }}
-            className="p-1.5 rounded-full hover:bg-white/20 transition-colors cursor-pointer text-white"
+            className="btn-nav p-1.5 rounded-full hover:bg-white/20 cursor-pointer text-white"
           >
             <X className="w-5 h-5" />
           </button>
@@ -111,11 +111,11 @@ export const MusicSelectorModal: React.FC<MusicSelectorModalProps> = ({ onClose 
         {/* Modal Body */}
         <div className="p-4 sm:p-6 overflow-y-auto space-y-4 flex-1">
           {/* Top Master Controller Card */}
-          <div className="p-3.5 sm:p-4 rounded-2xl bg-amber-50 border-2 border-amber-200 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs">
+          <div className="card-hover-subtle card-hover-amber p-3.5 sm:p-4 rounded-2xl bg-amber-50 border-2 border-amber-200 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs">
             {/* Play/Pause Button */}
             <button
               onClick={handleTogglePlay}
-              className={`w-full sm:w-auto px-4 py-2.5 rounded-xl font-heading font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md ${
+              className={`btn-cta w-full sm:w-auto px-4 py-2.5 rounded-xl font-heading font-bold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer shadow-md ${
                 isPlaying
                   ? 'bg-rose-500 hover:bg-rose-600 text-white shadow-rose-500/25'
                   : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/25'
@@ -179,16 +179,16 @@ export const MusicSelectorModal: React.FC<MusicSelectorModalProps> = ({ onClose 
                   <div
                     key={track.id}
                     onClick={() => handleSelectTrack(track.id)}
-                    className={`p-3 rounded-2xl border-2 transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                    className={`card-hover card-hover-amber card-hover-shine group p-3 rounded-2xl border-2 cursor-pointer flex items-center justify-between gap-3 ${
                       isSelected
                         ? 'bg-amber-50/90 border-amber-400 ring-2 ring-amber-300/60 shadow-sm'
-                        : 'bg-white hover:bg-slate-50 border-slate-200'
+                        : 'bg-white hover:bg-amber-50/40 border-slate-200'
                     }`}
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       {/* Icon */}
                       <div
-                        className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 bg-linear-to-br ${track.color} text-white shadow-xs`}
+                        className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 bg-linear-to-br ${track.color} text-white shadow-xs transition-transform duration-300 group-hover:scale-115 group-hover:-rotate-6`}
                       >
                         {track.icon}
                       </div>
@@ -237,7 +237,7 @@ export const MusicSelectorModal: React.FC<MusicSelectorModalProps> = ({ onClose 
                       ) : (
                         <button
                           type="button"
-                          className="px-3 py-1.5 bg-slate-100 hover:bg-amber-100 text-slate-700 hover:text-amber-900 rounded-xl font-heading font-bold text-[11px] transition-colors"
+                          className="btn-nav px-3 py-1.5 bg-slate-100 group-hover:bg-amber-500 text-slate-700 group-hover:text-white rounded-xl font-heading font-bold text-[11px]"
                         >
                           Pilih
                         </button>
@@ -250,7 +250,7 @@ export const MusicSelectorModal: React.FC<MusicSelectorModalProps> = ({ onClose 
           </div>
 
           {/* Custom Track Uploader Card */}
-          <div className="p-3.5 sm:p-4 rounded-2xl bg-purple-50/70 border-2 border-purple-200">
+          <div className="card-hover-subtle card-hover-purple p-3.5 sm:p-4 rounded-2xl bg-purple-50/70 border-2 border-purple-200">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
                 <span className="text-lg">📁</span>
@@ -286,7 +286,7 @@ export const MusicSelectorModal: React.FC<MusicSelectorModalProps> = ({ onClose 
             <div className="flex flex-col sm:flex-row gap-2">
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="flex-1 py-2.5 px-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-heading font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs active:scale-98"
+                className="btn-cta flex-1 py-2.5 px-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-heading font-bold text-xs flex items-center justify-center gap-2 cursor-pointer shadow-xs"
               >
                 <Upload className="w-4 h-4" />
                 <span>Pilih File Audio (.mp3, .wav)</span>
@@ -295,7 +295,7 @@ export const MusicSelectorModal: React.FC<MusicSelectorModalProps> = ({ onClose 
               {currentTrackId === 'custom' && (
                 <button
                   onClick={() => handleSelectTrack('custom')}
-                  className="py-2.5 px-3 bg-purple-100 border border-purple-300 text-purple-900 rounded-xl font-heading font-bold text-xs flex items-center justify-center gap-1.5"
+                  className="btn-nav py-2.5 px-3 bg-purple-100 border border-purple-300 text-purple-900 rounded-xl font-heading font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <CheckCircle2 className="w-4 h-4 text-purple-700" />
                   <span className="max-w-[120px] truncate">{customName}</span>
@@ -315,7 +315,7 @@ export const MusicSelectorModal: React.FC<MusicSelectorModalProps> = ({ onClose 
               <button
                 onClick={handleApplyUrl}
                 disabled={!customUrlInput.trim()}
-                className="px-3 py-1.5 bg-purple-700 hover:bg-purple-800 disabled:opacity-40 text-white rounded-xl font-bold text-xs cursor-pointer"
+                className="btn-nav px-3 py-1.5 bg-purple-700 hover:bg-purple-800 disabled:opacity-40 text-white rounded-xl font-bold text-xs cursor-pointer"
               >
                 Putar
               </button>
@@ -334,7 +334,7 @@ export const MusicSelectorModal: React.FC<MusicSelectorModalProps> = ({ onClose 
               sounds.playCardFlip();
               onClose();
             }}
-            className="px-5 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-heading font-bold text-xs cursor-pointer transition-all active:scale-95"
+            className="btn-nav px-5 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-heading font-bold text-xs cursor-pointer"
           >
             Selesai
           </button>

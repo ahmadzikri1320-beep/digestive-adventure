@@ -86,12 +86,12 @@ export const CardModal: React.FC<CardModalProps> = ({
 
         {/* Card Image Authentic View */}
         <div className="flex justify-center my-2">
-          <div className="relative rounded-2xl overflow-hidden shadow-md border-2 border-rose-200 max-w-[260px] bg-rose-50">
+          <div className="card-hover card-hover-rose card-hover-shine group relative rounded-2xl overflow-hidden shadow-md border-2 border-rose-200 max-w-[260px] bg-rose-50 cursor-pointer">
             <img
               src={card.image}
               alt={card.title}
               className={`w-full h-auto object-contain transition-transform duration-300 ${
-                isReadingMode ? 'scale-110' : 'hover:scale-105'
+                isReadingMode ? 'scale-110' : 'group-hover:scale-108 group-hover:-rotate-1'
               }`}
               referrerPolicy="no-referrer"
             />
@@ -99,7 +99,7 @@ export const CardModal: React.FC<CardModalProps> = ({
         </div>
 
         {/* Card Description */}
-        <div className="bg-rose-50/80 rounded-2xl p-3 border border-rose-200 my-3 text-center">
+        <div className="card-hover-subtle card-hover-rose bg-rose-50/80 rounded-2xl p-3 border border-rose-200 my-3 text-center">
           <p className="text-xs sm:text-sm font-medium text-rose-950 leading-relaxed">
             &ldquo;{card.instruction}&rdquo;
           </p>
@@ -113,7 +113,7 @@ export const CardModal: React.FC<CardModalProps> = ({
                 sounds.playStep();
                 setIsReadingMode(!isReadingMode);
               }}
-              className="py-2.5 px-3 rounded-xl border border-rose-200 text-slate-700 hover:bg-rose-50 font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
+              className="btn-nav py-2.5 px-3 rounded-xl border border-rose-200 text-slate-700 hover:bg-rose-50 font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <Eye className="w-4 h-4 text-rose-600" />
               <span>{isReadingMode ? 'Tampilan Normal' : 'BACA KARTU'}</span>
@@ -122,7 +122,7 @@ export const CardModal: React.FC<CardModalProps> = ({
             {canSell && onSellCard && !isAlreadyClaimedByOther && (
               <button
                 onClick={handleSell}
-                className="py-2.5 px-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-500/20 cursor-pointer transition-transform active:scale-95"
+                className="btn-cta py-2.5 px-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-500/20 cursor-pointer"
               >
                 <Coins className="w-4 h-4" />
                 <span>JUAL (+5 POIN)</span>
@@ -135,7 +135,7 @@ export const CardModal: React.FC<CardModalProps> = ({
               sounds.playStep();
               onClose();
             }}
-            className="w-full py-3 rounded-xl bg-linear-to-r from-rose-600 to-red-600 text-white font-heading font-bold text-sm tracking-wide shadow-md shadow-rose-600/20 hover:brightness-105 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
+            className="btn-cta w-full py-3 rounded-xl bg-linear-to-r from-rose-600 to-red-600 text-white font-heading font-bold text-sm tracking-wide shadow-md shadow-rose-600/20 flex items-center justify-center gap-2 cursor-pointer"
           >
             <Check className="w-4 h-4" />
             <span>{isAlreadyClaimedByOther ? 'MENGERTI & LANJUTKAN' : 'SIMPAN KE INVENTARIS (+10 POIN)'}</span>
@@ -145,7 +145,7 @@ export const CardModal: React.FC<CardModalProps> = ({
         {/* Close Button top-right */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+          className="btn-nav absolute top-4 right-4 p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>

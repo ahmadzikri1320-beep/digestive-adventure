@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { Player, GameView, BoardTile, GameCard, ActivityLogItem, FloatingPointItem, PawnColor } from './types/game';
 import { BOARD_TILES } from './data/tilesData';
 import { ORGAN_CARDS, MYSTERY_CARDS, TRAP_CARDS } from './data/cardsData';
@@ -1214,13 +1215,13 @@ export default function App() {
               <div className="space-y-2">
                 <button
                   onClick={() => handleResolvePenalty(true)}
-                  className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold text-xs rounded-xl shadow-md cursor-pointer transition-all active:scale-98"
+                  className="btn-cta w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold text-xs rounded-xl shadow-md cursor-pointer"
                 >
                   🛡️ GUNAKAN KARTU PENYELAMAT (BATALKAN HUKUMAN)
                 </button>
                 <button
                   onClick={() => handleResolvePenalty(false)}
-                  className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl cursor-pointer transition-all"
+                  className="btn-nav w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl cursor-pointer"
                 >
                   Terima Hukuman (-{penaltyDialog.amount} Poin)
                 </button>
@@ -1228,7 +1229,7 @@ export default function App() {
             ) : (
               <button
                 onClick={() => handleResolvePenalty(false)}
-                className="w-full py-3 bg-rose-600 hover:bg-rose-700 text-white font-heading font-bold text-xs rounded-xl shadow-md cursor-pointer transition-all active:scale-98"
+                className="btn-cta w-full py-3 bg-rose-600 hover:bg-rose-700 text-white font-heading font-bold text-xs rounded-xl shadow-md cursor-pointer"
               >
                 Konfirmasi Hukuman (-{penaltyDialog.amount} Poin)
               </button>
@@ -1304,40 +1305,38 @@ export default function App() {
 
       {/* Mobile Tab Switcher (Visible on screens < lg) */}
       <div className="lg:hidden max-w-7xl mx-auto w-full px-2 sm:px-4 pt-2">
-        <div className="grid grid-cols-3 gap-1.5 p-1 bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-xs">
-          <button
-            onClick={() => setMobileTab('board')}
-            className={`flex items-center justify-center gap-1.5 py-2 px-2 sm:px-3 rounded-xl font-heading font-extrabold text-xs transition-all cursor-pointer ${
-              mobileTab === 'board'
-                ? 'bg-indigo-600 text-white shadow-md'
-                : 'text-slate-600 hover:bg-slate-100'
-            }`}
-          >
-            <LayoutGrid className="w-4 h-4 shrink-0" />
-            <span className="truncate">Papan & Dadu</span>
-          </button>
-          <button
-            onClick={() => setMobileTab('roster')}
-            className={`flex items-center justify-center gap-1.5 py-2 px-2 sm:px-3 rounded-xl font-heading font-extrabold text-xs transition-all cursor-pointer ${
-              mobileTab === 'roster'
-                ? 'bg-indigo-600 text-white shadow-md'
-                : 'text-slate-600 hover:bg-slate-100'
-            }`}
-          >
-            <Users className="w-4 h-4 shrink-0" />
-            <span className="truncate">Pemain ({players.length})</span>
-          </button>
-          <button
-            onClick={() => setMobileTab('logs')}
-            className={`flex items-center justify-center gap-1.5 py-2 px-2 sm:px-3 rounded-xl font-heading font-extrabold text-xs transition-all cursor-pointer ${
-              mobileTab === 'logs'
-                ? 'bg-indigo-600 text-white shadow-md'
-                : 'text-slate-600 hover:bg-slate-100'
-            }`}
-          >
-            <ScrollText className="w-4 h-4 shrink-0" />
-            <span className="truncate">Log ({logs.length})</span>
-          </button>
+        <div className="grid grid-cols-3 gap-1.5 p-1 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-xs">
+          {[
+            { id: 'board' as const, label: 'Papan & Dadu', Icon: LayoutGrid },
+            { id: 'roster' as const, label: `Pemain (${players.length})`, Icon: Users },
+            { id: 'logs' as const, label: `Log (${logs.length})`, Icon: ScrollText },
+          ].map(({ id, label, Icon }) => {
+            const isTabActive = mobileTab === id;
+            return (
+              <button
+                key={id}
+                onClick={() => {
+                  sounds.playStep();
+                  setMobileTab(id);
+                }}
+                className={`relative flex items-center justify-center gap-1.5 py-2 px-2 sm:px-3 rounded-xl font-heading font-extrabold text-xs cursor-pointer transition-colors duration-200 active:scale-95 ${
+                  isTabActive
+                    ? 'text-white'
+                    : 'text-slate-600 hover:text-indigo-700 hover:bg-indigo-50/60'
+                }`}
+              >
+                {isTabActive && (
+                  <motion.span
+                    layoutId="mobile-nav-pill"
+                    transition={{ type: 'spring', stiffness: 420, damping: 30 }}
+                    className="absolute inset-0 bg-indigo-600 rounded-xl shadow-md"
+                  />
+                )}
+                <Icon className="w-4 h-4 shrink-0 relative z-10" />
+                <span className="truncate relative z-10">{label}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -1417,8 +1416,11 @@ export default function App() {
                 Ringkasan Pemain ({players.length})
               </span>
               <button
-                onClick={() => setMobileTab('roster')}
-                className="text-[11px] font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-0.5 cursor-pointer"
+                onClick={() => {
+                  sounds.playStep();
+                  setMobileTab('roster');
+                }}
+                className="btn-nav px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-[11px] font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-0.5 cursor-pointer"
               >
                 Lihat Lengkap & Kartu &rarr;
               </button>
@@ -1429,11 +1431,14 @@ export default function App() {
                 return (
                   <div
                     key={p.id}
-                    onClick={() => setMobileTab('roster')}
-                    className={`shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs cursor-pointer transition-all ${
+                    onClick={() => {
+                      sounds.playStep();
+                      setMobileTab('roster');
+                    }}
+                    className={`card-hover-subtle card-hover-indigo shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs cursor-pointer ${
                       isActive
                         ? 'bg-indigo-50/90 border-indigo-300 ring-2 ring-indigo-400/50 shadow-xs'
-                        : 'bg-slate-50/80 border-slate-200/80 hover:bg-slate-100'
+                        : 'bg-slate-50/80 border-slate-200/80 hover:bg-white'
                     }`}
                   >
                     <PawnAvatar color={p.pawnColor} size="sm" />
@@ -1497,7 +1502,7 @@ export default function App() {
                     sounds.playStep();
                     handleRollDice(0);
                   }}
-                  className="w-full h-11 px-3 bg-linear-to-r from-rose-500 to-red-600 text-white font-heading font-black text-xs rounded-xl shadow-md active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer animate-pulse"
+                  className="btn-cta w-full h-11 px-3 bg-linear-to-r from-rose-500 to-red-600 text-white font-heading font-black text-xs rounded-xl shadow-md flex items-center justify-center gap-1.5 cursor-pointer animate-pulse"
                 >
                   <span>🤢 Lewati Giliran (Sakit)</span>
                 </button>
@@ -1507,7 +1512,7 @@ export default function App() {
                     sounds.playBonus();
                     setShowFinalMission(true);
                   }}
-                  className="w-full h-11 px-3 bg-linear-to-r from-emerald-500 to-teal-600 text-white font-heading font-black text-xs rounded-xl shadow-md active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer animate-pulse"
+                  className="btn-cta w-full h-11 px-3 bg-linear-to-r from-emerald-500 to-teal-600 text-white font-heading font-black text-xs rounded-xl shadow-md flex items-center justify-center gap-1.5 cursor-pointer animate-pulse"
                 >
                   <Sparkles className="w-4 h-4" />
                   <span>🏆 MISI FINAL</span>
@@ -1532,7 +1537,7 @@ export default function App() {
                     const diceVal = Math.floor(Math.random() * 6) + 1;
                     handleRollDice(diceVal);
                   }}
-                  className="w-full h-11 px-3 bg-linear-to-r from-amber-500 via-orange-500 to-amber-600 text-white font-heading font-black text-sm tracking-wide rounded-xl shadow-lg shadow-amber-500/30 active:scale-95 hover:brightness-105 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  className="btn-cta w-full h-11 px-3 bg-linear-to-r from-amber-500 via-orange-500 to-amber-600 text-white font-heading font-black text-sm tracking-wide rounded-xl shadow-lg shadow-amber-500/30 flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <span className="text-base animate-bounce">🎲</span>
                   <span>LEMPAR DADU</span>
@@ -1546,7 +1551,7 @@ export default function App() {
                 sounds.playCardFlip();
                 setShowMobileTileSheet(true);
               }}
-              className="px-2.5 h-11 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl border border-slate-300 font-heading font-bold text-[11px] flex flex-col items-center justify-center shrink-0 cursor-pointer transition-all active:scale-95"
+              className="btn-nav px-2.5 h-11 bg-slate-100 hover:bg-amber-50 text-slate-700 hover:text-amber-900 rounded-xl border border-slate-300 hover:border-amber-300 font-heading font-bold text-[11px] flex flex-col items-center justify-center shrink-0 cursor-pointer"
               title="Informasi Kotak & Organ"
             >
               <span className="text-xs">📖</span>

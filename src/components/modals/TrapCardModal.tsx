@@ -307,18 +307,18 @@ export const TrapCardModal: React.FC<TrapCardModalProps> = ({
         <div className="flex-1 overflow-y-auto space-y-3 pr-1">
           {/* Card Authentic Visual */}
           <div className="flex justify-center my-1">
-            <div className="rounded-2xl overflow-hidden shadow-md border-3 border-blue-200 max-w-[240px] bg-blue-50">
+            <div className="card-hover card-hover-blue card-hover-shine group rounded-2xl overflow-hidden shadow-md border-3 border-blue-200 max-w-[240px] bg-blue-50">
               <img
                 src={currentCard.image}
                 alt={currentCard.title}
-                className="w-full h-auto object-contain"
+                className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-106 group-hover:-rotate-1"
                 referrerPolicy="no-referrer"
               />
             </div>
           </div>
 
           {/* Instruction */}
-          <div className="bg-blue-50/90 rounded-2xl p-3.5 border border-blue-200 text-center">
+          <div className="card-hover-subtle card-hover-blue bg-blue-50/90 rounded-2xl p-3.5 border border-blue-200 text-center">
             <p className="text-xs sm:text-sm font-semibold text-blue-950 leading-relaxed">
               {currentCard.instruction}
             </p>
@@ -328,16 +328,16 @@ export const TrapCardModal: React.FC<TrapCardModalProps> = ({
           <div className="flex justify-center">
             <button
               onClick={handleShuffleAnotherCard}
-              className="px-3 py-1.5 bg-blue-100 hover:bg-blue-200 active:scale-95 text-blue-900 border border-blue-300 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs"
+              className="btn-nav group px-3 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-900 border border-blue-300 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-2xs"
             >
-              <RefreshCw className="w-3.5 h-3.5 text-blue-700" />
+              <RefreshCw className="w-3.5 h-3.5 text-blue-700 transition-transform duration-300 group-hover:rotate-180" />
               <span>Kocok Kartu Tersisa Lainnya ({Math.max(0, remainingCardsCount - 1)} Kartu)</span>
             </button>
           </div>
 
           {/* Saver Card Shield Option if available */}
           {player.hasSaverCard && hasPointPenalty && (
-            <div className="p-3 bg-amber-50 rounded-2xl border-2 border-amber-300 flex items-center justify-between">
+            <div className="card-hover-subtle card-hover-amber p-3 bg-amber-50 rounded-2xl border-2 border-amber-300 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0" />
                 <div className="text-xs">
@@ -350,7 +350,7 @@ export const TrapCardModal: React.FC<TrapCardModalProps> = ({
                   setUseSaver(!useSaver);
                   sounds.playShield();
                 }}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`btn-nav px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer ${
                   useSaver
                     ? 'bg-emerald-600 text-white shadow-xs'
                     : 'bg-white border-2 border-amber-400 text-amber-800 hover:bg-amber-100'
@@ -368,7 +368,7 @@ export const TrapCardModal: React.FC<TrapCardModalProps> = ({
                 <button
                   onClick={() => handleRollMiniDice(() => {})}
                   disabled={isRolling}
-                  className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-heading font-bold text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 cursor-pointer transition-transform active:scale-95"
+                  className="btn-cta w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-heading font-bold text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Dices className="w-5 h-5" />
                   <span>{isRolling ? 'Memutar Dadu Portal...' : 'Putar Dadu Portal Usus'}</span>
@@ -380,7 +380,7 @@ export const TrapCardModal: React.FC<TrapCardModalProps> = ({
                   </div>
                   <button
                     onClick={handlePortalConfirm}
-                    className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 cursor-pointer transition-transform active:scale-95"
+                    className="btn-cta w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <ArrowRight className="w-4 h-4" />
                     <span>KONFIRMASI LANGKAH PORTAL</span>
@@ -416,7 +416,7 @@ export const TrapCardModal: React.FC<TrapCardModalProps> = ({
                 <button
                   onClick={() => handleRollMiniDice(() => {})}
                   disabled={isRolling}
-                  className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-heading font-bold text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 cursor-pointer transition-transform active:scale-95"
+                  className="btn-cta w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-heading font-bold text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <RefreshCw className={`w-4 h-4 ${isRolling ? 'animate-spin' : ''}`} />
                   <span>{isRolling ? 'Mengundi Nasib...' : 'Lempar Dadu Tukar Nasib'}</span>
@@ -428,7 +428,7 @@ export const TrapCardModal: React.FC<TrapCardModalProps> = ({
                   </div>
                   <button
                     onClick={handleTukarNasibConfirm}
-                    className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 cursor-pointer transition-transform active:scale-95"
+                    className="btn-cta w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <ArrowRight className="w-4 h-4" />
                     <span>KONFIRMASI HASIL TUKAR NASIB</span>
@@ -450,7 +450,7 @@ export const TrapCardModal: React.FC<TrapCardModalProps> = ({
                     sounds.playBonus();
                     setQuizAnswered(true);
                   }}
-                  className={`py-2 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  className={`btn-nav py-2 px-3 rounded-xl text-xs font-bold cursor-pointer ${
                     quizAnswered === true
                       ? 'bg-emerald-600 text-white shadow-md'
                       : 'bg-white border-2 border-emerald-400 text-emerald-700 hover:bg-emerald-50'
@@ -463,7 +463,7 @@ export const TrapCardModal: React.FC<TrapCardModalProps> = ({
                     sounds.playPenalty();
                     setQuizAnswered(false);
                   }}
-                  className={`py-2 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  className={`btn-nav py-2 px-3 rounded-xl text-xs font-bold cursor-pointer ${
                     quizAnswered === false
                       ? 'bg-rose-600 text-white shadow-md'
                       : 'bg-white border-2 border-rose-400 text-rose-700 hover:bg-rose-50'
@@ -491,7 +491,7 @@ export const TrapCardModal: React.FC<TrapCardModalProps> = ({
                     sounds.playBonus();
                     setExplainOrganPassed(true);
                   }}
-                  className={`py-2 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  className={`btn-nav py-2 px-3 rounded-xl text-xs font-bold cursor-pointer ${
                     explainOrganPassed === true
                       ? 'bg-emerald-600 text-white shadow-md'
                       : 'bg-white border-2 border-emerald-400 text-emerald-700 hover:bg-emerald-50'
@@ -504,7 +504,7 @@ export const TrapCardModal: React.FC<TrapCardModalProps> = ({
                     sounds.playPenalty();
                     setExplainOrganPassed(false);
                   }}
-                  className={`py-2 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  className={`btn-nav py-2 px-3 rounded-xl text-xs font-bold cursor-pointer ${
                     explainOrganPassed === false
                       ? 'bg-rose-600 text-white shadow-md'
                       : 'bg-white border-2 border-rose-400 text-rose-700 hover:bg-rose-50'
@@ -555,7 +555,7 @@ export const TrapCardModal: React.FC<TrapCardModalProps> = ({
                       sounds.playPenalty();
                       setVirusOutcome('target_correct');
                     }}
-                    className={`py-2 px-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    className={`btn-nav py-2 px-2.5 rounded-xl text-xs font-bold cursor-pointer ${
                       virusOutcome === 'target_correct'
                         ? 'bg-rose-600 text-white shadow-md'
                         : 'bg-white border-2 border-rose-400 text-rose-700 hover:bg-rose-50'
@@ -568,7 +568,7 @@ export const TrapCardModal: React.FC<TrapCardModalProps> = ({
                       sounds.playBonus();
                       setVirusOutcome('target_wrong');
                     }}
-                    className={`py-2 px-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    className={`btn-nav py-2 px-2.5 rounded-xl text-xs font-bold cursor-pointer ${
                       virusOutcome === 'target_wrong'
                         ? 'bg-emerald-600 text-white shadow-md'
                         : 'bg-white border-2 border-emerald-400 text-emerald-700 hover:bg-emerald-50'
@@ -588,10 +588,10 @@ export const TrapCardModal: React.FC<TrapCardModalProps> = ({
             <button
               disabled={isLoss20NeedAnswer || isExplainOrganNeedAnswer || isVirusNeedAnswer}
               onClick={handleResolve}
-              className={`w-full py-3 rounded-xl font-heading font-bold text-xs sm:text-sm tracking-wide shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer ${
+              className={`btn-cta w-full py-3 rounded-xl font-heading font-bold text-xs sm:text-sm tracking-wide shadow-md flex items-center justify-center gap-2 cursor-pointer ${
                 isLoss20NeedAnswer || isExplainOrganNeedAnswer || isVirusNeedAnswer
                   ? 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none'
-                  : 'bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white active:scale-98 shadow-blue-600/20'
+                  : 'bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-blue-600/20'
               }`}
             >
               <span>

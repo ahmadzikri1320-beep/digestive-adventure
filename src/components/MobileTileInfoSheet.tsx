@@ -54,11 +54,11 @@ export const MobileTileInfoSheet: React.FC<MobileTileInfoSheetProps> = ({
         </div>
 
         {/* Organ / Tile Content */}
-        <div className="flex items-start gap-3.5 my-3">
+        <div className="card-hover-subtle card-hover-amber group flex items-start gap-3.5 my-3 p-2.5 rounded-2xl border border-amber-100 bg-amber-50/30">
           <img
             src={tile.image}
             alt={tile.name}
-            className="w-20 h-20 rounded-2xl object-contain border-2 border-amber-200 bg-amber-50/50 p-1 shrink-0 shadow-xs"
+            className="w-20 h-20 rounded-2xl object-contain border-2 border-amber-200 bg-white p-1 shrink-0 shadow-xs transition-transform duration-300 group-hover:scale-108 group-hover:-rotate-2"
             referrerPolicy="no-referrer"
           />
           <div className="flex-1 min-w-0">
@@ -83,7 +83,7 @@ export const MobileTileInfoSheet: React.FC<MobileTileInfoSheetProps> = ({
         </div>
 
         {/* Educational Description */}
-        <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200/80 text-xs text-slate-700 leading-relaxed">
+        <div className="card-hover-subtle p-3 bg-slate-50 rounded-2xl border border-slate-200/80 text-xs text-slate-700 leading-relaxed">
           {tile.description}
         </div>
 
@@ -99,7 +99,7 @@ export const MobileTileInfoSheet: React.FC<MobileTileInfoSheetProps> = ({
                   onStepAdjust(-1);
                 }}
                 disabled={activePlayer.position <= 1}
-                className="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl disabled:opacity-30 cursor-pointer"
+                className="btn-nav px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl disabled:opacity-30 cursor-pointer"
               >
                 -1
               </button>
@@ -109,7 +109,7 @@ export const MobileTileInfoSheet: React.FC<MobileTileInfoSheetProps> = ({
                   onStepAdjust(1);
                 }}
                 disabled={activePlayer.position >= 28}
-                className="px-2.5 py-1.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl disabled:opacity-30 cursor-pointer"
+                className="btn-nav px-2.5 py-1.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl disabled:opacity-30 cursor-pointer"
               >
                 +1
               </button>
@@ -123,7 +123,7 @@ export const MobileTileInfoSheet: React.FC<MobileTileInfoSheetProps> = ({
                 onClose();
                 onOpenFinalMission();
               }}
-              className="flex-1 py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold text-xs rounded-xl shadow-md cursor-pointer flex items-center justify-center gap-1.5 animate-pulse"
+              className="btn-cta flex-1 py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold text-xs rounded-xl shadow-md cursor-pointer flex items-center justify-center gap-1.5 animate-pulse"
             >
               <Sparkles className="w-3.5 h-3.5" />
               Buka Final Mission (Kotak 27)
@@ -133,7 +133,7 @@ export const MobileTileInfoSheet: React.FC<MobileTileInfoSheetProps> = ({
           {/* Close button */}
           <button
             onClick={onClose}
-            className="ml-auto py-1.5 px-4 bg-slate-800 hover:bg-slate-900 text-white font-heading font-bold text-xs rounded-xl cursor-pointer"
+            className="btn-nav ml-auto py-1.5 px-4 bg-slate-800 hover:bg-slate-900 text-white font-heading font-bold text-xs rounded-xl cursor-pointer"
           >
             Tutup
           </button>

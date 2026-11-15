@@ -228,18 +228,18 @@ export const MysteryCardModal: React.FC<MysteryCardModalProps> = ({
 
         {/* Card Authentic Visual */}
         <div className="flex justify-center my-2">
-          <div className="rounded-2xl overflow-hidden shadow-lg border-2 border-purple-200 max-w-[260px] bg-purple-50 p-1">
+          <div className="card-hover card-hover-purple card-hover-shine group rounded-2xl overflow-hidden shadow-lg border-2 border-purple-200 max-w-[260px] bg-purple-50 p-1">
             <img
               src={currentCard.image}
               alt={currentCard.title}
-              className="w-full h-auto object-contain rounded-xl"
+              className="w-full h-auto object-contain rounded-xl transition-transform duration-300 group-hover:scale-106 group-hover:-rotate-1"
               referrerPolicy="no-referrer"
             />
           </div>
         </div>
 
         {/* Card Instruction */}
-        <div className="bg-purple-50 rounded-2xl p-3.5 border border-purple-200 text-center mb-3">
+        <div className="card-hover-subtle card-hover-purple bg-purple-50 rounded-2xl p-3.5 border border-purple-200 text-center mb-3">
           <p className="text-xs sm:text-sm font-bold text-purple-950 leading-relaxed">
             {currentCard.instruction}
           </p>
@@ -249,9 +249,9 @@ export const MysteryCardModal: React.FC<MysteryCardModalProps> = ({
         <div className="flex justify-center mb-3">
           <button
             onClick={handleShuffleAnotherCard}
-            className="px-3 py-1.5 bg-purple-100 hover:bg-purple-200 active:scale-95 text-purple-900 border border-purple-300 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs"
+            className="btn-nav group px-3 py-1.5 bg-purple-100 hover:bg-purple-200 text-purple-900 border border-purple-300 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-2xs"
           >
-            <RefreshCw className="w-3.5 h-3.5 text-purple-700" />
+            <RefreshCw className="w-3.5 h-3.5 text-purple-700 transition-transform duration-300 group-hover:rotate-180" />
             <span>Kocok Kartu Tersisa Lainnya ({Math.max(0, remainingCardsCount - 1)} Kartu)</span>
           </button>
         </div>
@@ -261,13 +261,13 @@ export const MysteryCardModal: React.FC<MysteryCardModalProps> = ({
           <div className="grid grid-cols-2 gap-3 mb-4">
             <button
               onClick={handleChooseBonus}
-              className="py-3 px-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-heading font-bold text-xs sm:text-sm shadow-md transition-transform active:scale-95 cursor-pointer text-center"
+              className="btn-cta py-3 px-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-heading font-bold text-xs sm:text-sm shadow-md cursor-pointer text-center"
             >
               🎁 Ambil +5 Poin
             </button>
             <button
               onClick={handleChooseRollAgain}
-              className="py-3 px-3 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-heading font-bold text-xs sm:text-sm shadow-md transition-transform active:scale-95 cursor-pointer text-center"
+              className="btn-cta py-3 px-3 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-heading font-bold text-xs sm:text-sm shadow-md cursor-pointer text-center"
             >
               🎲 Lempar Dadu Lagi
             </button>
@@ -288,12 +288,12 @@ export const MysteryCardModal: React.FC<MysteryCardModalProps> = ({
                     setSelectedOption(idx);
                     setAnsweredCorrectly(isCorrect);
                   }}
-                  className={`w-full text-left p-3 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
+                  className={`card-hover-subtle card-hover-purple w-full text-left p-3 rounded-xl text-xs font-semibold border cursor-pointer ${
                     isSelected
                       ? isCorrect
                         ? 'bg-emerald-50 border-emerald-500 text-emerald-800 shadow-xs'
                         : 'bg-rose-50 border-rose-500 text-rose-800 shadow-xs'
-                      : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700'
+                      : 'bg-white hover:bg-purple-50/40 border-slate-200 text-slate-700'
                   }`}
                 >
                   <span className="font-bold mr-1">{String.fromCharCode(65 + idx)}.</span> {opt}
@@ -320,7 +320,7 @@ export const MysteryCardModal: React.FC<MysteryCardModalProps> = ({
                   sounds.playBonus();
                   setTeacherApproved(true);
                 }}
-                className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`btn-nav py-2.5 px-3 rounded-xl text-xs font-bold cursor-pointer ${
                   teacherApproved === true
                     ? 'bg-emerald-600 text-white shadow-md'
                     : 'bg-white border-2 border-emerald-400 text-emerald-700 hover:bg-emerald-50'
@@ -333,7 +333,7 @@ export const MysteryCardModal: React.FC<MysteryCardModalProps> = ({
                   sounds.playPenalty();
                   setTeacherApproved(false);
                 }}
-                className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`btn-nav py-2.5 px-3 rounded-xl text-xs font-bold cursor-pointer ${
                   teacherApproved === false
                     ? 'bg-rose-600 text-white shadow-md'
                     : 'bg-white border-2 border-rose-400 text-rose-700 hover:bg-rose-50'
@@ -363,7 +363,7 @@ export const MysteryCardModal: React.FC<MysteryCardModalProps> = ({
                         sounds.playStep();
                         setSelectedAheadPlayerId(p.id);
                       }}
-                      className={`w-full p-2.5 rounded-xl border flex items-center justify-between text-xs transition-all cursor-pointer ${
+                      className={`card-hover-subtle card-hover-purple w-full p-2.5 rounded-xl border flex items-center justify-between text-xs cursor-pointer ${
                         isSelected
                           ? 'bg-purple-600 text-white border-purple-700 shadow-sm font-bold'
                           : 'bg-white hover:bg-purple-100/60 border-purple-200 text-slate-800'
@@ -396,7 +396,7 @@ export const MysteryCardModal: React.FC<MysteryCardModalProps> = ({
         )}
 
         {currentCard.effectType === 'saver' && (
-          <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 mb-4 flex items-center gap-2 text-emerald-800 text-xs font-semibold">
+          <div className="card-hover-subtle card-hover-emerald p-3 bg-emerald-50 rounded-xl border border-emerald-200 mb-4 flex items-center gap-2 text-emerald-800 text-xs font-semibold">
             <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0" />
             <span>Kartu ini disimpan di inventarismu dan otomatis dapat dipakai untuk membatalkan hukuman pengurangan poin!</span>
           </div>
@@ -407,10 +407,10 @@ export const MysteryCardModal: React.FC<MysteryCardModalProps> = ({
           <button
             disabled={isQuizAcidNeedAnswer || isTeacherNeedAnswer}
             onClick={handleResolve}
-            className={`w-full py-3.5 rounded-xl font-heading font-bold text-sm tracking-wide shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer mt-auto ${
+            className={`btn-cta w-full py-3.5 rounded-xl font-heading font-bold text-sm tracking-wide shadow-md flex items-center justify-center gap-2 cursor-pointer mt-auto ${
               isQuizAcidNeedAnswer || isTeacherNeedAnswer
                 ? 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none'
-                : 'bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white active:scale-98 shadow-purple-600/20'
+                : 'bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-purple-600/20'
             }`}
           >
             <span>

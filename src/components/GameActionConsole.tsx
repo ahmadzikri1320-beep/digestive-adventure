@@ -87,11 +87,11 @@ export const GameActionConsole: React.FC<GameActionConsoleProps> = ({
       </div>
 
       {/* Main Educational Tile Card */}
-      <div className="mt-2.5 p-3 bg-slate-50/90 rounded-2xl border border-slate-200/90 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+      <div className="card-hover-subtle card-hover-amber group mt-2.5 p-3 bg-slate-50/90 rounded-2xl border border-slate-200/90 flex flex-col sm:flex-row items-start sm:items-center gap-3">
         <img
           src={tileToDisplay.image}
           alt={tileToDisplay.name}
-          className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-contain border border-slate-300 bg-white p-1 shrink-0 shadow-xs"
+          className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-contain border border-slate-300 bg-white p-1 shrink-0 shadow-xs transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-2"
           referrerPolicy="no-referrer"
         />
         <div className="flex-1 min-w-0">

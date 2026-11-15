@@ -37,18 +37,18 @@ export const NeutralEducationModal: React.FC<NeutralEducationModalProps> = ({
 
         {/* Tile Graphic Preview */}
         <div className="flex justify-center my-3">
-          <div className="w-24 h-24 rounded-2xl overflow-hidden shadow-md border-2 border-emerald-300 bg-white">
+          <div className="card-hover card-hover-emerald card-hover-shine group w-24 h-24 rounded-2xl overflow-hidden shadow-md border-2 border-emerald-300 bg-white">
             <img
               src="./assets/tiles/tile_24.png"
               alt="Kotak 24 Info Sehat"
-              className="w-full h-full object-contain p-1"
+              className="w-full h-full object-contain p-1 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-2"
               referrerPolicy="no-referrer"
             />
           </div>
         </div>
 
         {/* Educational Content */}
-        <div className="bg-emerald-50/70 rounded-2xl p-4 border border-emerald-200 space-y-3 mb-5">
+        <div className="card-hover-subtle card-hover-emerald bg-emerald-50/70 rounded-2xl p-4 border border-emerald-200 space-y-3 mb-5">
           <div className="flex items-start gap-2.5">
             <Droplets className="w-5 h-5 text-sky-500 shrink-0 mt-0.5" />
             <div className="text-xs text-slate-700 leading-relaxed">
@@ -81,7 +81,7 @@ export const NeutralEducationModal: React.FC<NeutralEducationModalProps> = ({
         {/* Working Confirmation Button */}
         <button
           onClick={handleContinue}
-          className="w-full py-3.5 rounded-xl bg-linear-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-heading font-bold text-sm tracking-wide shadow-md shadow-emerald-500/25 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
+          className="btn-cta w-full py-3.5 rounded-xl bg-linear-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-heading font-bold text-sm tracking-wide shadow-md shadow-emerald-500/25 flex items-center justify-center gap-2 cursor-pointer"
         >
           <Check className="w-4 h-4" />
           <span>SAYA SUDAH MEMBACA & LANJUTKAN</span>
@@ -90,7 +90,7 @@ export const NeutralEducationModal: React.FC<NeutralEducationModalProps> = ({
         {/* Close button */}
         <button
           onClick={handleContinue}
-          className="absolute top-4 right-4 p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+          className="btn-nav absolute top-4 right-4 p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>

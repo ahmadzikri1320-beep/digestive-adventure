@@ -34,7 +34,7 @@ export const ActivityLogPanel: React.FC<ActivityLogPanelProps> = ({ logs }) => {
           logs.slice(0, 30).map((log) => (
             <div
               key={log.id}
-              className="p-2.5 rounded-xl bg-slate-50/80 hover:bg-slate-100 border border-slate-100 transition-colors flex items-start gap-2.5"
+              className="card-hover-subtle card-hover-amber p-2.5 rounded-xl bg-slate-50/80 hover:bg-white border border-slate-100 flex items-start gap-2.5"
             >
               <PawnAvatar color={log.pawnColor} size="sm" className="shrink-0 mt-0.5" />
               <div className="flex-1 min-w-0">

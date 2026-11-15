@@ -139,3 +139,247 @@
   animation: dice-shadow-pulse 0.42s ease-in-out infinite;
 }
 
+/* ========================================================
+   BUTTON ANIMATIONS & INTERACTIVE CARD HOVER SYSTEM
+   ======================================================== */
+@layer base {
+  button:not(:disabled) {
+    transition-property: transform, box-shadow, background-color, border-color, color, opacity, filter;
+    transition-duration: 220ms;
+    transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  button:not(:disabled):active {
+    transform: scale(0.96);
+  }
+}
+
+@keyframes card-sheen {
+  0% {
+    transform: translateX(-140%) skewX(-22deg);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.65;
+  }
+  100% {
+    transform: translateX(240%) skewX(-22deg);
+    opacity: 0;
+  }
+}
+
+@keyframes nav-pill-pop {
+  0% {
+    transform: scale(0.94);
+  }
+  65% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@layer components {
+  /* Springy Navigation & Tab Button */
+  .btn-nav {
+    transition: transform 240ms cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 220ms ease,
+                background-color 180ms ease,
+                border-color 180ms ease,
+                color 180ms ease;
+    will-change: transform;
+  }
+
+  .btn-nav:not(:disabled):hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 14px -4px rgba(15, 23, 42, 0.14);
+  }
+
+  .btn-nav:not(:disabled):active {
+    transform: translateY(0) scale(0.94);
+    box-shadow: 0 2px 6px -2px rgba(15, 23, 42, 0.12);
+  }
+
+  /* Primary CTA Button with Glossy Shine Sweep */
+  .btn-cta {
+    position: relative;
+    overflow: hidden;
+    transition: transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 240ms ease,
+                filter 200ms ease;
+    will-change: transform;
+  }
+
+  .btn-cta::after {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: 0;
+    width: 45%;
+    height: 120%;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.45) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: translateX(-160%) skewX(-22deg);
+    pointer-events: none;
+  }
+
+  .btn-cta:not(:disabled):hover {
+    transform: translateY(-2px) scale(1.015);
+    filter: brightness(1.05);
+  }
+
+  .btn-cta:not(:disabled):hover::after {
+    animation: card-sheen 750ms ease-out forwards;
+  }
+
+  .btn-cta:not(:disabled):active {
+    transform: translateY(0) scale(0.96);
+  }
+
+  /* Universal Interactive Card Hover */
+  .card-hover {
+    transition: transform 280ms cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 260ms ease,
+                border-color 220ms ease,
+                background-color 220ms ease;
+    will-change: transform;
+  }
+
+  .card-hover:not(:disabled):not(.card-disabled):hover {
+    transform: translateY(-5px) scale(1.018);
+    box-shadow: 0 16px 28px -10px rgba(15, 23, 42, 0.16),
+                0 6px 12px -6px rgba(15, 23, 42, 0.08);
+  }
+
+  .card-hover:is(button, [role='button'], .cursor-pointer):not(:disabled):not(.card-disabled):active {
+    transform: translateY(-1px) scale(0.98);
+  }
+
+  /* Subtle Elevation for Dense Info/Log/Breakdown Cards */
+  .card-hover-subtle {
+    transition: transform 230ms cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 220ms ease,
+                border-color 200ms ease,
+                background-color 200ms ease;
+  }
+
+  .card-hover-subtle:not(:disabled):not(.card-disabled):hover {
+    transform: translateY(-2px) scale(1.008);
+    box-shadow: 0 8px 18px -6px rgba(15, 23, 42, 0.12);
+  }
+
+  /* Glossy Sheen Overlay on Cards */
+  .card-hover-shine {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-hover-shine::after {
+    content: '';
+    position: absolute;
+    top: -15%;
+    left: 0;
+    width: 48%;
+    height: 130%;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.42) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: translateX(-160%) skewX(-22deg);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .card-hover-shine:not(:disabled):not(.card-disabled):hover::after {
+    animation: card-sheen 780ms ease-out forwards;
+  }
+
+  /* Color-Themed Card Hover Glow Variants */
+  .card-hover-amber:not(:disabled):not(.card-disabled):hover {
+    border-color: #f59e0b;
+    box-shadow: 0 16px 30px -10px rgba(245, 158, 11, 0.34),
+                0 6px 12px -6px rgba(217, 119, 6, 0.18);
+  }
+
+  .card-hover-rose:not(:disabled):not(.card-disabled):hover {
+    border-color: #f43f5e;
+    box-shadow: 0 16px 30px -10px rgba(244, 63, 94, 0.32),
+                0 6px 12px -6px rgba(225, 29, 72, 0.18);
+  }
+
+  .card-hover-purple:not(:disabled):not(.card-disabled):hover {
+    border-color: #a855f7;
+    box-shadow: 0 16px 30px -10px rgba(168, 85, 247, 0.32),
+                0 6px 12px -6px rgba(147, 51, 234, 0.18);
+  }
+
+  .card-hover-blue:not(:disabled):not(.card-disabled):hover {
+    border-color: #3b82f6;
+    box-shadow: 0 16px 30px -10px rgba(59, 130, 246, 0.32),
+                0 6px 12px -6px rgba(37, 99, 235, 0.18);
+  }
+
+  .card-hover-emerald:not(:disabled):not(.card-disabled):hover {
+    border-color: #10b981;
+    box-shadow: 0 16px 30px -10px rgba(16, 185, 129, 0.32),
+                0 6px 12px -6px rgba(5, 150, 105, 0.18);
+  }
+
+  .card-hover-sky:not(:disabled):not(.card-disabled):hover {
+    border-color: #0ea5e9;
+    box-shadow: 0 16px 30px -10px rgba(14, 165, 233, 0.32),
+                0 6px 12px -6px rgba(2, 132, 199, 0.18);
+  }
+
+  .card-hover-indigo:not(:disabled):not(.card-disabled):hover {
+    border-color: #6366f1;
+    box-shadow: 0 16px 30px -10px rgba(99, 102, 241, 0.32),
+                0 6px 12px -6px rgba(79, 70, 229, 0.18);
+  }
+
+  /* Board Tile Hover Effect */
+  .tile-hover {
+    transition: transform 240ms cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 220ms ease,
+                filter 200ms ease;
+    will-change: transform;
+  }
+
+  .tile-hover:hover {
+    transform: translateY(-3px) scale(1.06);
+    z-index: 35;
+    box-shadow: 0 10px 22px -6px rgba(245, 158, 11, 0.38),
+                0 4px 10px -4px rgba(15, 23, 42, 0.18);
+    filter: brightness(1.03);
+  }
+
+  .tile-hover:active {
+    transform: translateY(0) scale(0.96);
+  }
+
+  .animate-tab-pop {
+    animation: nav-pill-pop 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-nav:hover,
+  .btn-cta:hover,
+  .card-hover:hover,
+  .card-hover-subtle:hover,
+  .tile-hover:hover {
+    transform: none !important;
+  }
+
+  .btn-cta::after,
+  .card-hover-shine::after {
+    display: none !important;
+  }
+}
